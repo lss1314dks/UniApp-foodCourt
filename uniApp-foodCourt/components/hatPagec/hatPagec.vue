@@ -7,7 +7,9 @@
       </view>
       <view class="chat-title">{{ title }}</view>
       <view class="more-icon">
-        <text class="iconfont icon-more"></text>
+        <text class="iconfont icon-more">
+			<uni-icons type="calendar" size="18" ></uni-icons>
+		</text>
       </view>
     </view>
 
@@ -65,6 +67,29 @@
 import { ref, onMounted, nextTick } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 
+const getMessage = async (prompt) => {
+  try {
+	isTyping.value = true;
+    const { data } = await uni.request({
+      url: "http://localhost:8081/api/chat/context", // 修改为正确的后端地址
+      method: "POST",
+	  data:{prompt},
+	  header:{
+		  'X-Session-ID':'123'
+	  }
+    });
+    if (data.success) {
+	  isTyping.value = false;
+      chatMessages.value.push({ type: 'other', content: data.data });
+      scrollToBottom();
+    } else {
+      console.error('聊天请求失败:', data.message);
+    }
+  } catch (error) {
+    console.error('请求出错:', error);
+  }
+};
+
 const props = defineProps({
   title: {
     type: String,
@@ -82,8 +107,7 @@ const props = defineProps({
 
 // 聊天数据
 const chatMessages = ref([
-  { type: 'other', content: '你好呀！' },
-  { type: 'self', content: '你好，最近怎么样？' }
+  { type: 'other', content: '你好呀！' }
 ]);
 
 const inputMessage = ref('');
@@ -129,23 +153,25 @@ function sendMessage() {
     chatMessages.value.push({ type: 'self', content: msg });
     inputMessage.value = '';
     scrollToBottom();
-    triggerVibrate();
-    simulateReply(); // 👈 发送后模拟回复
+    triggerVibrate();// 👈 发送后模拟回复
+	getMessage(msg);
   }
 }
 
-// 模拟自动回复
-function simulateReply() {
-  isTyping.value = true;
 
-  setTimeout(() => {
-    scrollToBottom();
-    const reply = replyList[Math.floor(Math.random() * replyList.length)];
-    chatMessages.value.push({ type: 'other', content: reply });
-    isTyping.value = false;
-    nextTick(() => scrollToBottom());
-  }, 1500);
-}
+
+// // 模拟自动回复
+// function simulateReply() {
+//   isTyping.value = true;
+
+//   setTimeout(() => {
+//     scrollToBottom();
+//     const reply = replyList[Math.floor(Math.random() * replyList.length)];
+//     chatMessages.value.push({ type: 'other', content: reply });
+//     isTyping.value = false;
+//     nextTick(() => scrollToBottom());
+//   }, 1500);
+// }
 
 // 震动提示
 function triggerVibrate() {

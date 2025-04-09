@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<ChatPage title="小明"  selfAvatar="/static/images/avatar.jpg" otherAvatar="/static/images/avatar.jpg"></ChatPage>
+		<ChatPage title="ChatFoodCustomer"  selfAvatar="/static/images/avatar.jpg" otherAvatar="/common/images/icon2.jpg"></ChatPage>
 	</view>
 </template>
 
