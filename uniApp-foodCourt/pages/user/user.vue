@@ -1,270 +1,747 @@
 <template>
-  <view class="user-container">
-    <!-- 个人信息头部 -->
+  <view class="page-container">
+    <!-- 头部 -->
+    <view class="header">
+      <text class="header-title">个人中心</text>
+    </view>
+    
+    <!-- 个人资料头部 -->
     <view class="profile-header">
-      <view class="avatar-box">
-        <image :src="userInfo.avatar" mode="aspectFill" class="avatar"></image>
-        <text class="iconfont icon-camera camera-icon"></text>
-      </view>
-      <view class="user-info">
-        <text class="username">{{ userInfo.username }}</text>
-        <text class="vip-tag">VIP{{ userInfo.vipLevel }}</text>
-      </view>
-      <text class="user-desc">{{ userInfo.slogan }}</text>
-    </view>
-
-    <!-- 基本信息 -->
-    <view class="info-card">
-      <view class="info-item">
-        <text class="info-label">手机号</text>
-        <text class="info-value">{{ userInfo.phone }}</text>
-      </view>
-      <view class="info-item">
-        <text class="info-label">注册时间</text>
-        <text class="info-value">{{ userInfo.registerTime }}</text>
-      </view>
-    </view>
-
-    <!-- 功能列表 -->
-    <view class="menu-list">
-      <view class="menu-item" @click="navigateTo('browseHistory')">
-        <view class="menu-left">
-          <text class="iconfont icon-history menu-icon"></text>
-          <text>浏览记录</text>
+      <view class="avatar-container">
+        <image class="avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" mode="aspectFill"></image>
+        <view class="edit-avatar" @click="editAvatar">
+          <uni-icons type="camera-filled" size="16" color="#4CAF50"></uni-icons>
         </view>
-        <text class="iconfont icon-arrow-right"></text>
       </view>
-      
-      <view class="menu-item" @click="navigateTo('settings')">
-        <view class="menu-left">
-          <text class="iconfont icon-setting menu-icon"></text>
-          <text>账号设置</text>
-        </view>
-        <text class="iconfont icon-arrow-right"></text>
-      </view>
-      
-      <view class="menu-item" @click="navigateTo('about')">
-        <view class="menu-left">
-          <text class="iconfont icon-info menu-icon"></text>
-          <text>关于我们</text>
-        </view>
-        <text class="iconfont icon-arrow-right"></text>
+      <view class="username">{{ userInfo.username }}</view>
+      <view class="user-info">{{ userInfo.bio }}</view>
+      <view class="settings-btn" @click="showSettingsModal">
+        <uni-icons type="gear-filled" size="20" color="#fff"></uni-icons>
       </view>
     </view>
-
-    <!-- 退出登录 -->
-    <view class="logout-btn" @click="handleLogout">
-      <text>退出登录</text>
+    
+    <!-- 账号信息 -->
+    <view class="section-card">
+      <view class="section-header">
+        <text class="section-title">账号信息</text>
+        <text class="text-primary" @click="showEditProfileModal">编辑</text>
+      </view>
+      <view class="section-content">
+        <view class="info-item">
+          <view class="info-label">用户名</view>
+          <view class="info-value">{{ accountInfo.username }}</view>
+        </view>
+        <view class="info-item">
+          <view class="info-label">手机号</view>
+          <view class="info-value">{{ accountInfo.phone }}</view>
+        </view>
+        <view class="info-item">
+          <view class="info-label">邮箱</view>
+          <view class="info-value">{{ accountInfo.email }}</view>
+        </view>
+        <view class="info-item">
+          <view class="info-label">注册时间</view>
+          <view class="info-value">{{ accountInfo.registerTime }}</view>
+        </view>
+      </view>
     </view>
+    
+    <!-- 健康数据 -->
+    <view class="section-card">
+      <view class="section-header">
+        <text class="section-title">健康数据</text>
+        <text class="text-primary" @click="showEditHealthDataModal">编辑</text>
+      </view>
+      <view class="section-content">
+        <view class="health-data-grid">
+          <view class="health-data-item">
+            <view class="data-value">{{ healthData.height }}</view>
+            <view class="data-label">身高 (cm)</view>
+          </view>
+          <view class="health-data-item">
+            <view class="data-value">{{ healthData.weight }}</view>
+            <view class="data-label">体重 (kg)</view>
+          </view>
+          <view class="health-data-item">
+            <view class="data-value">{{ healthData.bmi }}</view>
+            <view class="data-label">BMI</view>
+          </view>
+          <view class="health-data-item">
+            <view class="data-value">{{ healthData.bloodPressure }}</view>
+            <view class="data-label">血压 (mmHg)</view>
+          </view>
+        </view>
+        
+        <view class="mt-4">
+          <view class="info-item">
+            <view class="info-label">过敏源</view>
+            <view class="info-value">{{ healthData.allergies }}</view>
+          </view>
+          <view class="info-item">
+            <view class="info-label">慢性病史</view>
+            <view class="info-value">{{ healthData.chronicDiseases }}</view>
+          </view>
+          <view class="info-item">
+            <view class="info-label">健康目标</view>
+            <view class="info-value">{{ healthData.healthGoal }}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 健康成就 -->
+<!--    <view class="section-card">
+      <view class="section-header">
+        <text class="section-title">健康成就</text>
+      </view>
+      <view class="section-content">
+        <view class="achievement-item" v-for="(item, index) in achievements" :key="index">
+          <view class="achievement-icon">
+            <uni-icons :type="item.icon" size="18" color="#4CAF50"></uni-icons>
+          </view>
+          <view class="achievement-info">
+            <view class="achievement-name">{{ item.name }}</view>
+            <view class="achievement-desc">{{ item.desc }}</view>
+          </view>
+        </view>
+      </view>
+    </view> -->
+    
+    <!-- 编辑个人资料模态框 -->
+    <uni-popup ref="editProfileModal" type="center" :mask-click="false">
+      <view class="modal-content">
+        <view class="modal-header">
+          <text class="modal-title">编辑个人资料</text>
+          <uni-icons type="closeempty" size="20" @click="closeModal"></uni-icons>
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">用户名</label>
+          <input class="form-input" v-model="editProfileForm.username" type="text">
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">手机号</label>
+          <input class="form-input" v-model="editProfileForm.phone" type="tel">
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">邮箱</label>
+          <input class="form-input" v-model="editProfileForm.email" type="email">
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">个人简介</label>
+          <textarea class="form-input" v-model="editProfileForm.bio" rows="3"></textarea>
+        </view>
+        
+        <view class="modal-footer">
+          <button class="btn-secondary" @click="closeModal">取消</button>
+          <button class="btn-primary" @click="saveProfile">保存</button>
+        </view>
+      </view>
+    </uni-popup>
+    
+    <!-- 编辑健康数据模态框 -->
+    <uni-popup ref="editHealthDataModal" type="center" :mask-click="false">
+      <view class="modal-content">
+        <view class="modal-header">
+          <text class="modal-title">编辑健康数据</text>
+          <uni-icons type="closeempty" size="20" @click="closeModal"></uni-icons>
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">身高 (cm)</label>
+          <input class="form-input" v-model="editHealthDataForm.height" type="number">
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">体重 (kg)</label>
+          <input class="form-input" v-model="editHealthDataForm.weight" type="number">
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">血压 (mmHg)</label>
+          <view class="flex gap-2">
+            <input class="form-input" v-model="editHealthDataForm.systolic" placeholder="收缩压" type="number">
+            <input class="form-input" v-model="editHealthDataForm.diastolic" placeholder="舒张压" type="number">
+          </view>
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">过敏源</label>
+          <input class="form-input" v-model="editHealthDataForm.allergies" type="text">
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">慢性病史</label>
+          <picker class="form-select" :range="chronicDiseasesOptions" v-model="editHealthDataForm.chronicDiseases">
+            <view>{{ editHealthDataForm.chronicDiseases || '请选择' }}</view>
+          </picker>
+        </view>
+        
+        <view class="form-group">
+          <label class="form-label">健康目标</label>
+          <picker class="form-select" :range="healthGoalOptions" v-model="editHealthDataForm.healthGoal">
+            <view>{{ editHealthDataForm.healthGoal || '请选择' }}</view>
+          </picker>
+        </view>
+        
+        <view class="modal-footer">
+          <button class="btn-secondary" @click="closeModal">取消</button>
+          <button class="btn-primary" @click="saveHealthData">保存</button>
+        </view>
+      </view>
+    </uni-popup>
+    
+    <!-- 设置模态框 -->
+    <uni-popup ref="settingsModal" type="bottom">
+      <view class="settings-modal">
+        <view class="modal-header">
+          <text class="modal-title">设置</text>
+          <uni-icons type="closeempty" size="20" @click="closeModal"></uni-icons>
+        </view>
+        
+        <view class="settings-item">
+          <view class="settings-label">通知提醒</view>
+          <switch :checked="settings.notification" @change="toggleNotification" color="#4CAF50"></switch>
+        </view>
+        
+        <view class="settings-item">
+          <view class="settings-label">深色模式</view>
+          <switch :checked="settings.darkMode" @change="toggleDarkMode" color="#4CAF50"></switch>
+        </view>
+        
+        <view class="settings-item">
+          <view class="settings-label">语言</view>
+          <picker :range="languageOptions" v-model="settings.language">
+            <view>{{ languageOptions[settings.language] }}</view>
+          </picker>
+        </view>
+        
+        <view class="settings-item" @click="clearCache">
+          <view class="settings-label">清除缓存</view>
+          <uni-icons type="forward" size="16" color="#999"></uni-icons>
+        </view>
+        
+        <view class="settings-item" @click="navigateToAbout">
+          <view class="settings-label">关于我们</view>
+          <uni-icons type="forward" size="16" color="#999"></uni-icons>
+        </view>
+        
+        <view class="settings-item" @click="navigateToPrivacy">
+          <view class="settings-label">隐私政策</view>
+          <uni-icons type="forward" size="16" color="#999"></uni-icons>
+        </view>
+        
+        <view class="settings-item" @click="navigateToAgreement">
+          <view class="settings-label">用户协议</view>
+          <uni-icons type="forward" size="16" color="#999"></uni-icons>
+        </view>
+        
+        <button class="logout-btn" @click="logout">退出登录</button>
+      </view>
+    </uni-popup>
   </view>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import { onShow } from '@dcloudio/uni-app'
+import { ref, reactive } from 'vue'
 
 // 用户信息
 const userInfo = reactive({
-  avatar: '/static/images/avatar.jpg',
-  username: '张小三',
-  vipLevel: 3,
-  slogan: '这个人很懒，什么都没留下~',
+  username: '张小健',
+  bio: '健康生活的践行者'
+})
+
+// 账号信息
+const accountInfo = reactive({
+  username: 'zhang_xiaojian',
   phone: '138****5678',
-  registerTime: '2022-08-15'
+  email: 'xiaojian@example.com',
+  registerTime: '2023-01-15'
 })
 
-// 功能菜单配置
-const menuItems = [
-  { 
-    icon: 'icon-history',
-    text: '浏览记录',
-    page: 'browseHistory'
-  },
-  {
-    icon: 'icon-setting',
-    text: '账号设置',
-    page: 'settings'
-  },
-  {
-    icon: 'icon-info',
-    text: '关于我们',
-    page: 'about'
-  }
-]
-
-// 页面显示时触发
-onShow(() => {
-  // 可以在这里添加数据刷新逻辑
+// 健康数据
+const healthData = reactive({
+  height: 175,
+  weight: 68,
+  bmi: 22.2,
+  bloodPressure: '120/80',
+  allergies: '海鲜、花生',
+  chronicDiseases: '无',
+  healthGoal: '减重5kg'
 })
 
-// 导航跳转
-const navigateTo = (page) => {
-  const routes = {
-    browseHistory: '/pages/history/history',
-    settings: '/pages/settings/settings',
-    about: '/pages/about/about'
-  }
-  uni.navigateTo({
-    url: routes[page]
+// 健康成就
+// const achievements = ref([
+//   {
+//     icon: 'paperplane-filled',
+//     name: '健步如飞',
+//     desc: '连续7天达成10000步目标'
+//   },
+//   {
+//     icon: 'star-filled',
+//     name: '蔬果达人',
+//     desc: '一周内摄入15种不同蔬果'
+//   },
+//   {
+//     icon: 'compose-filled',
+//     name: '食品学者',
+//     desc: '阅读10篇食品安全科普文章'
+//   }
+// ])
+
+// 编辑表单
+const editProfileForm = reactive({ ...accountInfo, bio: userInfo.bio })
+const editHealthDataForm = reactive({
+  height: healthData.height,
+  weight: healthData.weight,
+  systolic: 120,
+  diastolic: 80,
+  allergies: healthData.allergies,
+  chronicDiseases: healthData.chronicDiseases,
+  healthGoal: healthData.healthGoal
+})
+
+// 设置选项
+const settings = reactive({
+  notification: true,
+  darkMode: false,
+  language: 0
+})
+
+// 选择器选项
+const chronicDiseasesOptions = ref(['无', '高血压', '糖尿病', '心脏病', '其他'])
+const healthGoalOptions = ref(['减重5kg', '增肌', '改善睡眠', '控制血压', '均衡营养'])
+const languageOptions = ref(['简体中文', 'English'])
+
+// 模态框引用
+const editProfileModal = ref(null)
+const editHealthDataModal = ref(null)
+const settingsModal = ref(null)
+
+// 显示模态框
+const showEditProfileModal = () => {
+  editProfileModal.value.open()
+}
+
+const showEditHealthDataModal = () => {
+  editHealthDataModal.value.open()
+}
+
+const showSettingsModal = () => {
+  settingsModal.value.open()
+}
+
+// 关闭模态框
+const closeModal = () => {
+  editProfileModal.value.close()
+  editHealthDataModal.value.close()
+  settingsModal.value.close()
+}
+
+// 保存个人资料
+const saveProfile = () => {
+  Object.assign(accountInfo, editProfileForm)
+  userInfo.bio = editProfileForm.bio
+  uni.showToast({ title: '个人资料已更新', icon: 'success' })
+  closeModal()
+}
+
+// 保存健康数据
+const saveHealthData = () => {
+  healthData.height = editHealthDataForm.height
+  healthData.weight = editHealthDataForm.weight
+  healthData.bloodPressure = `${editHealthDataForm.systolic}/${editHealthDataForm.diastolic}`
+  healthData.allergies = editHealthDataForm.allergies
+  healthData.chronicDiseases = editHealthDataForm.chronicDiseases
+  healthData.healthGoal = editHealthDataForm.healthGoal
+  // 计算BMI
+  healthData.bmi = (editHealthDataForm.weight / ((editHealthDataForm.height / 100) ** 2)).toFixed(1)
+  uni.showToast({ title: '健康数据已更新', icon: 'success' })
+  closeModal()
+}
+
+// 编辑头像
+const editAvatar = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['compressed'],
+    sourceType: ['album', 'camera'],
+    success: (res) => {
+      // 这里应该上传图片到服务器，然后更新头像
+      uni.showToast({ title: '头像已更新', icon: 'success' })
+    }
   })
 }
 
-// 退出登录处理
-const handleLogout = () => {
+// 切换设置
+const toggleNotification = (e) => {
+  settings.notification = e.detail.value
+}
+
+const toggleDarkMode = (e) => {
+  settings.darkMode = e.detail.value
+  // 这里应该实现深色模式的切换逻辑
+}
+
+// 清除缓存
+const clearCache = () => {
+  uni.showModal({
+    title: '提示',
+    content: '确定要清除缓存吗？',
+    success: (res) => {
+      if (res.confirm) {
+        uni.clearStorageSync()
+        uni.showToast({ title: '缓存已清除', icon: 'success' })
+      }
+    }
+  })
+}
+
+// 导航
+const navigateToAbout = () => {
+  uni.navigateTo({ url: '/pages/about/index' })
+}
+
+const navigateToPrivacy = () => {
+  uni.navigateTo({ url: '/pages/privacy/index' })
+}
+
+const navigateToAgreement = () => {
+  uni.navigateTo({ url: '/pages/agreement/index' })
+}
+
+// 退出登录
+const logout = () => {
   uni.showModal({
     title: '提示',
     content: '确定要退出登录吗？',
     success: (res) => {
       if (res.confirm) {
+        // 清除登录状态
         uni.removeStorageSync('token')
-        uni.reLaunch({
-          url: '/pages/login/index'
-        })
+        // 跳转到登录页
+        uni.reLaunch({ url: '/pages/login/index' })
       }
     }
   })
 }
 </script>
 
-<style lang="scss" scoped>
-.user-container {
-  padding: 30rpx;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+<style lang="scss">
+.page-container {
+  background-color: #f5f5f7;
+  padding-bottom: 100rpx;
+}
+
+.header {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  padding: 35rpx 40rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
 }
 
 .profile-header {
+  background-color: #4CAF50;
+  padding: 60rpx 40rpx;
+  color: white;
   text-align: center;
-  padding: 40rpx 0;
-  background-color: #fff;
-  border-radius: 20rpx;
-  margin-bottom: 30rpx;
-
-  .avatar-box {
-    position: relative;
-    width: 150rpx;
-    height: 150rpx;
-    margin: 0 auto 30rpx;
-
-    .avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 4rpx solid #f0f0f0;
-    }
-
-    .camera-icon {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      background: #007aff;
-      color: #fff;
-      padding: 8rpx;
-      border-radius: 50%;
-      font-size: 36rpx;
-    }
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20rpx;
-
-    .username {
-      font-size: 40rpx;
-      font-weight: bold;
-      margin-right: 20rpx;
-    }
-
-    .vip-tag {
-      background: linear-gradient(45deg, #ffd700, #ffa500);
-      color: #fff;
-      padding: 6rpx 20rpx;
-      border-radius: 30rpx;
-      font-size: 24rpx;
-    }
-  }
-
-  .user-desc {
-    color: #999;
-    font-size: 28rpx;
-  }
+  position: relative;
 }
 
-.info-card {
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 0 30rpx;
-  margin-bottom: 30rpx;
-
-  .info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100rpx;
-    border-bottom: 1rpx solid #eee;
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    .info-label {
-      color: #666;
-      font-size: 30rpx;
-    }
-
-    .info-value {
-      color: #333;
-      font-size: 30rpx;
-    }
-  }
+.avatar-container {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 32rpx;
+  border: 8rpx solid rgba(255, 255, 255, 0.3);
+  position: relative;
 }
 
-.menu-list {
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 0 30rpx;
+.avatar {
+  width: 100%;
+  height: 100%;
+}
 
-  .menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100rpx;
-    border-bottom: 1rpx solid #eee;
+.edit-avatar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4CAF50;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+}
 
-    &:last-child {
-      border-bottom: none;
-    }
+.username {
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
 
-    .menu-left {
-      display: flex;
-      align-items: center;
+.user-info {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
 
-      .menu-icon {
-        margin-right: 20rpx;
-        font-size: 40rpx;
-        color: #007aff;
-      }
-    }
+.settings-btn {
+  position: absolute;
+  top: 40rpx;
+  right: 40rpx;
+  color: white;
+}
 
-    .icon-arrow-right {
-      color: #999;
-      font-size: 36rpx;
-    }
-  }
+.section-card {
+  background-color: white;
+  border-radius: 16rpx;
+  margin: 32rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  padding: 32rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 32rpx;
+}
+
+.section-content {
+  padding: 32rpx;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.info-value {
+  font-weight: 500;
+}
+
+.health-data-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24rpx;
+}
+
+.health-data-item {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  text-align: center;
+}
+
+.data-value {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4CAF50;
+  margin-bottom: 8rpx;
+}
+
+.data-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.achievement-item:last-child {
+  border-bottom: none;
+}
+
+.achievement-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: rgba(76, 175, 80, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4CAF50;
+  margin-right: 24rpx;
+}
+
+.achievement-name {
+  font-weight: 600;
+  margin-bottom: 4rpx;
+}
+
+.achievement-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 16rpx;
+  width: 80vw;
+  // heigh:100vh;
+  max-width: 800rpx;
+  padding: 30rpx;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 32rpx;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 16rpx;
+  font-weight: 600;
+  font-size: 28rpx;
+}
+
+.form-input {
+  width: 85%;
+  padding: 24rpx 32rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 4rpx rgba(76, 175, 80, 0.2);
+}
+
+.form-select {
+  width: 80%;
+  padding: 24rpx 32rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30rpx;
+  // width: 200px;
+  // height: 50px;
+  // align-content: center;
+  // align-items: center;
+}
+
+.btn-secondary {
+  // padding: 20rpx 40rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 16rpx;
+  color: #333;
+  width: 190rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  background-color: white;
+}
+
+.btn-primary {
+  border: 1rpx solid #ddd;
+  border-radius: 16rpx;
+  color: white;
+  width: 190rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  align-content: center;
+  background-color: #4CAF50;
+}
+
+.settings-modal {
+  background-color: white;
+  border-top-left-radius: 24rpx;
+  border-top-right-radius: 24rpx;
+  padding: 40rpx;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.settings-label {
+  font-size: 30rpx;
 }
 
 .logout-btn {
-  margin-top: 50rpx;
-  background: #fff;
-  height: 100rpx;
-  border-radius: 20rpx;
+  margin-top: 60rpx;
+  width: 100%;
+  padding: 30rpx;
+  color: #ff4d4f;
+  background-color: white;
+  border: 1rpx solid #ff4d4f;
+  border-radius: 16rpx;
+}
+
+.text-primary {
+  color: #4CAF50;
+}
+
+.flex {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ff4444;
-  font-size: 34rpx;
-  font-weight: bold;
+}
+
+.gap-2 {
+  gap: 8rpx;
+}
+
+.mt-4 {
+  margin-top: 16rpx;
 }
 </style>

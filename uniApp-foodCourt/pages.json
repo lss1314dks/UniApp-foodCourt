@@ -21,7 +21,8 @@
 			"path" : "pages/user/user",
 			"style" : 
 			{
-				"navigationBarTitleText" : "我的"
+				"navigationBarTitleText" : "我的",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -47,20 +48,6 @@
 			}
 		},
 		{
-			"path" : "pages/history/history",
-			"style" : 
-			{
-				"navigationBarTitleText" : "游览记录"
-			}
-		},
-		{
-			"path" : "pages/settings/settings",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		},
-		{
 			"path" : "pages/about/about",
 			"style" : 
 			{
@@ -71,7 +58,8 @@
 			"path" : "pages/DaytoDay/DaytoDay",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -79,6 +67,21 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/camera/camera",
+			"style" : 
+			{
+				"navigationBarTitleText" : "扫描"
+			}
+		},
+		{
+			"path" : "pages/playing/playing",
+			"style" : 
+			{
+				"navigationBarTitleText" : "运动",
+				"navigationStyle": "custom"
 			}
 		}
 	],
@@ -104,6 +107,11 @@
 				"iconPath": "/static/images/classify.png",
 				"selectedIconPath": "/static/images/classify-h.png"
 				
+			},{
+				"text": "运动",
+				"pagePath": "pages/playing/playing",
+				"iconPath": "/static/images/home.png",
+				"selectedIconPath": "/static/images/home-h.png"
 			},{
 				"text": "我的",
 				"pagePath": "pages/user/user",

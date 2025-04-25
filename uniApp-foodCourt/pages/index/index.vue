@@ -1,249 +1,581 @@
 <template>
-	<view class="indexLayout  pageBg">
-		<!-- 头部导航 -->
-		<custom-nav-bar></custom-nav-bar>
-		<!-- banner图 -->
-		<view class="banner">
-			<swiper indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff" autoplay>
-				<!-- <swiper-item v-for="(item,index) in 3"> 
-					<image :src="'/common/images/banner'+index+'.jpg'" mode="aspectFill"></image>
-				</swiper-item> -->
-				<swiper-item v-for="item in 4">
-					<image :src="`/common/images/banner`+item+`.jpg`" mode=""></image>
-				</swiper-item>
-			</swiper>
+  <view class="home-container">
+<!-- 顶部信息栏 - 毛玻璃透明版 -->
+    <view class="top-bar">
+      <view class="top-bar-bg"></view> <!-- 毛玻璃背景层 -->
+      <view class="top-bar-content">
+        <view class="location-info">
+          <uni-icons type="location-filled" size="20" color="#4CAF50"></uni-icons>
+          <text class="location-text">重庆市</text>
+        </view>
+		<!-- 搜索栏 -->
+		<view class="search-content">
+			<!-- 设置圆角 -->
+			<uni-search-bar class="uni-mt-10" radius="100" placeholder="请输入搜索关键字" clearButton="none" cancelButton="none" @confirm="search" />
 		</view>
-		<!-- 功能区 -->
-		<view class="funcs">
-			<!-- 左边功能 -->
-			<view class="funcs-left" @click="ClicktoFood()">
-				<uni-icons type="color" size="30" color="rgb(242, 173, 83)"></uni-icons>
-				<text>配料科普</text>
-			</view>
-			<!-- 右边功能 -->
-			<view class="funcs-right" @click="opencanvas">
-				<uni-icons type="camera" size="30" color="rgb(110, 195, 233)"></uni-icons>
-				<text>食品扫码</text>
-			</view>
+		<view class="weather-info">
+		  <uni-icons type="partly-cloudy" size="15" color="#4CAF50"></uni-icons>
+		  <text class="weather-text">28°C 晴</text>
 		</view>
-		<!-- 列表区 -->
-		<view class="select">
-			<common-title>
-				<template #name>每日科普</template>
-				<template #custom>
-					<view class="date">
-						<!-- 日历 -->
-						<uni-icons type="calendar" size="18" ></uni-icons>
-						<uni-dateformat :date="Date.now()" format="dd"></uni-dateformat>
-					</view>
-				</template>
-			</common-title>
-			<view class="content" v-for="(item,index) in formData" :key="index" @click="clickToBaidu(item.baiduLink)">
-				<!-- 左图 -->
-				<view class="left">
-					<image class="image" :src="item.image" mode="aspectFill"></image>
-				</view>
-				<!-- 右内容 -->
-				<view class="right">
-					<!-- 上文字 -->
-					<view class="top">
-						<text class="text">名称: </text>
-						<text >{{item.name}}</text>
-					</view>
-					<!-- 下文字 -->
-					<view class="bottom">
-						<text class="text">内容： </text>
-						<text>{{item.content}}</text>
-					</view>
-				</view>
-			</view>
-		</view>
-	</view>
+       <!-- <view class="date-notification">
+          <text class="date-text">{{ currentDate }}</text>
+          <uni-icons type="bell-filled" size="20" color="#4CAF50" @click="navigateTo('/pages/notification/index')"></uni-icons>
+        </view> -->
+      </view>
+    </view>
+
+    <view class="content-container">
+      <!-- 轮播图 - 使用uni-swiper -->
+      <swiper class="carousel" :autoplay="true" :interval="3000" :circular="true">
+        <swiper-item v-for="(item, index) in carouselItems" :key="index">
+          <view class="carousel-item">
+            <image
+              :src="item.image"
+              mode="aspectFill"
+              class="carousel-image"
+            ></image>
+            <view class="carousel-overlay">
+              <text class="carousel-title">{{ item.title }}</text>
+              <text class="carousel-subtitle">{{ item.subtitle }}</text>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
+
+      <!-- 快捷功能区 -->
+      <view class="quick-actions">
+        <view
+          v-for="(item, index) in quickActions"
+          :key="index"
+          class="quick-action-item"
+          @click="handleQuickAction(index)"
+        >
+          <view
+            class="action-icon-container"
+            :style="{ backgroundColor: item.bgColor }"
+          >
+            <uni-icons :type="item.icon" size="24" :color="item.iconColor"></uni-icons>
+          </view>
+          <text class="action-label">{{ item.label }}</text>
+        </view>
+      </view>
+
+      <!-- 每日推荐 -->
+      <view class="section">
+        <view class="section-header">
+          <text class="section-title">每日推荐</text>
+          <text class="section-more" @click="navigateTo('/pages/recommend/index')">查看全部</text>
+        </view>
+
+        <view class="recommendation-list">
+          <view
+            v-for="(item, index) in dailyRecommendations"
+            :key="index"
+            class="recommendation-card"
+            @click="navigateTo(`/pages/DaytoDay/DaytoDay`)"
+          >
+            <image
+              :src="item.image"
+              mode="aspectFill"
+              class="recommendation-image"
+            ></image>
+            <view class="recommendation-content">
+              <view class="recommendation-header">
+                <text class="recommendation-title">{{ item.title }}</text>
+                <text class="status-safe">推荐</text>
+              </view>
+              <text class="recommendation-desc">{{ item.description }}</text>
+              <view class="recommendation-meta">
+                <view class="meta-item">
+                  <uni-icons type="fire-filled" size="14" color="#FB923C"></uni-icons>
+                  <text class="meta-text">{{ item.calories }}</text>
+                </view>
+                <view class="meta-item">
+                  <uni-icons type="clock-filled" size="14" color="#60A5FA"></uni-icons>
+                  <text class="meta-text">{{ item.time }}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 健康资讯 -->
+      <view class="section">
+        <view class="section-header">
+          <text class="section-title">健康资讯</text>
+          <text class="section-more" @click="navigateTo('/pages/news/index')">更多</text>
+        </view>
+
+        <view class="news-grid">
+          <view
+            v-for="(item, index) in healthNews"
+            :key="index"
+            class="news-card"
+            @click="navigateTo(`/pages/news/detail?id=${item.id}`)"
+          >
+            <image
+              :src="item.image"
+              mode="aspectFill"
+              class="news-image"
+            ></image>
+            <text class="news-title">{{ item.title }}</text>
+            <text class="news-subtitle">{{ item.subtitle }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
-<script setup lang="ts">
-import { reactive } from 'vue'
+<script setup>
+import { ref, onMounted, computed } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 
-// 模拟数据
-const formData = reactive([
- {
-    image: '/static/images/fruit.jpg', // 模拟的图片路径
-    name: '水果',
-    content: '水果是指那些富含水分、糖分和维生素的植物产物，有助于保持身体健康。',
-    baiduLink: 'https://baike.baidu.com/item/水果', // 百度百科链接
+// 当前日期
+const currentDate = computed(() => {
+  const now = new Date()
+  const month = now.getMonth() + 1
+  const day = now.getDate()
+  const week = ['日', '一', '二', '三', '四', '五', '六'][now.getDay()]
+  return `${month}月${day}日 星期${week}`
+})
+
+// 轮播图数据
+const carouselItems = ref([
+  {
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    title: '健康饮食新主张',
+    subtitle: '了解如何通过饮食提升免疫力'
   },
   {
-    image: '/static/images/vegetable.jpg', // 模拟的图片路径
-    name: '蔬菜',
-    content: '蔬菜是指可以食用的植物的绿色部分，含有丰富的纤维素、维生素和矿物质。',
-    baiduLink: 'https://baike.baidu.com/item/蔬菜', // 百度百科链接
+    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    title: '食品安全指南',
+    subtitle: '掌握食品安全基本知识'
   },
   {
-    image: '/static/images/egg.jpg', // 模拟的图片路径
-    name: '鸡蛋',
-    content: '鸡蛋是鸟类（如鸡）产下的卵，是高蛋白的食物，富含人体所需的多种营养成分。',
-    baiduLink: 'https://baike.baidu.com/item//鸡蛋', // 百度百科链接
-  },
-  {
-    image: '/static/images/rice.jpg', // 模拟的图片路径
-    name: '米饭',
-    content: '米饭是人类日常生活中最常见的主食之一，含有丰富的碳水化合物。',
-    baiduLink: 'https://baike.baidu.com/item/米饭', // 百度百科链接
-  },
-  {
-    image: '/static/images/bread.jpg', // 模拟的图片路径
-    name: '面包',
-    content: '面包是一种由面粉、酵母和水等制成的食品，通常通过烘焙的方法制作。',
-    baiduLink: 'https://baike.baidu.com/item/面包', // 百度百科链接
-  },
-  {
-    image: '/static/images/milk.jpg', // 模拟的图片路径
-    name: '牛奶',
-    content: '牛奶是来自母牛的乳液，富含蛋白质、钙、维生素D等营养成分。',
-    baiduLink: 'https://baike.baidu.com/item/牛奶', // 百度百科链接
+    image: 'https://images.unsplash.com/photo-1547592180-85f173990888?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    title: '营养搭配建议',
+    subtitle: '均衡饮食的科学方法'
   }
 ])
+
+// 快捷功能区数据
+const quickActions = ref([
+  {
+    icon: 'scan',
+    iconColor: '#4CAF50',
+    bgColor: '#C8E6C9',
+    label: '扫码查询',
 	
-const ClicktoFood = () =>{
-	// 实现页面跳转
-	uni.navigateTo({
-		url:"/pages/IngredientInfo/IngredientInfo",
-	})
+  },
+  {
+    icon: 'list',
+    iconColor: '#3B82F6',
+    bgColor: '#DBEAFE',
+    label: '食品管理',
+	
+  },
+  {
+    icon: 'paperplane',
+    iconColor: '#8B5CF6',
+    bgColor: '#EDE9FE',
+    label: '运动计划',
+	
+  },
+  {
+    icon: 'chat',
+    iconColor: '#F97316',
+    bgColor: '#FFEDD5',
+    label: 'AI助手',
+	
+  }
+])
+
+// 每日推荐数据
+const dailyRecommendations = ref([
+  {
+    id: 1,
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
+    title: '地中海沙拉',
+    description: '富含抗氧化物质，有助于心血管健康',
+    calories: '320千卡',
+    time: '15分钟'
+  },
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1547592180-85f173990888?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
+    title: '蓝莓燕麦粥',
+    description: '富含膳食纤维，有助于肠道健康',
+    calories: '280千卡',
+    time: '10分钟'
+  },
+  {
+    id: 3,
+    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
+    title: '烤三文鱼',
+    description: '富含Omega-3脂肪酸，有助于大脑健康',
+    calories: '420千卡',
+    time: '25分钟'
+  }
+])
+
+// 健康资讯数据
+const healthNews = ref([
+  {
+    id: 1,
+    image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    title: '常见食品添加剂安全指南',
+    subtitle: '了解哪些添加剂是安全的'
+  },
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    title: '有机食品真的更健康吗？',
+    subtitle: '科学解析有机食品的优势'
+  }
+])
+
+// 获取定位信息
+const getLocation = () => {
+  uni.getLocation({
+    type: 'wgs84',
+    success: (res) => {
+      console.log('当前位置：', res)
+      // 这里可以调用天气API获取天气信息
+    },
+    fail: (err) => {
+      console.error('获取位置失败：', err)
+    }
+  })
 }
 
-const clickToBaidu = (url)=>{
-	uni.navigateTo({
-		url:'/pages/web-view/web-view?url='+url
-	})
+// 处理快捷功能点击
+const handleQuickAction = (index) => {
+  const actions = [
+    '/pages/camera/camera',
+    '/pages/food/index',
+    '/pages/sport/index',
+    '/pages/chating/chating'
+  ]
+  uni.navigateTo({
+    url: actions[index]
+  })
 }
 
-const opencanvas = () =>{
-	uni.chooseImage({
-	    count: 1, // 默认选择1张图片
-	    sourceType: ['camera'], // 限制只能从相机拍摄
-	    success: function(res) {
-	      const filePath = res.tempFilePaths[0]; // 获取图片路径
-	      // uploadImage(filePath); // 上传图片进行识别
-		  console.log("hello  "+filePath)
-	    },
-	    fail: function(error) {
-	      console.log('选择图片失败', error);
-	    }
-	  });
+// 通用导航方法
+const navigateTo = (url) => {
+  uni.navigateTo({
+    url
+  })
 }
+
+onShow(() => {
+  getLocation()
+})
 </script>
 
 <style lang="scss">
-.indexLayout{
-	.banner{
-		width: 750rpx;
-		padding:30rpx 0;
-		swiper{
-			width: 750rpx;
-			height: 340rpx;
-			&-item{
-				width: 100%;
-				height: 100%;
-				padding:0 30rpx;
-				image{
-					width:100%;
-					height: 100%;
-					border-radius: 15rpx;
-				}
-			}
-		}
-	}
-	// 功能区
-	.funcs{
-		width: 690rpx;
-		height: 250rpx;
-		line-height:80rpx;
-		background: #f9f9f9;
-		margin-left: 30rpx;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		.funcs-left{
-			width: 345rpx;
-			margin-left: 0;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			background: rgb(250, 229, 208);
-			color: rgb(242, 173, 83);
-			border-radius: 30rpx;
-			font-weight: 600;
-			
-		}
-		.funcs-right{
-			height: 100%;
-			width: 345rpx;
-			margin-left: 20rpx;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			background: rgb(213, 235, 246);
-			color:rgb(110, 195, 233) ;
-			border-radius: 30rpx;
-			font-weight: 600;
-			
-		}
-	}
-	// 列表区
-	.select{
-		width: 700rpx;
-		padding-top: 50rpx;
-		// 内容区
-		.content{
-			// background-color: #f9f9f9;
-			border: 2px solid #fff;
-			box-shadow: 2px 2px 1px #ccc;
-			border-radius: 30rpx;
-			padding: 10rpx;
-			width: 100%;
-			margin: 50rpx 20rpx;
-			// background-color: #cacaca;
-			display: flex;
-			justify-content: space-between;
-			justify-content: center;
-			align-items: center;
-			.left{
-				width:200rpx;
-				height: 200rpx;
-				image{
-					width: 100%;
-					height: 100%;
-					border-radius: 10px;
-				}
-			}
-			.right{
-				width: 490rpx;
-				height: 200rpx;
-				display: flex;
-				flex-direction: column;
-				margin-left: 10rpx;
-				// margin-top: 10rpx;
-				.top{
-					margin-top: 10rpx;
-					margin-bottom: 30rpx;
-					.text{
-						color:black;
-						font-size: 30rpx;
-						font-weight: 600;
-					}
-				}
-				.bottom{
-					.text{
-						color:black;
-						font-size: 30rpx;
-						font-weight: 600;
-					}
-				}
-			}
-		}
-	}
+// 颜色变量
+$primary: #4CAF50;
+$primary-dark: #388E3C;
+$primary-light: #C8E6C9;
+$white: #ffffff;
+$gray-50: #f9fafb;
+$gray-100: #f3f4f6;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+
+.home-container {
+  background-color: $gray-50;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+// 顶部信息栏样式 - 毛玻璃透明版
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 80px;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba($primary, 0.1);
+  }
+}
+
+.top-bar-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($white, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: -1;
+}
+
+.top-bar-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 10px;
+  height: 100%;
+  position: relative;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1px;
+}
+
+.location-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: $primary-dark;
+}
+
+.weather-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 12px;
+  padding: 4px 4px;
+  background-color: rgba($primary, 0.1);
+  border-radius: 12px;
+}
+
+.weather-text {
+  font-size: 14px;
+  color: $primary-dark;
+}
+
+.date-notification {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.date-text {
+  font-size: 14px;
+  color: $primary-dark;
+}
+
+// 内容容器
+.content-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+// 轮播图样式
+.carousel {
+  height: 192px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.carousel-item {
+  position: relative;
+  height: 100%;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  padding: 16px;
+}
+
+.carousel-title {
+  color: $white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.carousel-subtitle {
+  color: $white;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+// 快捷功能区样式
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.quick-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action-icon-container {
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.action-label {
+  font-size: 12px;
+}
+
+// 区块通用样式
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.section-more {
+  color: $primary;
+  font-size: 14px;
+}
+
+// 每日推荐样式
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recommendation-card {
+  background-color: $white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+}
+
+.recommendation-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+}
+
+.recommendation-content {
+  margin-left: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recommendation-title {
+  font-weight: 500;
+}
+
+.status-safe {
+  background-color: rgba($primary, 0.1);
+  color: $primary-dark;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.recommendation-desc {
+  color: $gray-500;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.recommendation-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.meta-text {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+// 健康资讯样式
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.news-card {
+  background-color: $white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.news-image {
+  width: 100%;
+  height: 128px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.news-title {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.news-subtitle {
+  color: $gray-500;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+// 动画
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

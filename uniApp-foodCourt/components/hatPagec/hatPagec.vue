@@ -118,16 +118,16 @@ const contentHeight = ref(0);
 const isTyping = ref(false);
 
 // 自动回复内容池
-const replyList = [
-  '我收到啦，聊聊吧！',
-  '好的，你说的很有道理。',
-  '哈哈哈，笑死我了😂',
-  '我在的，有什么需要帮忙的吗？',
-  '等一下我看看。',
-  '真不错，继续说~',
-  '我这边也差不多',
-  '那我们约个时间？'
-];
+// const replyList = [
+//   '我收到啦，聊聊吧！',
+//   '好的，你说的很有道理。',
+//   '哈哈哈，笑死我了😂',
+//   '我在的，有什么需要帮忙的吗？',
+//   '等一下我看看。',
+//   '真不错，继续说~',
+//   '我这边也差不多',
+//   '那我们约个时间？'
+// ];
 
 onMounted(() => {
   initLayout();
@@ -239,6 +239,7 @@ function goBack() {
 }
 .other-message,
 .self-message {
+  margin-top: 20rpx;
   display: flex;
   align-items: flex-start;
   max-width: 100%;
@@ -257,7 +258,7 @@ function goBack() {
   .avatar {
     width: 100%;
     height: 100%;
-    border-radius: 5px;
+    border-radius: 30px;
   }
 }
 .message-content {
@@ -271,7 +272,7 @@ function goBack() {
     margin-left: 10px;
   }
   &.self {
-    background: rgb(98, 131, 244);
+    background: #4CAF50;
 	color: #eee;
     margin-right: 10px;
   }
@@ -302,7 +303,7 @@ function goBack() {
   .send-btn {
     width: 70px;
     height: 36px;
-    background: rgb(98, 131, 244);
+    background: #4CAF50;
     color: #fff;
     font-size: 14px;
     border-radius: 5px;
