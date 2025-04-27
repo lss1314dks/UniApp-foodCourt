@@ -1,5 +1,5 @@
 import App from './App'
-
+import  * as Pinia from 'pinia';
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
@@ -15,6 +15,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
+  // app.use(Pinia.createPinia());
   // app.use(ElementPlus, { locale })
   return {
     app

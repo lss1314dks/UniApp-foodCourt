@@ -71,7 +71,7 @@ const getMessage = async (prompt) => {
   try {
 	isTyping.value = true;
     const { data } = await uni.request({
-      url: "http://localhost:8081/api/chat/context", // 修改为正确的后端地址
+      url: "http://localhost:8081/chat/context", // 修改为正确的后端地址
       method: "POST",
 	  data:{prompt},
 	  header:{

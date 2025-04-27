@@ -1,0 +1,27 @@
+
+.custom-tabbar[data-v-2b029bdc] {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  padding: 5px 0;
+}
+.custom-tabbar uni-view[data-v-2b029bdc] {
+  flex: 1;
+  text-align: center;
+}
+.custom-tabbar uni-view uni-image[data-v-2b029bdc] {
+  width: 24px;
+  height: 24px;
+}
+.custom-tabbar uni-view uni-text[data-v-2b029bdc] {
+  display: block;
+  font-size: 12px;
+  color: #666;
+}
+.custom-tabbar uni-view.active uni-text[data-v-2b029bdc] {
+  color: #007aff;
+}

@@ -8,15 +8,15 @@
                 <text class="text">Log In</text>
             </view>
             <view class="form">
-                <uni-forms class="form-items">
+                <uni-forms class="form-items" v-model="formData">
                     <uni-forms-item  name="username">
-                        <input type="text" placeholder="username" style="padding-left: 20rpx;  height: 80rpx;"/>
+                        <input type="text" placeholder="username" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.username"/>
                     </uni-forms-item>
                     <uni-forms-item  name="password">
-                        <input type="safe-password" placeholder="password" style="padding-left: 20rpx;  height: 80rpx;"/>
+                        <input type="safe-password" placeholder="password" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.password"/>
                     </uni-forms-item>
                     <uni-forms-item>
-                        <button type="primary" style=" background-color: rgb(77, 190, 200); color: #fff; border-radius: 50rpx; margin-top: 30rpx;">登录</button>
+                        <button type="primary" style=" background-color: rgb(77, 190, 200); color: #fff; border-radius: 50rpx; margin-top: 30rpx;" @click="login">登录</button>
                     </uni-forms-item>
                 </uni-forms>
             </view>
@@ -26,7 +26,58 @@
 
 <script setup lang="ts">
 // 绑定对象
-import {ref} from "vue"
+import {ref,reactive} from "vue"
+import { LoginApi } from "../../API/apis";
+
+//新建表单对象
+const formData = reactive({
+	username:'',
+	password:''
+});
+
+//调用后端接口
+const login = async()=>{
+	const result = await LoginApi(formData);
+	// const result = await uni.request({
+	//   url: "http://localhost:8081/user/user/login", // 修改为正确的后端地址
+	//   method: "POST",
+	//   data:formData,
+	//   header:{
+	// 	  // 'X-Session-ID':'123'
+	//   }
+	// });
+	console.log('登录响应',result);
+	if(result.code===200){
+		//设置token
+		uni.setStorageSync('userToken',result.data.token);
+		console.log(result.data.token);
+		//存储用户信息
+		uni.setStorageSync("userInfo",result.data);
+		console.log(result.data);
+		uni.setStorageSync("userId",result.data.id);
+		
+		//路径跳转
+		uni.reLaunch({
+		  url: '/pages/index/index'
+		});
+		//提示登录成功
+		uni.showToast({
+			title: '登录成功',
+			icon: 'success',
+			duration: 1000
+		})
+	}else{
+		uni.showToast({
+			title: '登录失败,请重新输入用户名和密码',
+			icon: 'fail',
+			duration: 1000
+		})
+		//清空表单数据
+		formData.username = ""
+		formData.password = ""
+	}
+	
+}
 
 </script>
 

@@ -2,24 +2,7 @@
   "hash": "f57999c7",
   "configHash": "7f9113d5",
   "lockfileHash": "d4eb5d54",
-  "browserHash": "07b3d6e1",
-  "optimized": {
-    "@amap/amap-jsapi-loader": {
-      "src": "../../../../../node_modules/@amap/amap-jsapi-loader/dist/index.js",
-      "file": "@amap_amap-jsapi-loader.js",
-      "fileHash": "071bb1b8",
-      "needsInterop": true
-    },
-    "element-plus": {
-      "src": "../../../../../node_modules/element-plus/es/index.mjs",
-      "file": "element-plus.js",
-      "fileHash": "d735262a",
-      "needsInterop": false
-    }
-  },
-  "chunks": {
-    "chunk-MNTBHR2J": {
-      "file": "chunk-MNTBHR2J.js"
-    }
-  }
+  "browserHash": "4791cab5",
+  "optimized": {},
+  "chunks": {}
 }

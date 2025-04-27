@@ -1,20 +1,19 @@
 <template>
   <view class="scan-container">
     <!-- 头部导航栏 -->
-    <uni-nav-bar title="食品扫描" :border="false"></uni-nav-bar>
+    <!-- <uni-nav-bar title="食品扫描" :border="false"></uni-nav-bar> -->
     
      <!-- 扫描视图 -->
     <view class="scan-view" v-if="!showResult">
       <!-- 相机视图 -->
       <view class="camera-view">
-        <camera 
+        <!-- <camera 
           v-if="cameraActive"
-          :device-position="currentDevice"
           :flash="flashStatus"
           class="camera"
           @error="cameraError"
-        ></camera>
-        <view class="camera-overlay">
+        ></camera> -->
+       <view class="camera-overlay">
           <view class="scan-frame">
             <view class="scan-line" :class="{'animate-scan': scanning}"></view>
           </view>
@@ -133,7 +132,7 @@
 
 <script setup>
 import { ref } from 'vue'
-
+import Cameras from '@/components/camera/camera.vue'
 // 状态管理
 const cameraActive = ref(true)
 const showResult = ref(false)
@@ -217,6 +216,14 @@ const toggleFlash = () => {
 
 // 拍照
 const captureImage = () => {
+	uni.scanCode({
+		scanType: ['barCode'],
+		success: function (res) {
+			console.log('条码类型：' + res.scanType);
+			// 调用后端接口
+			console.log('条码内容：' + res.result);
+		}
+	});
   scanning.value = true
   uni.showLoading({
     title: '正在扫描...'

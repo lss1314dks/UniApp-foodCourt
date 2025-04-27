@@ -175,14 +175,14 @@
         
         <view class="form-group">
           <label class="form-label">慢性病史</label>
-          <picker class="form-select" :range="chronicDiseasesOptions" v-model="editHealthDataForm.chronicDiseases">
+          <picker class="form-select" :range="chronicDiseasesOptions" >
             <view>{{ editHealthDataForm.chronicDiseases || '请选择' }}</view>
           </picker>
         </view>
         
         <view class="form-group">
           <label class="form-label">健康目标</label>
-          <picker class="form-select" :range="healthGoalOptions" v-model="editHealthDataForm.healthGoal">
+          <picker class="form-select" :range="healthGoalOptions" >
             <view>{{ editHealthDataForm.healthGoal || '请选择' }}</view>
           </picker>
         </view>
@@ -214,7 +214,7 @@
         
         <view class="settings-item">
           <view class="settings-label">语言</view>
-          <picker :range="languageOptions" v-model="settings.language">
+          <picker :range="languageOptions">
             <view>{{ languageOptions[settings.language] }}</view>
           </picker>
         </view>
