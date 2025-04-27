@@ -8,13 +8,12 @@
     <!-- 个人资料头部 -->
     <view class="profile-header">
       <view class="avatar-container">
-        <image class="avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" mode="aspectFill"></image>
+        <image class="avatar" :src="userInfo.avatar" mode="aspectFill"></image>
         <view class="edit-avatar" @click="editAvatar">
           <uni-icons type="camera-filled" size="16" color="#4CAF50"></uni-icons>
         </view>
       </view>
-      <view class="username">{{ userInfo.username }}</view>
-      <view class="user-info">{{ userInfo.bio }}</view>
+      <view class="username">{{ userInfo.name }}</view>
       <view class="settings-btn" @click="showSettingsModal">
         <uni-icons type="gear-filled" size="20" color="#fff"></uni-icons>
       </view>
@@ -29,19 +28,19 @@
       <view class="section-content">
         <view class="info-item">
           <view class="info-label">用户名</view>
-          <view class="info-value">{{ accountInfo.username }}</view>
+          <view class="info-value">{{ userInfo.username }}</view>
         </view>
         <view class="info-item">
           <view class="info-label">手机号</view>
-          <view class="info-value">{{ accountInfo.phone }}</view>
+          <view class="info-value">{{ userInfo.phone }}</view>
         </view>
         <view class="info-item">
-          <view class="info-label">邮箱</view>
-          <view class="info-value">{{ accountInfo.email }}</view>
+          <view class="info-label">性别</view>
+          <view class="info-value">{{ userInfo.sex==0?'男':'女' }}</view>
         </view>
         <view class="info-item">
           <view class="info-label">注册时间</view>
-          <view class="info-value">{{ accountInfo.registerTime }}</view>
+          <view class="info-value">{{ userInfo.createTime }}</view>
         </view>
       </view>
     </view>
@@ -55,15 +54,15 @@
       <view class="section-content">
         <view class="health-data-grid">
           <view class="health-data-item">
-            <view class="data-value">{{ healthData.height }}</view>
+            <view class="data-value">{{ userInfo.tail }}</view>
             <view class="data-label">身高 (cm)</view>
           </view>
           <view class="health-data-item">
-            <view class="data-value">{{ healthData.weight }}</view>
+            <view class="data-value">{{ userInfo.weight }}</view>
             <view class="data-label">体重 (kg)</view>
           </view>
           <view class="health-data-item">
-            <view class="data-value">{{ healthData.bmi }}</view>
+            <view class="data-value">{{ userInfo.bim }}</view>
             <view class="data-label">BMI</view>
           </view>
           <view class="health-data-item">
@@ -75,11 +74,11 @@
         <view class="mt-4">
           <view class="info-item">
             <view class="info-label">过敏源</view>
-            <view class="info-value">{{ healthData.allergies }}</view>
+            <view class="info-value">{{ userInfo.allergy }}</view>
           </view>
           <view class="info-item">
             <view class="info-label">慢性病史</view>
-            <view class="info-value">{{ healthData.chronicDiseases }}</view>
+            <view class="info-value">{{ userInfo.disease }}</view>
           </view>
           <view class="info-item">
             <view class="info-label">健康目标</view>
@@ -88,24 +87,6 @@
         </view>
       </view>
     </view>
-    
-    <!-- 健康成就 -->
-<!--    <view class="section-card">
-      <view class="section-header">
-        <text class="section-title">健康成就</text>
-      </view>
-      <view class="section-content">
-        <view class="achievement-item" v-for="(item, index) in achievements" :key="index">
-          <view class="achievement-icon">
-            <uni-icons :type="item.icon" size="18" color="#4CAF50"></uni-icons>
-          </view>
-          <view class="achievement-info">
-            <view class="achievement-name">{{ item.name }}</view>
-            <view class="achievement-desc">{{ item.desc }}</view>
-          </view>
-        </view>
-      </view>
-    </view> -->
     
     <!-- 编辑个人资料模态框 -->
     <uni-popup ref="editProfileModal" type="center" :mask-click="false">
@@ -123,11 +104,6 @@
         <view class="form-group">
           <label class="form-label">手机号</label>
           <input class="form-input" v-model="editProfileForm.phone" type="tel">
-        </view>
-        
-        <view class="form-group">
-          <label class="form-label">邮箱</label>
-          <input class="form-input" v-model="editProfileForm.email" type="email">
         </view>
         
         <view class="form-group">
@@ -161,11 +137,11 @@
         </view>
         
         <view class="form-group">
-          <label class="form-label">血压 (mmHg)</label>
+          <!-- <label class="form-label">血压 (mmHg)</label>
           <view class="flex gap-2">
             <input class="form-input" v-model="editHealthDataForm.systolic" placeholder="收缩压" type="number">
             <input class="form-input" v-model="editHealthDataForm.diastolic" placeholder="舒张压" type="number">
-          </view>
+          </view> -->
         </view>
         
         <view class="form-group">
@@ -246,12 +222,27 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-
+import { ref, reactive,onMounted } from 'vue'
+import { getUserInfoApi } from '../../API/apis'
 // 用户信息
 const userInfo = reactive({
-  username: '张小健',
-  bio: '健康生活的践行者'
+			id: 3,
+	        username: "",
+	        name: "",
+	        password: "",
+	        age: 0,
+	        phone: "",
+	        sex: 0,
+	        idNumber: "",
+	        avatar: "",
+	        status: "",
+	        tail: 0,
+	        weight: 0,
+	        allergy: "",
+	        disease: "",
+	        target: "",
+	        createTime: null,
+			bim:0
 })
 
 // 账号信息
@@ -259,7 +250,7 @@ const accountInfo = reactive({
   username: 'zhang_xiaojian',
   phone: '138****5678',
   email: 'xiaojian@example.com',
-  registerTime: '2023-01-15'
+  registerTime: '2023-01-15',
 })
 
 // 健康数据
@@ -291,6 +282,36 @@ const healthData = reactive({
 //     desc: '阅读10篇食品安全科普文章'
 //   }
 // ])
+
+const getUserInfo = async()=>{
+	const result = await getUserInfoApi();
+	console.log(result.data)
+	if (result.code === 200) {
+	    Object.assign(userInfo, result.data);
+		    // 计算 BMI 并赋值
+		      if (userInfo.weight && userInfo.tail) {
+		        // BMI = 体重(kg) / (身高(m)的平方)
+		        const heightInMeters = userInfo.tail / 100;
+		        userInfo.bim = (userInfo.weight / (heightInMeters * heightInMeters)).toFixed(2);
+		      } else {
+		        userInfo.bim = 0;
+		      }
+		      
+		      console.log('计算后的BMI:', userInfo.bim);
+	} else {
+	    uni.showToast({
+	        title: '请求失败',
+	        icon: 'fail',
+	        duration: 1000
+	    });
+	    // 清空表单数据
+		userInfo = {};
+	}
+}
+
+onMounted(()=>{
+	getUserInfo();
+})
 
 // 编辑表单
 const editProfileForm = reactive({ ...accountInfo, bio: userInfo.bio })
@@ -421,9 +442,9 @@ const logout = () => {
     success: (res) => {
       if (res.confirm) {
         // 清除登录状态
-        uni.removeStorageSync('token')
+        uni.removeStorageSync('userToken')
         // 跳转到登录页
-        uni.reLaunch({ url: '/pages/login/index' })
+        uni.switchTab({ url: '/pages/Login/Login' })
       }
     }
   })

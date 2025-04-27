@@ -1,90 +1,193 @@
 <template>
-    <div id="container"></div>
+  <view class="map-container">
+    <!-- WebView容器用于加载高德地图 -->
+    <web-view 
+      v-if="mapUrl" 
+      :src="mapUrl" 
+      @message="handleWebViewMessage"
+       style="width: 100%; height: 100%;"
+    ></web-view>
+    
+    <!-- 定位状态显示 -->
+    <view class="status-info" v-if="statusMessage">
+      {{ statusMessage }}
+    </view>
+    
+    <!-- 自定义控件容器 -->
+   <view class="controls">
+        <!--  <view class="control-btn" @click="refreshLocation">
+            <uni-icons type="refresh" size="24" color="#4CAF50"></uni-icons>
+          </view> -->
+        </view>
+  </view>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-defineProps(['isTrueGeolocation']);
-// 引入高等地图
-// import AMapLoader from '@amap/amap-jsapi-loader';
-// 高德地图
-let map = null;
-let message = ref(false);
-let isGeolocation = ref(false);
+import { ref, onMounted } from 'vue';
 
+// 高德地图配置
+const aMapKey = 'b8b1f09933ae7cf96535e9e265117082';
+const aMapSecurityCode = '766d0e1839a4cfb75304069351c383e2';
+const mapUrl = ref('');
+const statusMessage = ref('');
+
+// 初始化地图
 onMounted(() => {
-   //  window._AMapSecurityConfig = {
-   //      securityJsCode: "766d0e1839a4cfb75304069351c383e2",
-   //  };
-   //  AMapLoader.load({
-   //      key: "b8b1f09933ae7cf96535e9e265117082", // 申请好的Web端开发者Key，首次调用 load 时必填
-   //      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-   //      plugins: ["AMap.Scale", "AMap.Geolocation"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
-   //  })
-   //    .then((AMap) => {
-   //          map = new AMap.Map("container", {
-   //              // 设置地图容器id
-   //              viewMode: "3D", // 是否为3D地图模式
-   //              zoom: 11, // 初始化地图级别
-   //              center: [106.555525,29.559858],// 初始化地图中心点位置
-   //              resizeEnable: true
-   //          });
-   //          // 定位插件
-   //          let geo_location = new AMap.Geolocation({
-   //              enableHighAccuracy: true, //是否使用高精度定位，默认:true
-   //              timeout: 10000, //超过10秒后停止定位，默认：5s
-   //              buttonPosition: 'RT', //定位按钮的停靠位置
-   //              buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-   //              zoomToAccuracy: true, //定位成功后是否自动调整地图视野到定位点
-   //          });
-   //          map.addControl(geo_location);
-			// geo_location.getCurrentPosition(function(status,result){
-			//         if(status=='complete'){
-			//             onComplete(result)
-			//         }else{
-			//             onError(result)
-			//         }
-			// });
-   //      })
-   //    .catch((e) => {
-   //          console.log(e);
-   //      });
+  initAMap();
 });
 
-//解析定位结果
-function onComplete(data) {
- //    document.getElementById('status').innerHTML = '定位成功';
-	// console.log("定位成功");
-	// console.log("定位结果和类别"+data.position);
- //    var str = [];
- //    str.push('定位结果：' + data.position);
- //    str.push('定位类别：' + data.location_type);
- //    if (data.accuracy) {
- //        str.push('精度：' + data.accuracy + ' 米');
- //    } //如为IP精确定位结果则没有精度信息
- //    str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
- //    document.getElementById('result').innerHTML = str.join('<br>');
- // console.log("定位信息 "+data.position);
- // console.log("定位精度: "+data.accuracy)
- // console.log(data)
-}
-//解析定位错误信息
-function onError(data) {
-	// console.log("定位失败")
- //    document.getElementById('status').innerHTML = '定位失败';
- //    document.getElementById('result').innerHTML = '失败原因排查信息:' + data.message;
-}
+// 初始化高德地图
+const initAMap = () => {
+  // 生成包含地图HTML的内容 - 修正script标签问题
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>高德地图</title>
+      <style>
+        body, html { margin:0; padding:0; width:100%; height:100%; }
+        #container { width:100%; height:100%; }
+      </style>
+    </head>
+    <body>
+      <div id="container"></div>
+      <script>
+        window._AMapSecurityConfig = {
+          securityJsCode: '${aMapSecurityCode}'
+        };
+      <` + `/script>
+      <script src="https://webapi.amap.com/maps?v=2.0&key=${aMapKey}"><` + `/script>
+      <script>
+        var map = new AMap.Map('container', {
+          viewMode: '3D',
+          zoom: 15,
+          center: [116.397428, 39.90923], // 默认北京中心点
+          resizeEnable: true
+        });
+        
+        // 添加控件
+        AMap.plugin(['AMap.Scale', 'AMap.ToolBar', 'AMap.Geolocation'], function() {
+          
+          var geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,
+            timeout: 10000,
+            buttonPosition: 'RB',
+            zoomToAccuracy: true
+          });
+          map.addControl(geolocation);
+          
+          // 自动定位
+          geolocation.getCurrentPosition(function(status, result) {
+            if (status === 'complete') {
+              // 定位成功，发送消息到uniapp
+              window.postMessage({
+                type: 'locationSuccess',
+                data: {
+                  longitude: result.position.lng,
+                  latitude: result.position.lat,
+                  accuracy: result.accuracy
+                }
+              });
+            } else {
+              // 定位失败
+              window.postMessage({
+                type: 'locationError',
+                data: result.message
+              });
+            }
+          });
+        });
+        
+        // 地图点击事件
+        map.on('click', function(e) {
+          window.postMessage({
+            type: 'mapClick',
+            data: {
+              lng: e.lnglat.getLng(),
+              lat: e.lnglat.getLat()
+            }
+          });
+        });
+      <` + `/script>
+    </body>
+    </html>
+  `;
+  
+  // 生成Blob URL
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  mapUrl.value = URL.createObjectURL(blob);
+};
 
+// 处理WebView消息
+const handleWebViewMessage = (e) => {
+  const message = e.detail.data[0];
+  switch (message.type) {
+    case 'locationSuccess':
+      statusMessage.value = `定位成功\n经度: ${message.data.longitude.toFixed(6)}\n纬度: ${message.data.latitude.toFixed(6)}`;
+      setTimeout(() => statusMessage.value = '', 3000);
+      break;
+    case 'locationError':
+      statusMessage.value = `定位失败: ${message.data}`;
+      setTimeout(() => statusMessage.value = '', 3000);
+      break;
+    case 'mapClick':
+      console.log('地图点击坐标:', message.data);
+      break;
+  }
+};
+
+// 刷新定位
+const refreshLocation = () => {
+  if (mapUrl.value) {
+    const newUrl = mapUrl.value + '&t=' + Date.now();
+    mapUrl.value = '';
+    setTimeout(() => mapUrl.value = newUrl, 50);
+  }
+};
+
+// 地图缩放
+const zoomIn = () => {
+  postMessageToWebView({ type: 'zoomIn' });
+};
+
+const zoomOut = () => {
+  postMessageToWebView({ type: 'zoomOut' });
+};
+
+// 向WebView发送消息
+const postMessageToWebView = (message) => {
+  const pages = getCurrentPages();
+  const currentPage = pages[pages.length - 1];
+  const webView = currentPage.$getAppWebview().children()[0];
+  webView.evalJS(`window.postMessage(${JSON.stringify(message)})`);
+};
 </script>
 
 <style lang="scss">
-#container {
-    width: 100%;
-    height: 200%; /* 设置高度为视口高度 */
+.map-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
-#status,
-#result {
-    padding: 10px;
+.controls {
+  position: absolute;
+  right: 10px;
+  bottom: 60px; /* 给叠加层留出空间 */
+  z-index: 99;
+  
+  .control-btn {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 8px;
+  }
 }
 </style>

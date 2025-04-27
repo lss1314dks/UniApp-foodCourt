@@ -576,7 +576,7 @@
 }
 .chat-header[data-v-0df2f20f] {
   height: 44px;
-  padding: 0 15px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -587,7 +587,7 @@
   font-size: 20px;
 }
 .chat-content[data-v-0df2f20f] {
-  padding-top: 44px;
+  padding-top: 60px;
 }
 .message-item[data-v-0df2f20f] {
   margin-bottom: 15px;

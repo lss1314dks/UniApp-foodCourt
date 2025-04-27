@@ -254,13 +254,22 @@ const getLocation = () => {
 const handleQuickAction = (index) => {
   const actions = [
     '/pages/camera/camera',
-    '/pages/food/index',
-    '/pages/sport/index',
+    '/pages/food/food',
+    '/pages/playing/playing',
     '/pages/chating/chating'
   ]
-  uni.navigateTo({
-    url: actions[index]
-  })
+  if(index==0){
+	  uni.navigateTo({
+	    url: actions[index]
+	  })
+  }else{
+	  uni.reLaunch({
+	  	url:actions[index]
+	  })
+  }
+  // uni.navigateTo({
+  //   url: actions[index]
+  // })
 }
 
 // 通用导航方法

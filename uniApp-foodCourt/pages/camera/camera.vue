@@ -3,8 +3,10 @@
     <!-- 头部导航栏 -->
     <!-- <uni-nav-bar title="食品扫描" :border="false"></uni-nav-bar> -->
     
+
      <!-- 扫描视图 -->
     <view class="scan-view" v-if="!showResult">
+	   //#ifdef APP-PLUS
       <!-- 相机视图 -->
       <view class="camera-view">
         <!-- <camera 
@@ -31,7 +33,9 @@
           </view>
         </view>
       </view>
-      
+     //#endif
+	 <!-- #ifdef H5 -->
+	 
       <!-- 上传区域 -->
       <view class="upload-section">
         <text class="section-title">上传食品图片</text>
@@ -41,7 +45,7 @@
           <text class="upload-hint">支持JPG、PNG格式</text>
         </view>
       </view>
-      
+      	  <!-- #endif -->
       <!-- 历史记录 -->
       <view class="history-section">
         <view class="section-header">
@@ -60,6 +64,7 @@
           </view>
         </view>
       </view>
+
     </view>
     
     <!-- 分析结果视图 -->
@@ -132,7 +137,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import Cameras from '@/components/camera/camera.vue'
 // 状态管理
 const cameraActive = ref(true)
 const showResult = ref(false)

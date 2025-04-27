@@ -8,23 +8,22 @@
     <view class="content">
       <!-- 地图区域 -->
       <view class="map-container">
-		  <view class="map">
-			  <MapContainer></MapContainer>
-		  </view>
-		  <view class="map-gap" style="width: 100%;
-		  height: calc(300px - 123px); background-color: white;">
-		  </view>
-          <cover-view class="map-overlay">
-            <cover-view class="flex justify-between items-center">
-              <cover-view>
-                <cover-view class="text-sm opacity-80">当前位置</cover-view>
-                <cover-view class="font-semibold">{{ currentLocation }}</cover-view>
-              </cover-view>
-              <cover-view class="btn-primary text-sm py-2 px-4" @click="startExercise">
-                <cover-view class="fas fa-play mr-1"></cover-view> 开始运动
-              </cover-view>
+        <view class="map">
+          <MapContainer></MapContainer>
+        </view>
+        <view class="map-gap" style="width: 100%; height: calc(300px - 123px); background-color: white;"></view>
+        <cover-view class="map-overlay">
+          <cover-view class="flex justify-between items-center">
+            <cover-view>
+              <cover-view class="text-sm opacity-80">当前位置</cover-view>
+              <cover-view class="font-semibold">{{ currentLocation }}</cover-view>
+            </cover-view>
+            <cover-view class="btn-primary text-sm py-2 px-4" @click="toggleExercise">
+              <cover-view class="fas mr-1">{{ isExercising ? '⏹' : '▶' }}</cover-view> 
+              {{ isExercising ? '结束运动' : '开始运动' }}
             </cover-view>
           </cover-view>
+        </cover-view>
       </view>
       
       <!-- 计步器 -->
@@ -47,8 +46,8 @@
           <view class="stat-label">千卡</view>
         </view>
         <view class="stat-card">
-          <view class="stat-value">{{ duration }}</view>
-          <view class="stat-label">分钟</view>
+          <view class="stat-value">{{ formattedTime }}</view>
+          <view class="stat-label">时间</view>
         </view>
       </view>
       
@@ -83,163 +82,150 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import MapContainer from '@/components/MapContainer/MapContainer.vue'
-// 地图相关数据
-    const latitude = ref(39.90923);
-    const longitude = ref(116.397428);
-    const currentLocation = ref('北京市朝阳区');
-    const markers = ref([{
-      id: 1,
-      latitude: 39.90923,
-      longitude: 116.397428,
-      title: '当前位置'
-    }]);
-    const polyline = ref([{
-      points: [
-        {latitude: 39.90923, longitude: 116.397428},
-        {latitude: 39.91023, longitude: 116.398428},
-        {latitude: 39.91123, longitude: 116.399428},
-        {latitude: 39.91223, longitude: 116.400428},
-        {latitude: 39.91323, longitude: 116.401428}
-      ],
-      color: '#4CAF50',
-      width: 6,
-      arrowLine: true
-    }]);
-    
-    // 计步器相关数据
-    const steps = ref(6248);
-    const stepGoal = ref(10000);
-    const formattedSteps = computed(() => steps.value.toLocaleString());
-    
-    // 运动数据
-    const distance = ref('2.4');
-    const calories = ref('186');
-    const duration = ref('32');
-    
-    // 运动计划
-    const completedDays = ref(2);
-    const totalDays = ref(5);
-    const progress = computed(() => Math.round((completedDays.value / totalDays.value) * 100));
-    const recentActivities = ref([
-      {
-        type: 'walking',
-        name: '快走',
-        date: '昨天',
-        duration: 30,
-        calories: 120
-      },
-      {
-        type: 'running',
-        name: '慢跑',
-        date: '前天',
-        duration: 20,
-        calories: 180
-      }
-    ]);
-    
-    // 用户数据
-    const genders = ref(['男', '女', '其他']);
-    const diseases = ref(['高血压', '糖尿病', '心脏病', '关节炎', '其他']);
-    const fitnessGoals = ref(['减肥', '增肌', '提高心肺功能', '保持健康']);
-    
-    const userData = ref({
-      height: 175,
-      weight: 68,
-      age: 32,
-      gender: '男',
-      medicalHistory: [],
-      fitnessGoal: '保持健康'
+
+// 运动相关状态
+const isExercising = ref(false);
+const startTime = ref(null);
+const elapsedTime = ref(0);
+const timer = ref(null);
+const steps = ref(0);
+const distance = ref('0.0');
+const calories = ref(0);
+const stepGoal = ref(10000);
+const currentLocation = ref('重庆市巴南区');
+
+// 格式化显示
+const formattedSteps = computed(() => steps.value.toLocaleString());
+const formattedTime = computed(() => {
+  const minutes = Math.floor(elapsedTime.value / 60);
+  const seconds = elapsedTime.value % 60;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+});
+
+// 运动计划数据
+const completedDays = ref(2);
+const totalDays = ref(5);
+const progress = computed(() => Math.round((completedDays.value / totalDays.value) * 100));
+const recentActivities = ref([
+  {
+    type: 'walking',
+    name: '快走',
+    date: '昨天',
+    duration: 30,
+    calories: 120
+  },
+  {
+    type: 'running',
+    name: '慢跑',
+    date: '前天',
+    duration: 20,
+    calories: 180
+  }
+]);
+
+// 开始/结束运动
+const toggleExercise = () => {
+  if (isExercising.value) {
+    // 停止运动
+    clearInterval(timer.value);
+    isExercising.value = false;
+    recordActivity();
+    uni.showToast({
+      title: '运动已结束',
+      icon: 'success'
     });
+  } else {
+    // 开始运动
+    isExercising.value = true;
+    startTime.value = new Date();
+    steps.value = 0;
+    distance.value = '0.0';
+    calories.value = 0;
+    elapsedTime.value = 0;
     
-    // 方法
-    const getActivityIcon = (type) => {
-      const icons = {
-        walking: 'footmark',
-        running: 'paperplane',
-        cycling: 'circle',
-        swimming: 'water'
-      };
-      return icons[type] || 'help';
-    };
-    
-    const startExercise = () => {
-      uni.showToast({
-        title: '开始运动',
-        icon: 'success'
-      });
-      // 这里可以添加开始运动的逻辑
-    };
-    
-    const zoomIn = () => {
-      // 地图放大逻辑
-      console.log('zoom in');
-    };
-    
-    const zoomOut = () => {
-      // 地图缩小逻辑
-      console.log('zoom out');
-    };
-    
-    const locate = () => {
-      uni.getLocation({
-        type: 'gcj02',
-        success: (res) => {
-          latitude.value = res.latitude;
-          longitude.value = res.longitude;
-          markers.value[0].latitude = res.latitude;
-          markers.value[0].longitude = res.longitude;
-          
-          // 这里可以添加逆地理编码获取当前位置名称
-        },
-        fail: (err) => {
-          console.error('获取位置失败', err);
-        }
-      });
-    };
-    
-    const onGenderChange = (e) => {
-      userData.value.gender = genders.value[e.detail.value];
-    };
-    
-    const onGoalChange = (e) => {
-      userData.value.fitnessGoal = fitnessGoals.value[e.detail.value];
-    };
-    
-    const toggleDisease = (disease) => {
-      const index = userData.value.medicalHistory.indexOf(disease);
-      if (index === -1) {
-        userData.value.medicalHistory.push(disease);
-      } else {
-        userData.value.medicalHistory.splice(index, 1);
-      }
-    };
-    
-    const saveUserData = () => {
-      uni.showToast({
-        title: '保存成功',
-        icon: 'success'
-      });
-      // 这里可以添加保存数据的逻辑
-    };
-    
-    // 模拟计步器功能
-    const simulatePedometer = () => {
-      setInterval(() => {
-        steps.value += Math.floor(Math.random() * 10);
-        
-        // 更新其他相关数据
-        distance.value = (steps.value * 0.000762).toFixed(1);
-        calories.value = Math.floor(steps.value * 0.03);
-        duration.value = Math.floor(steps.value / 200);
-      }, 3000);
-    };
-	
-    onMounted(() => {
-      simulatePedometer();
-      locate(); // 尝试获取当前位置
+    // 开始计时器
+    timer.value = setInterval(updateExerciseData, 1000);
+    uni.showToast({
+      title: '运动已开始',
+      icon: 'success'
     });
+  }
+};
+
+// 更新运动数据
+const updateExerciseData = () => {
+  if (!isExercising.value) return;
+  
+  // 更新经过的时间(秒)
+  elapsedTime.value = Math.floor((new Date() - startTime.value) / 1000);
+  
+  // 模拟步数增加 (约120步/分钟)
+  steps.value += 2;
+  
+  // 计算距离(公里): 假设步长0.762米
+  distance.value = (steps.value * 0.000762).toFixed(1);
+  
+  // 计算消耗的卡路里(千卡): 体重(kg)*距离(km)*1.036
+  calories.value = Math.floor(68 * parseFloat(distance.value) * 1.036);
+};
+
+// 记录运动数据
+const recordActivity = () => {
+  const newActivity = {
+    type: 'walking',
+	icon:'left',
+    name: '步行',
+    date: '今天',
+    duration: Math.floor(elapsedTime.value / 60),
+    calories: calories.value
+  };
+  
+  recentActivities.value.unshift(newActivity);
+  if (recentActivities.value.length > 5) {
+    recentActivities.value.pop();
+  }
+  
+  // 更新完成天数
+  if (elapsedTime.value >= 1800) { 
+    completedDays.value = Math.min(completedDays.value + 1, totalDays.value);
+  }
+};
+
+// 活动图标
+const getActivityIcon = (type) => {
+  const icons = {
+    walking: 'footmark',
+    running: 'paperplane',
+    cycling: 'circle',
+    swimming: 'water'
+  };
+  return icons[type] || 'help';
+};
+
+// 定位功能
+const locate = () => {
+  uni.getLocation({
+    type: 'gcj02',
+    success: (res) => {
+      // 这里可以添加逆地理编码获取当前位置名称
+      currentLocation.value = '重庆市巴南区'; // 实际应用中替换为真实地址
+    },
+    fail: (err) => {
+      console.error('获取位置失败', err);
+    }
+  });
+};
+
+// 组件卸载时清除定时器
+onUnmounted(() => {
+  if (timer.value) clearInterval(timer.value);
+});
+
+onMounted(() => {
+  locate();
+});
 </script>
 
 <style lang="scss">
@@ -273,15 +259,16 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
 .map-container {
   width: 100%;
   height: 300px;
-  border-radius: var(--card-radius);
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   margin-bottom: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  .map{
-	  display: block;
-	  width: 100%;
-	  height: 123px;
+  
+  .map {
+    display: block;
+    width: 100%;
+    height: 123px;
   }
 }
 
@@ -296,38 +283,6 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   z-index: 1;
 }
 
-.map-controls {
-  position: absolute;
-  // top: 10px;
-  bottom: 70px;
-  right: 10px;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-  // background-color: #4CAF50;
-}
-
-.map-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-  // gap: 10px;
-  margin-top: 20rpx;
-}
-
-.map-btn:active {
-  transform: scale(0.85);
-  color:#4CAF50;
-}
-
 .stats-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -337,7 +292,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
 
 .stat-card {
   background-color: white;
-  border-radius: var(--card-radius);
+  border-radius: 12px;
   padding: 16px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -347,17 +302,17 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 4px;
-  color:  #4CAF50;
+  color: #4CAF50;
 }
 
 .stat-label {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: #666;
 }
 
 .plan-card {
   background-color: white;
-  border-radius: var(--card-radius);
+  border-radius: 12px;
   padding: 20px;
   margin-bottom: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -385,7 +340,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
 
 .progress-bar {
   height: 100%;
-  background-color:  #4CAF50;
+  background-color: #4CAF50;
   border-radius: 4px;
 }
 
@@ -393,7 +348,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color:  #4CAF50;
+  color: #4CAF50;
 }
 
 .activity-list {
@@ -419,7 +374,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   display: flex;
   justify-content: center;
   align-items: center;
-  color:  #4CAF50;
+  color: #4CAF50;
   margin-right: 12px;
 }
 
@@ -434,12 +389,12 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
 
 .activity-meta {
   font-size: 12px;
-  color:  #4CAF50;
+  color: #666;
 }
 
 .activity-calories {
   font-weight: 600;
-  color:  #4CAF50;
+  color: #4CAF50;
 }
 
 .pedometer {
@@ -447,7 +402,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   width: 100%;
   height: 200px;
   background-color: white;
-  border-radius:  #4CAF50;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -468,7 +423,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   align-items: center;
   position: relative;
 }
-// 进度条
+
 .pedometer-circle::before {
   content: '';
   position: absolute;
@@ -478,42 +433,33 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   bottom: 0;
   border-radius: 50%;
   border: 6px solid transparent;
-  border-top: 6px solid  #4CAF50;
-  border-right: 6px solid  #4CAF50;
+  border-top: 6px solid #4CAF50;
+  border-right: 6px solid #4CAF50;
   transform: rotate(45deg);
 }
 
 .steps-count {
   font-size: 32px;
   font-weight: 700;
-  color:  #4CAF50;
+  color: #4CAF50;
 }
 
 .steps-label {
   font-size: 14px;
-  color:  #4CAF50;
+  color: #666;
 }
 
 .steps-goal {
   font-size: 13px;
-  color:  #4CAF50;
+  color: #666;
   font-weight: 600;
   margin-top: 4px;
 }
 
-.form-section {
-  background-color: white;
-  border-radius:  #4CAF50;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-
 .btn-primary {
-  background-color:  #4CAF50;
+  background-color: #4CAF50;
   color: white;
-  border-radius: 20rpx;
+  border-radius: 20px;
   padding: 10px 16px;
   text-align: center;
   font-size: 14px;
@@ -528,7 +474,7 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
 
 .tag-success {
   background-color: rgba(76, 175, 80, 0.1);
-  color:  #4CAF50;
+  color: #4CAF50;
 }
 
 .flex {
@@ -543,24 +489,8 @@ import MapContainer from '@/components/MapContainer/MapContainer.vue'
   align-items: center;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
-}
-
 .text-sm {
   font-size: 12px;
-}
-
-.text-lg {
-  font-size: 18px;
-}
-
-.font-bold {
-  font-weight: bold;
 }
 
 .font-semibold {

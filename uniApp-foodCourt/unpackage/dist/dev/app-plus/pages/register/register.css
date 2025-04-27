@@ -555,675 +555,212 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.uni-card[data-v-ae4bee67] {
-  margin: 10px;
-  padding: 0 8px;
-  border-radius: 4px;
-  overflow: hidden;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
-  background-color: #fff;
-  flex: 1;
-}
-.uni-card .uni-card__cover[data-v-ae4bee67] {
+.uni-forms-item[data-v-462874dd] {
   position: relative;
-  margin-top: 10px;
-  flex-direction: row;
-  overflow: hidden;
-  border-radius: 4px;
-}
-.uni-card .uni-card__cover .uni-card__cover-image[data-v-ae4bee67] {
-  flex: 1;
-}
-.uni-card .uni-card__header[data-v-ae4bee67] {
   display: flex;
-  border-bottom: 1px #EBEEF5 solid;
+  margin-bottom: 22px;
+  flex-direction: row;
+}
+.uni-forms-item__label[data-v-462874dd] {
+  display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px;
-  overflow: hidden;
-}
-.uni-card .uni-card__header .uni-card__header-box[data-v-ae4bee67] {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  overflow: hidden;
-}
-.uni-card .uni-card__header .uni-card__header-avatar[data-v-ae4bee67] {
-  width: 40px;
-  height: 40px;
-  overflow: hidden;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-.uni-card .uni-card__header .uni-card__header-avatar .uni-card__header-avatar-image[data-v-ae4bee67] {
-  flex: 1;
-  width: 40px;
-  height: 40px;
-}
-.uni-card .uni-card__header .uni-card__header-content[data-v-ae4bee67] {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  overflow: hidden;
-}
-.uni-card .uni-card__header .uni-card__header-content .uni-card__header-content-title[data-v-ae4bee67] {
-  font-size: 15px;
-  color: #3a3a3a;
-}
-.uni-card .uni-card__header .uni-card__header-content .uni-card__header-content-subtitle[data-v-ae4bee67] {
-  font-size: 12px;
-  margin-top: 5px;
-  color: #909399;
-}
-.uni-card .uni-card__header .uni-card__header-extra[data-v-ae4bee67] {
-  line-height: 12px;
-}
-.uni-card .uni-card__header .uni-card__header-extra .uni-card__header-extra-text[data-v-ae4bee67] {
-  font-size: 12px;
-  color: #909399;
-}
-.uni-card .uni-card__content[data-v-ae4bee67] {
-  padding: 10px;
+  text-align: left;
   font-size: 14px;
-  color: #6a6a6a;
-  line-height: 22px;
+  color: #606266;
+  height: 36px;
+  padding: 0 12px 0 0;
+  vertical-align: middle;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
-.uni-card .uni-card__actions[data-v-ae4bee67] {
-  font-size: 12px;
+.uni-forms-item__label.no-label[data-v-462874dd] {
+  padding: 0;
 }
-.uni-card--border[data-v-ae4bee67] {
-  border: 1px solid #EBEEF5;
-}
-.uni-card--shadow[data-v-ae4bee67] {
+.uni-forms-item__content[data-v-462874dd] {
   position: relative;
-  box-shadow: 0 0px 6px 1px rgba(165, 165, 165, 0.2);
-}
-.uni-card--full[data-v-ae4bee67] {
-  margin: 0;
-  border-left-width: 0;
-  border-left-width: 0;
-  border-radius: 0;
-}
-.uni-card--full[data-v-ae4bee67]:after {
-  border-radius: 0;
-}
-.uni-ellipsis[data-v-ae4bee67] {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
-.uni-collapse-item[data-v-3d2dde9f] {
-  box-sizing: border-box;
-}
-.uni-collapse-item__title[data-v-3d2dde9f] {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  flex-direction: row;
-  align-items: center;
-  transition: border-bottom-color 0.3s;
-}
-.uni-collapse-item__title-wrap[data-v-3d2dde9f] {
-  width: 100%;
-  flex: 1;
-}
-.uni-collapse-item__title-box[data-v-3d2dde9f] {
-  padding: 0 15px;
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 48px;
-  line-height: 48px;
-  background-color: #fff;
-  color: #303133;
-  font-size: 13px;
-  font-weight: 500;
-}
-.uni-collapse-item__title-box.is-disabled .uni-collapse-item__title-text[data-v-3d2dde9f] {
-  color: #999;
-}
-.uni-collapse-item__title.uni-collapse-item-border[data-v-3d2dde9f] {
-  border-bottom: 1px solid #ebeef5;
-}
-.uni-collapse-item__title.is-open[data-v-3d2dde9f] {
-  border-bottom-color: transparent;
-}
-.uni-collapse-item__title-img[data-v-3d2dde9f] {
-  height: 22px;
-  width: 22px;
-  margin-right: 10px;
-}
-.uni-collapse-item__title-text[data-v-3d2dde9f] {
-  flex: 1;
   font-size: 14px;
-  white-space: nowrap;
-  color: inherit;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.uni-collapse-item__title-arrow[data-v-3d2dde9f] {
-  display: flex;
+  flex: 1;
   box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  transform: rotate(0deg);
+  flex-direction: row;
 }
-.uni-collapse-item__title-arrow-active[data-v-3d2dde9f] {
-  transform: rotate(-180deg);
-}
-.uni-collapse-item__wrap[data-v-3d2dde9f] {
-  will-change: height;
-  box-sizing: border-box;
-  background-color: #fff;
-  overflow: hidden;
-  position: relative;
-  height: 0;
-}
-.uni-collapse-item__wrap.is--transition[data-v-3d2dde9f] {
-  transition-property: height, border-bottom-width;
-  transition-duration: 0.3s;
-  will-change: height;
-}
-.uni-collapse-item__wrap-content[data-v-3d2dde9f] {
-  position: absolute;
-  font-size: 13px;
-  color: #303133;
-  border-bottom-color: transparent;
-  border-bottom-style: solid;
-  border-bottom-width: 0;
-}
-.uni-collapse-item__wrap-content.uni-collapse-item--border[data-v-3d2dde9f] {
-  border-bottom-width: 1px;
-  border-bottom-color: red;
-  border-bottom-color: #ebeef5;
-}
-.uni-collapse-item__wrap-content.open[data-v-3d2dde9f] {
-  position: relative;
-}
-.uni-collapse-item--animation[data-v-3d2dde9f] {
-  transition-property: transform;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-}
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
-.uni-collapse[data-v-3f050360] {
-  width: 100%;
+.uni-forms-item .uni-forms-item__nuve-content[data-v-462874dd] {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  flex: 1;
 }
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
-.scan-container {
-  background-color: #f5f5f7;
-  min-height: 100vh;
-  padding-bottom: 20px;
-  /* 相机视图 */
-  /* 相机控制按钮 */
-}
-.scan-container .scan-view {
-  padding: 15px;
-}
-.scan-container .camera-view {
-  width: 100%;
-  height: 70vh;
-  max-height: 500px;
-  background-color: #000;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.scan-container .camera {
-  width: 100%;
-  height: 100%;
-}
-.scan-container .camera-overlay {
+.uni-forms-item__error[data-v-462874dd] {
+  color: #f56c6c;
+  font-size: 12px;
+  line-height: 1;
+  padding-top: 4px;
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  padding-bottom: 80px;
-  /* 为控制按钮留出空间 */
-}
-.scan-container .scan-frame {
-  width: 220px;
-  height: 220px;
-  border: 2px solid #4CAF50;
-  border-radius: 20px;
-  position: relative;
-}
-.scan-container .scan-frame::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-}
-.scan-container .scan-line {
-  position: absolute;
-  height: 2px;
-  background-color: #4CAF50;
-  left: 0;
-  right: 0;
-  top: 0;
-  box-shadow: 0 0 8px #4CAF50;
+  transition: transform 0.3s;
+  transform: translateY(-100%);
   opacity: 0;
 }
-.scan-container .scan-line.animate-scan {
+.uni-forms-item__error .error-text[data-v-462874dd] {
+  color: #f56c6c;
+  font-size: 12px;
+}
+.uni-forms-item__error.msg--active[data-v-462874dd] {
   opacity: 1;
-  animation: scanAnimation 2s linear infinite;
+  transform: translateY(0%);
 }
-.scan-container .scan-tip {
-  position: absolute;
-  bottom: 60px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+.uni-forms-item.is-direction-left[data-v-462874dd] {
+  flex-direction: row;
 }
-.scan-container .camera-controls {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
+.uni-forms-item.is-direction-top[data-v-462874dd] {
+  flex-direction: column;
+}
+.uni-forms-item.is-direction-top .uni-forms-item__label[data-v-462874dd] {
+  padding: 0 0 8px;
+  line-height: 1.5715;
+  text-align: left;
+  white-space: initial;
+}
+.uni-forms-item .is-required[data-v-462874dd] {
+  color: #dd524d;
+  font-weight: bold;
+}
+.uni-forms-item--border[data-v-462874dd] {
+  margin-bottom: 0;
   padding: 10px 0;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 50px;
-  width: 90%;
-  margin: 0 auto;
+  border-top: 1px #eee solid;
 }
-.scan-container .camera-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease;
-}
-.scan-container .camera-btn:active {
-  transform: scale(0.9);
-  background-color: rgba(255, 255, 255, 0.3);
-}
-.scan-container .camera-btn.capture {
-  width: 60px;
-  height: 60px;
-  background-color: white;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-}
-.scan-container .camera-btn.capture:active {
-  transform: scale(0.95);
-}
-.scan-container .upload-section {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-.scan-container .upload-section .section-title {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  text-align: center;
-  margin-bottom: 10px;
-}
-.scan-container .upload-section .upload-area {
-  border: 2px dashed #e0e0e0;
-  border-radius: 12px;
-  padding: 30px 20px;
-  margin: 15px 0;
-  display: flex;
+.uni-forms-item--border .uni-forms-item__content[data-v-462874dd] {
   flex-direction: column;
-  align-items: center;
-  transition: all 0.3s ease;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-.scan-container .upload-section .upload-area:active {
-  border-color: #4CAF50;
-  background-color: rgba(76, 175, 80, 0.05);
-}
-.scan-container .upload-section .upload-text {
-  font-size: 14px;
-  margin-top: 10px;
-}
-.scan-container .upload-section .upload-hint {
-  font-size: 12px;
-  color: #999;
-  margin-top: 5px;
-}
-.scan-container .history-section {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-}
-.scan-container .history-section .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-.scan-container .history-section .section-title {
-  font-size: 16px;
-  font-weight: bold;
-}
-.scan-container .history-section .view-all {
-  font-size: 12px;
-  color: #4CAF50;
-}
-.scan-container .history-section .history-item {
-  display: flex;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-.scan-container .history-section .history-item:last-child {
-  border-bottom: none;
-}
-.scan-container .history-section .history-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  margin-right: 12px;
-}
-.scan-container .history-section .history-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.scan-container .history-section .history-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.scan-container .history-section .history-meta {
-  display: flex;
-  justify-content: space-between;
-}
-.scan-container .history-section .safety-tag {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
-}
-.scan-container .history-section .safety-tag.tag-safe {
-  background-color: #E8F5E9;
-  color: #2E7D32;
-}
-.scan-container .history-section .safety-tag.tag-warning {
-  background-color: #FFF8E1;
-  color: #FF8F00;
-}
-.scan-container .history-section .safety-tag.tag-danger {
-  background-color: #FFEBEE;
-  color: #C62828;
-}
-.scan-container .history-section .history-date {
-  font-size: 12px;
-  color: #999;
-}
-.scan-container .result-view {
-  padding: 15px;
-}
-.scan-container .result-view .result-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.scan-container .result-view .result-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  margin-right: 16px;
-}
-.scan-container .result-view .result-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-.scan-container .result-view .safety-score {
-  display: flex;
-  align-items: center;
-  margin: 8px 0;
-  font-size: 14px;
-}
-.scan-container .result-view .score-bar {
-  height: 8px;
-  flex: 1;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  margin: 0 10px;
+.uni-forms-item--border .uni-forms-item__content .uni-forms-item__error[data-v-462874dd] {
   position: relative;
+  top: 5px;
+  left: 0;
+  padding-top: 0;
+}
+.is-first-border[data-v-462874dd] {
+  border: none;
+}
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.RegistrationLayout[data-v-bac4a35d] {
+  position: relative;
+  width: 100vw;
+  height: 93vh;
+  background: linear-gradient(70deg, #2aa4af, #76d9de);
   overflow: hidden;
 }
-.scan-container .result-view .score-fill {
+.RegistrationLayout .back-btn[data-v-bac4a35d] {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #4CAF50;
-  border-radius: 4px;
-}
-.scan-container .result-view .score-value {
-  font-weight: bold;
-}
-.scan-container .result-view .card-title {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 12px;
-  border-radius: 30px;
-}
-.scan-container .result-view .nutrition-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.scan-container .result-view .nutrition-item {
-  background-color: #f5f5f5;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-}
-.scan-container .result-view .nutrition-label {
-  font-size: 12px;
-  color: #666;
-  display: block;
-}
-.scan-container .result-view .nutrition-value {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  margin: 4px 0;
-}
-.scan-container .result-view .nutrition-tip {
-  font-size: 10px;
-  display: block;
-}
-.scan-container .result-view .nutrition-tip.tip-good {
-  color: #4CAF50;
-}
-.scan-container .result-view .nutrition-tip.tip-normal {
-  color: #2196F3;
-}
-.scan-container .result-view .nutrition-tip.tip-warning {
-  color: #FF9800;
-}
-.scan-container .result-view .nutrition-tip.tip-bad {
-  color: #F44336;
-}
-.scan-container .result-view .ingredient-list .ingredient-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-.scan-container .result-view .ingredient-list .ingredient-item:last-child {
-  border-bottom: none;
-}
-.scan-container .result-view .ingredient-list .ingredient-name {
+  top: 1.875rem;
+  left: 0.9375rem;
+  z-index: 10;
+  width: 1.875rem;
+  height: 1.875rem;
   display: flex;
   align-items: center;
-}
-.scan-container .result-view .ingredient-list .safety-dot {
-  width: 10px;
-  height: 10px;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  margin-right: 8px;
 }
-.scan-container .result-view .ingredient-list .safety-dot.dot-safe {
-  background-color: #4CAF50;
+.RegistrationLayout .title[data-v-bac4a35d] {
+  margin-left: 0.9375rem;
+  font-size: 2.5rem;
+  color: #fff;
+  font-weight: 600;
+  position: absolute;
+  left: 0;
+  bottom: 450px;
+  padding-top: 3.125rem;
 }
-.scan-container .result-view .ingredient-list .safety-dot.dot-warning {
-  background-color: #FF9800;
+.RegistrationLayout .content[data-v-bac4a35d] {
+  width: 100vw;
+  height: 400px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 30px 30px 0 0;
 }
-.scan-container .result-view .ingredient-list .safety-dot.dot-danger {
-  background-color: #F44336;
+.RegistrationLayout .content .registration-title[data-v-bac4a35d] {
+  margin-top: 1.5625rem;
+  margin-left: 0.9375rem;
 }
-.scan-container .result-view .ingredient-list .safety-label {
-  font-size: 12px;
+.RegistrationLayout .content .registration-title .text[data-v-bac4a35d] {
+  color: #445b58;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
-.scan-container .result-view .ingredient-list .safety-label.label-safe {
-  color: #4CAF50;
-}
-.scan-container .result-view .ingredient-list .safety-label.label-warning {
-  color: #FF9800;
-}
-.scan-container .result-view .ingredient-list .safety-label.label-danger {
-  color: #F44336;
-}
-.scan-container .result-view .advice-text {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #666;
-}
-.scan-container .result-view .action-buttons {
+.RegistrationLayout .content .form[data-v-bac4a35d] {
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
+  flex-direction: column;
+  align-content: center;
+  margin: 20px auto;
+  overflow: hidden;
 }
-.scan-container .result-view .action-buttons uni-button {
-  flex: 1;
-  height: 44px;
-  line-height: 44px;
-  text-align: center;
-  border-radius: 12px;
-  font-size: 16px;
+.RegistrationLayout .content .form .form-items[data-v-bac4a35d] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.scan-container .result-view .action-buttons uni-button:first-child {
-  margin-right: 10px;
-}
-.scan-container .result-view .action-buttons .secondary-btn {
-  background-color: white;
-  border: 1px solid #ddd;
-  color: #333;
-}
-.scan-container .result-view .action-buttons .primary-btn {
-  background-color: #4CAF50;
-  color: white;
-}
-@keyframes scanAnimation {
-0% {
-    top: 0;
-}
-50% {
-    top: 100%;
-}
-100% {
-    top: 0;
-}
+.RegistrationLayout .content .form .form-items uni-input[data-v-bac4a35d] {
+  padding: 0.3125rem;
+  width: 80vw;
+  height: 1.5625rem;
+  border: 1px solid #ccc;
+  border-radius: 30px;
 }

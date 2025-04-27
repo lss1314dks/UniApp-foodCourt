@@ -7,7 +7,7 @@ export function request(config={}){
 	let {
 		url,
 		method = "GET",
-		header={},
+		header={"userToken":uni.getStorageSync("userToken") || ""},
 		data={}
 	} = config
 	

@@ -15,9 +15,14 @@
                     <uni-forms-item  name="password">
                         <input type="safe-password" placeholder="password" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.password"/>
                     </uni-forms-item>
+					<!-- 注册按钮 -->
+					<uni-forms-item>
+					    <uni-text @click="goRegister" style="float: right; color:rgb(77, 190, 200) ; border-bottom: 1px solid rgb(77, 190, 200); font-size: 16px;">注册账户</uni-text>
+					</uni-forms-item>
                     <uni-forms-item>
                         <button type="primary" style=" background-color: rgb(77, 190, 200); color: #fff; border-radius: 50rpx; margin-top: 30rpx;" @click="login">登录</button>
                     </uni-forms-item>
+					<!-- 注册按钮 -->
                 </uni-forms>
             </view>
         </view>
@@ -37,46 +42,57 @@ const formData = reactive({
 
 //调用后端接口
 const login = async()=>{
-	const result = await LoginApi(formData);
-	// const result = await uni.request({
-	//   url: "http://localhost:8081/user/user/login", // 修改为正确的后端地址
-	//   method: "POST",
-	//   data:formData,
-	//   header:{
-	// 	  // 'X-Session-ID':'123'
-	//   }
-	// });
-	console.log('登录响应',result);
-	if(result.code===200){
-		//设置token
-		uni.setStorageSync('userToken',result.data.token);
-		console.log(result.data.token);
-		//存储用户信息
-		uni.setStorageSync("userInfo",result.data);
-		console.log(result.data);
-		uni.setStorageSync("userId",result.data.id);
-		
 		//路径跳转
 		uni.reLaunch({
 		  url: '/pages/index/index'
 		});
-		//提示登录成功
-		uni.showToast({
-			title: '登录成功',
-			icon: 'success',
-			duration: 1000
-		})
-	}else{
-		uni.showToast({
-			title: '登录失败,请重新输入用户名和密码',
-			icon: 'fail',
-			duration: 1000
-		})
-		//清空表单数据
-		formData.username = ""
-		formData.password = ""
-	}
+	// const result = await LoginApi(formData);
+	// // const result = await uni.request({
+	// //   url: "http://localhost:8081/user/user/login", // 修改为正确的后端地址
+	// //   method: "POST",
+	// //   data:formData,
+	// //   header:{
+	// // 	  // 'X-Session-ID':'123'
+	// //   }
+	// // });
+	// console.log('登录响应',result);
+	// if(result.code===200){
+	// 	//设置token
+	// 	uni.setStorageSync('userToken',result.data.token);
+	// 	console.log(result.data.token);
+	// 	//存储用户信息
+	// 	uni.setStorageSync("userInfo",result.data);
+	// 	console.log(result.data);
+	// 	uni.setStorageSync("userId",result.data.id);
+		
+	// 	//路径跳转
+	// 	uni.reLaunch({
+	// 	  url: '/pages/index/index'
+	// 	});
+	// 	//提示登录成功
+	// 	uni.showToast({
+	// 		title: '登录成功',
+	// 		icon: 'success',
+	// 		duration: 1000
+	// 	})
+	// }else{
+	// 	uni.showToast({
+	// 		title: '登录失败,请重新输入用户名和密码',
+	// 		icon: 'fail',
+	// 		duration: 1000
+	// 	})
+	// 	//清空表单数据
+	// 	formData.username = ""
+	// 	formData.password = ""
+	// }
 	
+}
+
+const goRegister = ()=>{
+	console.log("wenben")
+	uni.reLaunch({
+		url:"/pages/register/register"
+	})
 }
 
 </script>

@@ -75,7 +75,7 @@
 			"path" : "pages/camera/camera",
 			"style" : 
 			{
-				"navigationBarTitleText" : "扫描"
+				"navigationBarTitleText" : "扫码识别"
 			}
 		},
 		{
@@ -83,6 +83,14 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "运动",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/register/register",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
 				"navigationStyle": "custom"
 			}
 		}
