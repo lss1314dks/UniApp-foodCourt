@@ -93,6 +93,14 @@
 				"navigationBarTitleText" : "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "pages/Food/Food",
+			"style" : 
+			{
+				"navigationBarTitleText" : "食品管理",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -128,7 +136,10 @@
 				"iconPath": "/static/images/user.png",
 				"selectedIconPath": "/static/images/user-h.png"
 			}
-		]
+		],
+		"style":{
+			"height":"1000px"
+		}
 	},
 	"uniIdRouter": {}
 }

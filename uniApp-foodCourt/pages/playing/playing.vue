@@ -9,7 +9,9 @@
       <!-- 地图区域 -->
       <view class="map-container">
         <view class="map">
-          <MapContainer></MapContainer>
+          <image  src="/common/images/playings.png" mode=""></image>
+		  
+		   <!-- <MapContainer/> -->
         </view>
         <view class="map-gap" style="width: 100%; height: calc(300px - 123px); background-color: white;"></view>
         <cover-view class="map-overlay">
@@ -19,7 +21,9 @@
               <cover-view class="font-semibold">{{ currentLocation }}</cover-view>
             </cover-view>
             <cover-view class="btn-primary text-sm py-2 px-4" @click="toggleExercise">
-              <cover-view class="fas mr-1">{{ isExercising ? '⏹' : '▶' }}</cover-view> 
+              <cover-view class="mr-1">
+                <uni-icons :type="isExercising ? 'pause' : 'play'" size="20"></uni-icons>
+              </cover-view>
               {{ isExercising ? '结束运动' : '开始运动' }}
             </cover-view>
           </cover-view>
@@ -83,7 +87,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import MapContainer from '@/components/MapContainer/MapContainer.vue'
+// import MapContainer from '@/components/MapContainer/MapContainer.vue'
 
 // 运动相关状态
 const isExercising = ref(false);
@@ -162,7 +166,7 @@ const updateExerciseData = () => {
   elapsedTime.value = Math.floor((new Date() - startTime.value) / 1000);
   
   // 模拟步数增加 (约120步/分钟)
-  steps.value += 2;
+  steps.value += 1;
   
   // 计算距离(公里): 假设步长0.762米
   distance.value = (steps.value * 0.000762).toFixed(1);
@@ -206,16 +210,16 @@ const getActivityIcon = (type) => {
 
 // 定位功能
 const locate = () => {
-  uni.getLocation({
-    type: 'gcj02',
-    success: (res) => {
-      // 这里可以添加逆地理编码获取当前位置名称
-      currentLocation.value = '重庆市巴南区'; // 实际应用中替换为真实地址
-    },
-    fail: (err) => {
-      console.error('获取位置失败', err);
-    }
-  });
+  // uni.getLocation({
+  //   type: 'gcj02',
+  //   success: (res) => {
+  //     // 这里可以添加逆地理编码获取当前位置名称
+  //     currentLocation.value = '重庆市巴南区'; // 实际应用中替换为真实地址
+  //   },
+  //   fail: (err) => {
+  //     console.error('获取位置失败', err);
+  //   }
+  // });
 };
 
 // 组件卸载时清除定时器
@@ -224,7 +228,7 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  locate();
+  // locate();
 });
 </script>
 
@@ -268,7 +272,11 @@ onMounted(() => {
   .map {
     display: block;
     width: 100%;
-    height: 123px;
+    height: 100vh;
+	image{
+		width: 100%;
+		height: 300px;
+	}
   }
 }
 

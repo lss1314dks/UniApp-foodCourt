@@ -1,18 +1,9 @@
 <template>
   <view class="chat-page">
     <!-- 顶部 -->
-    <view class="chat-header fixed-header">
-      <view class="back-icon" @click="goBack">
-        <text class="iconfont icon-arrow-left"></text>
-      </view>
-      <view class="chat-title">{{ title }}</view>
-      <view class="more-icon">
-        <text class="iconfont icon-more">
-			<uni-icons type="calendar" size="18" ></uni-icons>
-		</text>
-      </view>
-    </view>
-
+	<view class="header">
+	  <text class="title">ChatFoodCourt</text>
+	</view>
     <!-- 聊天内容 -->
     <scroll-view
       class="chat-content"
@@ -71,7 +62,7 @@ const getMessage = async (prompt) => {
   try {
 	isTyping.value = true;
     const { data } = await uni.request({
-      url: "http://localhost:8081/api/chat/context", // 修改为正确的后端地址
+      url: "http://localhost:8081/chat/context", // 修改为正确的后端地址
       method: "POST",
 	  data:{prompt},
 	  header:{
@@ -196,6 +187,25 @@ function goBack() {
 
 
 <style scoped lang="scss">
+.header {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 35rpx 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+	
+	
 .typing-tip {
 	// text-align: left;
 	display: flex;
@@ -217,18 +227,6 @@ function goBack() {
   left: 0;
   right: 0;
   z-index: 10;
-}
-.chat-header {
-  height: 44px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  .iconfont {
-    font-size: 20px;
-  }
 }
 .chat-content {
   padding-top: 60px;

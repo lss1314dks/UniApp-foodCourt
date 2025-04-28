@@ -8,18 +8,19 @@
         </view>
         <view class="content">
             <view class="registration-title">
-                <text class="text">Sign Up</text>
+                <text class="text" style="padding-left: 50rpx;">注册</text>
+                <view class="" style="width:48px; height: 5px; background: rgb(77, 190, 200);margin-top: 25rpx; margin-left: 50rpx;"></view>
             </view>
             <view class="form">
                 <uni-forms class="form-items" v-model="formData">
                     <uni-forms-item  name="username">
-                        <input type="text" placeholder="username" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.username"/>
+                        <input type="text" placeholder="用户名" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.username"/>
                     </uni-forms-item>
                     <uni-forms-item  name="password">
-                        <input type="safe-password" placeholder="password" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.password"/>
+                        <input type="safe-password" placeholder="密码" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.password"/>
                     </uni-forms-item>
                     <uni-forms-item  name="twopassword">
-                        <input type="safe-password" placeholder="confirm password" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.twopassword"/>
+                        <input type="safe-password" placeholder="确认密码" style="padding-left: 20rpx;  height: 80rpx;" v-model="formData.twopassword"/>
                     </uni-forms-item>
                     <uni-forms-item>
                         <button type="primary" style=" background-color: rgb(77, 190, 200); color: #fff; border-radius: 50rpx; margin-top: 30rpx;" @click="register">注册</button>

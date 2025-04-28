@@ -11,7 +11,8 @@
 		<!-- 搜索栏 -->
 		<view class="search-content">
 			<!-- 设置圆角 -->
-			<uni-search-bar class="uni-mt-10" radius="100" placeholder="请输入搜索关键字" clearButton="none" cancelButton="none" @confirm="search" />
+			<!-- <uni-search-bar class="uni-mt-10" radius="100" placeholder="请输入搜索关键字" clearButton="none" cancelButton="none" @confirm="search" /> -->
+			<!-- <text>首页</text> -->
 		</view>
 		<view class="weather-info">
 		  <uni-icons type="partly-cloudy" size="15" color="#4CAF50"></uni-icons>
@@ -64,35 +65,36 @@
       <view class="section">
         <view class="section-header">
           <text class="section-title">每日推荐</text>
-          <text class="section-more" @click="navigateTo('/pages/recommend/index')">查看全部</text>
+		  <uni-icons type="loop" size="20" color="#4CAF50" @click="refresh"></uni-icons>
+          <!-- <text class="section-more" @click="navigateTo('/pages/recommend/index')"></text> -->
         </view>
 
         <view class="recommendation-list">
           <view
-            v-for="(item, index) in dailyRecommendations"
+            v-for="(item, index) in formDataDailyRecommendations"
             :key="index"
             class="recommendation-card"
-            @click="navigateTo(`/pages/DaytoDay/DaytoDay`)"
+            @click="navigateToDetail(item.id)"
           >
             <image
-              :src="item.image"
+              :src="item.picture"
               mode="aspectFill"
               class="recommendation-image"
             ></image>
             <view class="recommendation-content">
               <view class="recommendation-header">
-                <text class="recommendation-title">{{ item.title }}</text>
+                <text class="recommendation-title">{{ item.foodName }}</text>
                 <text class="status-safe">推荐</text>
               </view>
-              <text class="recommendation-desc">{{ item.description }}</text>
+              <text class="recommendation-desc">{{ item.desc }}</text>
               <view class="recommendation-meta">
                 <view class="meta-item">
                   <uni-icons type="fire-filled" size="14" color="#FB923C"></uni-icons>
-                  <text class="meta-text">{{ item.calories }}</text>
+                  <text class="meta-text">{{ item.kilo +"千卡"}}</text>
                 </view>
                 <view class="meta-item">
                   <uni-icons type="clock-filled" size="14" color="#60A5FA"></uni-icons>
-                  <text class="meta-text">{{ item.time }}</text>
+                  <text class="meta-text">{{ "10分钟" }}</text>
                 </view>
               </view>
             </view>
@@ -103,8 +105,9 @@
       <!-- 健康资讯 -->
       <view class="section">
         <view class="section-header">
-          <text class="section-title">健康资讯</text>
-          <text class="section-more" @click="navigateTo('/pages/news/index')">更多</text>
+          <text class="section-title" >健康资讯</text>
+		  <uni-icons class="section-more" type="chat-filled" size="20" color="#4CAF50"></uni-icons>
+          <!-- <text class="section-more" @click="navigateTo('/pages/news/index')">{{"查看"}}</text>-->
         </view>
 
         <view class="news-grid">
@@ -129,8 +132,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, reactive } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
+import { getFoodInfoApi } from '../../API/apis'
+
+//对接管理接口
+onMounted(()=>{
+	getFoodInfo();
+})
+
+const refresh = ()=>{
+	getFoodInfo();
+}
+
+//编写跳转函数
+const navigateToDetail = (id)=>{
+	uni.setStorageSync("foodId",id);
+	uni.reLaunch({
+		url:`/pages/DaytoDay/DaytoDay`
+	});
+}
 
 // 当前日期
 const currentDate = computed(() => {
@@ -192,6 +213,42 @@ const quickActions = ref([
   }
 ])
 
+//每日推介的表单数据
+const formDataDailyRecommendations = reactive([{
+	id: 0,
+	foodName: "",
+	picture: "",
+	desc: "",
+	compose: "",
+	benifit: "",
+	protein: "",
+	carbohydrate: "",
+	fat: "",
+	bmi: 22.0,
+	disease: "无",
+	age: 29,
+	allergy: null,
+    target: null,
+	composeList: [],
+	benifitList: [],
+	kilo: 48.0
+}])
+
+//调用后端接口
+const getFoodInfo = async()=>{
+	const result = await getFoodInfoApi();
+	// console.log(result);
+	if(result.code===200){
+		 Object.assign(formDataDailyRecommendations,result.data);
+	}else{
+		uni.showToast({
+			title: '获取推荐列表失败',
+			icon: 'fail',
+			duration: 1000
+		})
+	}
+}
+
 // 每日推荐数据
 const dailyRecommendations = ref([
   {
@@ -238,23 +295,23 @@ const healthNews = ref([
 
 // 获取定位信息
 const getLocation = () => {
-  uni.getLocation({
-    type: 'wgs84',
-    success: (res) => {
-      console.log('当前位置：', res)
-      // 这里可以调用天气API获取天气信息
-    },
-    fail: (err) => {
-      console.error('获取位置失败：', err)
-    }
-  })
+  // uni.getLocation({
+  //   type: 'wgs84',
+  //   success: (res) => {
+  //     console.log('当前位置：', res)
+  //     // 这里可以调用天气API获取天气信息
+  //   },
+  //   fail: (err) => {
+  //     console.error('获取位置失败：', err)
+  //   }
+  // })
 }
 
 // 处理快捷功能点击
 const handleQuickAction = (index) => {
   const actions = [
     '/pages/camera/camera',
-    '/pages/food/food',
+    '/pages/Food/Food',
     '/pages/playing/playing',
     '/pages/chating/chating'
   ]
@@ -280,7 +337,7 @@ const navigateTo = (url) => {
 }
 
 onShow(() => {
-  getLocation()
+  // getLocation()
 })
 </script>
 

@@ -218,6 +218,9 @@ const toggleFlash = () => {
   flashStatus.value = flashStatus.value === 'off' ? 'on' : 'off'
 }
 
+//存储条形码的内容
+const scanText = ref("");
+
 // 拍照
 const captureImage = () => {
 	uni.scanCode({
@@ -226,6 +229,8 @@ const captureImage = () => {
 			console.log('条码类型：' + res.scanType);
 			// 调用后端接口
 			console.log('条码内容：' + res.result);
+			scanText.value = res.result;
+			//将条形码的内容区请求给后端
 		}
 	});
   scanning.value = true
@@ -278,6 +283,9 @@ const saveFood = () => {
     title: '已保存到我的食品',
     icon: 'success'
   })
+  //调用后端接口
+  
+  
   setTimeout(() => {
     backToScan()
   }, 1500)

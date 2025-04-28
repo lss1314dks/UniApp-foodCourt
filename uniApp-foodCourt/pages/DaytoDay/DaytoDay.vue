@@ -74,20 +74,22 @@
       <view class="action-buttons">
         <button class="secondary-button" @click="handleFavorite">
           <uni-icons type="star" size="16" color="#4CAF50"></uni-icons>
-          <text>收藏</text>
+          <text>确定</text>
         </button>
-        <button class="primary-button" @click="handleStartCooking">
+        <!-- <button class="primary-button" @click="handleStartCooking">
           <uni-icons type="spoon" size="16" color="#ffffff"></uni-icons>
           <text>开始制作</text>
-        </button>
+        </button> -->
       </view>
     </view>
   </view>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
+import { getDailyRecommendations } from '../../API/apis'
+
 
 // 模拟数据
 const ingredients = ref([
@@ -104,10 +106,13 @@ const benefits = ref([
   { icon: 'fire', name: '促进新陈代谢' }
 ])
 
+
+//获得食品id
+// console.log(foodId)
+
 // 获取页面参数
-const foodId = ref('')
+// const foodId = ref('')
 onLoad((options) => {
-  foodId.value = options.id || ''
 })
 
 // 返回上一页
@@ -118,8 +123,11 @@ const handleBack = () => {
 // 收藏功能
 const handleFavorite = () => {
   uni.showToast({
-    title: '已收藏',
+    title: '确定成功',
     icon: 'success'
+  })
+  uni.reLaunch({
+  	url:"/pages/index/index"
   })
 }
 
@@ -129,6 +137,21 @@ const handleStartCooking = () => {
     url: '/pages/cooking/index?id=' + foodId.value
   })
 }
+
+const getInfo = async(id)=>{
+	const result = await getDailyRecommendations(id);
+	console.log(result.data);
+}
+
+onMounted(()=>{
+	// 或同步读取（更推荐）
+	  const storedData = uni.getStorageSync('foodId');
+	  if (storedData?.data !== undefined) {
+	    console.log('同步读取:', storedData.data); // 输出 36
+	    getInfo(storedData.data);
+	  }
+	
+})
 </script>
 
 <style lang="scss">
@@ -322,4 +345,4 @@ $white: #ffffff;
     }
   }
 }
-</style>
+</style>A

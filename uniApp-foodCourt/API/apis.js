@@ -37,6 +37,29 @@ export function getUserInfoApi(){
 	})
 }
 
+
+//获得推荐信息
+export function getFoodInfoApi(){
+	return request({
+		url:'/suggest',
+		method:'get',
+		header:{
+			'userToken':uni.getStorageSync("userToken")
+		}
+	})
+}
+
+//根据id获得推荐的详情信息
+export function getDailyRecommendations(id){
+	return request({
+		url:`/suggest/${id}`,
+		method:'get',
+		header:{
+			'userToken':uni.getStorageSync("userToken")
+		}
+	})
+}
+
 //  export function apiGetBanner(){
 // 	return uni.request({
 // 		url:"xxxx",
