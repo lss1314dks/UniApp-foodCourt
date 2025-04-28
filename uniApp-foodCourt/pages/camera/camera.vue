@@ -9,12 +9,6 @@
 	   //#ifdef APP-PLUS
       <!-- 相机视图 -->
       <view class="camera-view">
-        <!-- <camera 
-          v-if="cameraActive"
-          :flash="flashStatus"
-          class="camera"
-          @error="cameraError"
-        ></camera> -->
        <view class="camera-overlay">
           <view class="scan-frame">
             <view class="scan-line" :class="{'animate-scan': scanning}"></view>
@@ -136,13 +130,33 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
+import { getScanApi } from '../../API/apis'
 // 状态管理
 const cameraActive = ref(true)
 const showResult = ref(false)
 const scanning = ref(false)
 const currentDevice = ref('back')
 const flashStatus = ref('off')
+
+const formData = reactive({
+    product_name: "泰式花生面条套装，包含炒河粉（或炒米粉）和泰式花生调味料。",
+    generic_name: "Rice Noodles",
+    brands: "Simply Asia, Thai Kitchen",
+    categories: "Plant-based foods and beverages, Plant-based foods, Cereals and potatoes, Cereals and their products, Pastas, Noodles, Rice Noodles",
+    ingredients_text: "大米，水，花生，糖，盐，玉米淀粉，辣椒，肉桂，胡椒，孜然，丁香，水解大豆蛋白，绿洋葱，柠檬酸，花生油，芝麻油，天然风味",
+    allergens: "en:peanuts",
+    nutriments: {
+      proteins: 9.6,
+      carbohydrates: 71.2,
+      sugars: 13.5,
+      fat: 7.7,
+      fiber: 1.9,
+      salt: 0.7,
+      sodium: 0.3
+    },
+    image_url: "https://images.openfoodfacts.org/images/products/073/762/806/4502/front_en.6.400.jpg"
+  })
 
 // 扫描历史数据
 const scanHistory = ref([
@@ -220,7 +234,6 @@ const toggleFlash = () => {
 
 //存储条形码的内容
 const scanText = ref("");
-
 // 拍照
 const captureImage = () => {
 	uni.scanCode({
@@ -231,6 +244,8 @@ const captureImage = () => {
 			console.log('条码内容：' + res.result);
 			scanText.value = res.result;
 			//将条形码的内容区请求给后端
+			//测试 条形码数据为：6921168509256
+			// getScanCodeInfo(scanText.value);
 		}
 	});
   scanning.value = true
@@ -243,7 +258,27 @@ const captureImage = () => {
     uni.hideLoading()
     showResultDetail(scanHistory.value[0])
   }, 2000)
+  
 }
+
+//编写后端函数
+
+const getScanCodeInfo = async(code)=>{
+	const result = await getScanApi(code);
+	if(result.status===1){
+		// console.log(result.product);
+		formData.value = { ...formData.value, ...result.product }
+		console.log(formData.value.product_name)
+	}else{
+		uni.showToast({
+			title:"请求失败",
+			icon:'fail',
+			duration:1000
+		})
+	}
+}
+
+
 
 // 选择图片
 const chooseImage = () => {
@@ -251,17 +286,20 @@ const chooseImage = () => {
     count: 1,
     sizeType: ['compressed'],
     sourceType: ['album', 'camera'],
-    success: (res) => {
+    success: async(res) => {
       uni.showLoading({
         title: '正在分析...'
       })
-      
+	 // await getScanCodeInfo("0737628064502");
+	   
       setTimeout(() => {
         uni.hideLoading()
         showResultDetail(scanHistory.value[0])
       }, 1500)
     }
   })
+  // uni.hideLoading();
+  // showResultDetail(scanHistory.value[0])
 }
 
 // 显示结果详情

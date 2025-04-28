@@ -249,34 +249,6 @@ const getFoodInfo = async()=>{
 	}
 }
 
-// 每日推荐数据
-const dailyRecommendations = ref([
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
-    title: '地中海沙拉',
-    description: '富含抗氧化物质，有助于心血管健康',
-    calories: '320千卡',
-    time: '15分钟'
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1547592180-85f173990888?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
-    title: '蓝莓燕麦粥',
-    description: '富含膳食纤维，有助于肠道健康',
-    calories: '280千卡',
-    time: '10分钟'
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
-    title: '烤三文鱼',
-    description: '富含Omega-3脂肪酸，有助于大脑健康',
-    calories: '420千卡',
-    time: '25分钟'
-  }
-])
-
 // 健康资讯数据
 const healthNews = ref([
   {

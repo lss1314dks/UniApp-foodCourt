@@ -60,6 +60,17 @@ export function getDailyRecommendations(id){
 	})
 }
 
+//获得扫描后的数据已经建议
+export function getScanApi(barcode){
+	return request({
+		url:`/api/food/${barcode}`,
+		method:'get',
+		header:{
+			'userToken':uni.getStorageSync("userToken")
+		}
+	})
+}
+
 //  export function apiGetBanner(){
 // 	return uni.request({
 // 		url:"xxxx",
