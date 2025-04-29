@@ -10,18 +10,11 @@
         </view>
 		<!-- 搜索栏 -->
 		<view class="search-content">
-			<!-- 设置圆角 -->
-			<!-- <uni-search-bar class="uni-mt-10" radius="100" placeholder="请输入搜索关键字" clearButton="none" cancelButton="none" @confirm="search" /> -->
-			<!-- <text>首页</text> -->
 		</view>
 		<view class="weather-info">
 		  <uni-icons type="partly-cloudy" size="15" color="#4CAF50"></uni-icons>
 		  <text class="weather-text">28°C 晴</text>
 		</view>
-       <!-- <view class="date-notification">
-          <text class="date-text">{{ currentDate }}</text>
-          <uni-icons type="bell-filled" size="20" color="#4CAF50" @click="navigateTo('/pages/notification/index')"></uni-icons>
-        </view> -->
       </view>
     </view>
 
@@ -165,17 +158,17 @@ const currentDate = computed(() => {
 // 轮播图数据
 const carouselItems = ref([
   {
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    image: 'https://food-court.oss-cn-hangzhou.aliyuncs.com/46.png',
     title: '健康饮食新主张',
     subtitle: '了解如何通过饮食提升免疫力'
   },
   {
-    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    image: 'https://food-court.oss-cn-hangzhou.aliyuncs.com/65.png',
     title: '食品安全指南',
     subtitle: '掌握食品安全基本知识'
   },
   {
-    image: 'https://images.unsplash.com/photo-1547592180-85f173990888?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    image: 'https://food-court.oss-cn-hangzhou.aliyuncs.com/72.png',
     title: '营养搭配建议',
     subtitle: '均衡饮食的科学方法'
   }
@@ -246,13 +239,13 @@ const getFoodInfo = async()=>{
 const healthNews = ref([
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    image: 'https://food-court.oss-cn-hangzhou.aliyuncs.com/87.png',
     title: '常见食品添加剂安全指南',
     subtitle: '了解哪些添加剂是安全的'
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    image: 'https://food-court.oss-cn-hangzhou.aliyuncs.com/91.png',
     title: '有机食品真的更健康吗？',
     subtitle: '科学解析有机食品的优势'
   }

@@ -114,7 +114,7 @@ const totalDays = ref(5);
 const progress = computed(() => Math.round((completedDays.value / totalDays.value) * 100));
 const recentActivities = ref([
   {
-    type: 'walking',
+    type: 'running',
     name: '快走',
     date: '昨天',
     duration: 30,
@@ -163,22 +163,22 @@ const updateExerciseData = () => {
   if (!isExercising.value) return;
   
   // 更新经过的时间(秒)
-  elapsedTime.value = Math.floor((new Date() - startTime.value) / 1000);
+  elapsedTime.value = Math.floor((new Date() - startTime.value)/1000);
   
   // 模拟步数增加 (约120步/分钟)
-  steps.value += 0.7;
+  steps.value += 1.2;
   
   // 计算距离(公里): 假设步长0.762米
   distance.value = (steps.value * 0.000762).toFixed(1);
   
   // 计算消耗的卡路里(千卡): 体重(kg)*距离(km)*1.036
-  calories.value = Math.floor(68 * parseFloat(distance.value) * 1.036);
+  calories.value = Math.floor(70 * parseFloat(distance.value) * 1.036);
 };
 
 // 记录运动数据
 const recordActivity = () => {
   const newActivity = {
-    type: 'walking',
+    type: 'running',
 	icon:'left',
     name: '步行',
     date: '今天',

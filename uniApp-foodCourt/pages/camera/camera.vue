@@ -147,12 +147,20 @@ const startScan = async () => {
 
 // H5端图片上传
 const chooseImage =  () => {
-  const [res] =  uni.chooseImage({ count: 1 });
-  // fetchProductData('3046920029759'); // 使用模拟条码
+   uni.chooseImage({
+          count: 1,
+          success: (res) => {
+              // 选择图片成功后的处理
+              fetchProductData('3046920029759'); // 使用模拟条码
+          },
+          fail: (err) => {
+              console.error('选择图片失败:', err);
+          }
+      });
 };
 
 onLoad(()=>{
-	fetchProductData('6920152460061');
+	// fetchProductData('6920152460061');
 })
 
 // 返回上一页
