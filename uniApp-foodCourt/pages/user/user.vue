@@ -178,35 +178,18 @@
           <switch :checked="settings.notification" @change="toggleNotification" color="#4CAF50"></switch>
         </view>
         
-        <view class="settings-item">
-          <view class="settings-label">深色模式</view>
-          <switch :checked="settings.darkMode" @change="toggleDarkMode" color="#4CAF50"></switch>
-        </view>
-        
-        <view class="settings-item">
-          <view class="settings-label">语言</view>
-          <picker :range="languageOptions">
-            <view>{{ languageOptions[settings.language] }}</view>
-          </picker>
-        </view>
-        
         <view class="settings-item" @click="clearCache">
           <view class="settings-label">清除缓存</view>
           <uni-icons type="forward" size="16" color="#999"></uni-icons>
         </view>
         
-        <view class="settings-item" @click="navigateToAbout">
+        <view class="settings-item" @click="showAboutUs">
           <view class="settings-label">关于我们</view>
           <uni-icons type="forward" size="16" color="#999"></uni-icons>
         </view>
         
-        <view class="settings-item" @click="navigateToPrivacy">
+        <view class="settings-item" @click="showPrivacyPolicy">
           <view class="settings-label">隐私政策</view>
-          <uni-icons type="forward" size="16" color="#999"></uni-icons>
-        </view>
-        
-        <view class="settings-item" @click="navigateToAgreement">
-          <view class="settings-label">用户协议</view>
           <uni-icons type="forward" size="16" color="#999"></uni-icons>
         </view>
         
@@ -239,6 +222,9 @@ const userInfo = reactive({
 	        createTime: null,
 			bim:0
 })
+
+
+// uni.setStorageSync("avater",userInfo.avatar)
 
 // 账号信息
 const accountInfo = reactive({
@@ -306,6 +292,7 @@ const getUserInfo = async()=>{
 
 onMounted(()=>{
 	getUserInfo();
+	// uni.setStorageSync("avater",userInfo.avatar)
 })
 
 // 编辑表单
@@ -472,6 +459,17 @@ const editAvatar = () => {
 // 切换设置
 const toggleNotification = (e) => {
   settings.notification = e.detail.value
+  if(settings.notification===true)
+  uni.showToast({
+  	title:'设置提醒成功',
+	icon:'success'
+  })
+  else{
+	  uni.showToast({
+	  	title:'取消提醒成功',
+	  	icon:'success'
+	  })
+  }
 }
 
 const toggleDarkMode = (e) => {
@@ -493,17 +491,40 @@ const clearCache = () => {
   })
 }
 
-// 导航
-const navigateToAbout = () => {
-  uni.navigateTo({ url: '/pages/about/index' })
+// 关于我们数据
+const aboutInfo = ref({
+  appName: '安食阁',
+  version: '1.0.1',
+  description: '一款专注于食品安全与健康的APP，帮助您了解食品成分，管理健康数据。',
+  contact: 'support@healthyfood.com',
+  website: 'www.ailissovhy.foodCourt.cn'
+})
+
+// 显示关于我们
+const showAboutUs = () => {
+  uni.showModal({
+    title: `关于 ${aboutInfo.value.appName}`,
+    content: `
+版本: ${aboutInfo.value.version}
+    
+${aboutInfo.value.description}
+    
+联系我们: ${aboutInfo.value.contact}
+官网: ${aboutInfo.value.website}
+    `,
+    showCancel: false,
+    confirmText: '我知道了'
+  })
 }
 
-const navigateToPrivacy = () => {
-  uni.navigateTo({ url: '/pages/privacy/index' })
-}
-
-const navigateToAgreement = () => {
-  uni.navigateTo({ url: '/pages/agreement/index' })
+// 隐私政策
+const showPrivacyPolicy = () => {
+  uni.showModal({
+    title: '隐私政策',
+    content: '我们非常重视您的隐私。本应用收集的数据仅用于改善用户体验和提供个性化服务。我们不会将您的数据出售给第三方。',
+    showCancel: false,
+    confirmText: '我明白了'
+  })
 }
 
 // 退出登录

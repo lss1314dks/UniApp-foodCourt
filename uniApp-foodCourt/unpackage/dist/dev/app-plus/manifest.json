@@ -147,6 +147,9 @@
           "selectedIconPath": "/static/images/user-h.png"
         }
       ],
+      "style": {
+        "height": "1000px"
+      },
       "selectedIndex": 0,
       "shown": true
     }

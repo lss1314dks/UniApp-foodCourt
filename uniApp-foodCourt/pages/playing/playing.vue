@@ -101,7 +101,7 @@ const stepGoal = ref(10000);
 const currentLocation = ref('重庆市巴南区');
 
 // 格式化显示
-const formattedSteps = computed(() => steps.value.toLocaleString());
+const formattedSteps = computed(() =>  Math.floor(steps.value).toLocaleString());
 const formattedTime = computed(() => {
   const minutes = Math.floor(elapsedTime.value / 60);
   const seconds = elapsedTime.value % 60;
@@ -166,7 +166,7 @@ const updateExerciseData = () => {
   elapsedTime.value = Math.floor((new Date() - startTime.value) / 1000);
   
   // 模拟步数增加 (约120步/分钟)
-  steps.value += 1;
+  steps.value += 0.7;
   
   // 计算距离(公里): 假设步长0.762米
   distance.value = (steps.value * 0.000762).toFixed(1);

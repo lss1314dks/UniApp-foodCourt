@@ -2,6 +2,10 @@
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@dcloudio/uni-ui": "^1.5.7",
-    "element-plus": "^2.9.7"
+    "@zxing/library": "^0.21.3",
+    "element-plus": "^2.9.7",
+    "install": "^0.13.0",
+    "npm": "^11.3.0",
+    "openfoodfacts-nodejs": "^0.1.0"
   }
 }

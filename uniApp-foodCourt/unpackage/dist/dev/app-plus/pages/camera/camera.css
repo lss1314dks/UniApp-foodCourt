@@ -555,259 +555,94 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.uni-card[data-v-ae4bee67] {
-  margin: 10px;
-  padding: 0 8px;
-  border-radius: 4px;
-  overflow: hidden;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
-  background-color: #fff;
-  flex: 1;
+.result-view {
+  padding: 20px;
+  background: #fff;
+  min-height: 100vh;
 }
-.uni-card .uni-card__cover[data-v-ae4bee67] {
-  position: relative;
-  margin-top: 10px;
-  flex-direction: row;
-  overflow: hidden;
-  border-radius: 4px;
-}
-.uni-card .uni-card__cover .uni-card__cover-image[data-v-ae4bee67] {
-  flex: 1;
-}
-.uni-card .uni-card__header[data-v-ae4bee67] {
-  display: flex;
-  border-bottom: 1px #EBEEF5 solid;
-  flex-direction: row;
-  align-items: center;
+.result-view .back-icon {
+  margin-bottom: 20px;
   padding: 10px;
-  overflow: hidden;
 }
-.uni-card .uni-card__header .uni-card__header-box[data-v-ae4bee67] {
+.result-view .result-header {
   display: flex;
+  margin-bottom: 25px;
+}
+.result-view .result-header .result-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  margin-right: 15px;
+}
+.result-view .result-header .header-info {
   flex: 1;
-  flex-direction: row;
-  align-items: center;
-  overflow: hidden;
-}
-.uni-card .uni-card__header .uni-card__header-avatar[data-v-ae4bee67] {
-  width: 40px;
-  height: 40px;
-  overflow: hidden;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-.uni-card .uni-card__header .uni-card__header-avatar .uni-card__header-avatar-image[data-v-ae4bee67] {
-  flex: 1;
-  width: 40px;
-  height: 40px;
-}
-.uni-card .uni-card__header .uni-card__header-content[data-v-ae4bee67] {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  overflow: hidden;
 }
-.uni-card .uni-card__header .uni-card__header-content .uni-card__header-content-title[data-v-ae4bee67] {
-  font-size: 15px;
-  color: #3a3a3a;
+.result-view .result-header .result-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
-.uni-card .uni-card__header .uni-card__header-content .uni-card__header-content-subtitle[data-v-ae4bee67] {
-  font-size: 12px;
-  margin-top: 5px;
-  color: #909399;
-}
-.uni-card .uni-card__header .uni-card__header-extra[data-v-ae4bee67] {
-  line-height: 12px;
-}
-.uni-card .uni-card__header .uni-card__header-extra .uni-card__header-extra-text[data-v-ae4bee67] {
-  font-size: 12px;
-  color: #909399;
-}
-.uni-card .uni-card__content[data-v-ae4bee67] {
-  padding: 10px;
+.result-view .result-header .brand-text {
+  color: #666;
   font-size: 14px;
-  color: #6a6a6a;
-  line-height: 22px;
+  margin-bottom: 4px;
 }
-.uni-card .uni-card__actions[data-v-ae4bee67] {
-  font-size: 12px;
-}
-.uni-card--border[data-v-ae4bee67] {
-  border: 1px solid #EBEEF5;
-}
-.uni-card--shadow[data-v-ae4bee67] {
-  position: relative;
-  box-shadow: 0 0px 6px 1px rgba(165, 165, 165, 0.2);
-}
-.uni-card--full[data-v-ae4bee67] {
-  margin: 0;
-  border-left-width: 0;
-  border-left-width: 0;
-  border-radius: 0;
-}
-.uni-card--full[data-v-ae4bee67]:after {
-  border-radius: 0;
-}
-.uni-ellipsis[data-v-ae4bee67] {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
-.uni-collapse-item[data-v-3d2dde9f] {
-  box-sizing: border-box;
-}
-.uni-collapse-item__title[data-v-3d2dde9f] {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  flex-direction: row;
-  align-items: center;
-  transition: border-bottom-color 0.3s;
-}
-.uni-collapse-item__title-wrap[data-v-3d2dde9f] {
-  width: 100%;
-  flex: 1;
-}
-.uni-collapse-item__title-box[data-v-3d2dde9f] {
-  padding: 0 15px;
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 48px;
-  line-height: 48px;
-  background-color: #fff;
-  color: #303133;
-  font-size: 13px;
-  font-weight: 500;
-}
-.uni-collapse-item__title-box.is-disabled .uni-collapse-item__title-text[data-v-3d2dde9f] {
+.result-view .result-header .category-text {
   color: #999;
+  font-size: 12px;
 }
-.uni-collapse-item__title.uni-collapse-item-border[data-v-3d2dde9f] {
-  border-bottom: 1px solid #ebeef5;
+.result-view .info-card {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 15px;
 }
-.uni-collapse-item__title.is-open[data-v-3d2dde9f] {
-  border-bottom-color: transparent;
+.result-view .info-card .card-title {
+  font-weight: bold;
+  margin-bottom: 12px;
+  display: block;
 }
-.uni-collapse-item__title-img[data-v-3d2dde9f] {
-  height: 22px;
-  width: 22px;
-  margin-right: 10px;
+.result-view .info-card .nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
-.uni-collapse-item__title-text[data-v-3d2dde9f] {
-  flex: 1;
-  font-size: 14px;
-  white-space: nowrap;
-  color: inherit;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.result-view .info-card .nutrition-grid .nutrition-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
 }
-.uni-collapse-item__title-arrow[data-v-3d2dde9f] {
+.result-view .info-card .nutrition-grid .nutrition-item .nutrition-label {
+  color: #666;
+  font-size: 12px;
+  display: block;
+}
+.result-view .info-card .nutrition-grid .nutrition-item .nutrition-value {
+  font-weight: bold;
+  font-size: 16px;
+  display: block;
+  margin-top: 4px;
+}
+.result-view .info-card .ingredient-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  line-height: 1.6;
+}
+.result-view .warning-card {
+  background: #fff8e5;
+  border-radius: 8px;
+  padding: 12px;
   display: flex;
-  box-sizing: border-box;
   align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  transform: rotate(0deg);
+  gap: 8px;
 }
-.uni-collapse-item__title-arrow-active[data-v-3d2dde9f] {
-  transform: rotate(-180deg);
-}
-.uni-collapse-item__wrap[data-v-3d2dde9f] {
-  will-change: height;
-  box-sizing: border-box;
-  background-color: #fff;
-  overflow: hidden;
-  position: relative;
-  height: 0;
-}
-.uni-collapse-item__wrap.is--transition[data-v-3d2dde9f] {
-  transition-property: height, border-bottom-width;
-  transition-duration: 0.3s;
-  will-change: height;
-}
-.uni-collapse-item__wrap-content[data-v-3d2dde9f] {
-  position: absolute;
-  font-size: 13px;
-  color: #303133;
-  border-bottom-color: transparent;
-  border-bottom-style: solid;
-  border-bottom-width: 0;
-}
-.uni-collapse-item__wrap-content.uni-collapse-item--border[data-v-3d2dde9f] {
-  border-bottom-width: 1px;
-  border-bottom-color: red;
-  border-bottom-color: #ebeef5;
-}
-.uni-collapse-item__wrap-content.open[data-v-3d2dde9f] {
-  position: relative;
-}
-.uni-collapse-item--animation[data-v-3d2dde9f] {
-  transition-property: transform;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-}
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
-.uni-collapse[data-v-3f050360] {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
+.result-view .warning-card .warning-text {
+  color: #ff9800;
+  font-size: 14px;
 }
 /**
  * 这里是uni-app内置的常用样式变量
@@ -838,8 +673,9 @@
   background-color: #f5f5f7;
   min-height: 100vh;
   padding-bottom: 20px;
-  /* 相机视图 */
-  /* 相机控制按钮 */
+  /* 公共扫描视图样式 */
+  /* APP端相机样式 */
+  /* H5上传样式 */
 }
 .scan-container .scan-view {
   padding: 15px;
@@ -854,11 +690,7 @@
   overflow: hidden;
   margin-bottom: 20px;
 }
-.scan-container .camera {
-  width: 100%;
-  height: 100%;
-}
-.scan-container .camera-overlay {
+.scan-container .camera-view .camera-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -870,16 +702,15 @@
   align-items: center;
   color: white;
   padding-bottom: 80px;
-  /* 为控制按钮留出空间 */
 }
-.scan-container .scan-frame {
+.scan-container .camera-view .scan-frame {
   width: 220px;
   height: 220px;
   border: 2px solid #4CAF50;
   border-radius: 20px;
   position: relative;
 }
-.scan-container .scan-frame::before {
+.scan-container .camera-view .scan-frame::before {
   content: "";
   position: absolute;
   top: -2px;
@@ -889,7 +720,7 @@
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
 }
-.scan-container .scan-line {
+.scan-container .camera-view .scan-line {
   position: absolute;
   height: 2px;
   background-color: #4CAF50;
@@ -899,11 +730,11 @@
   box-shadow: 0 0 8px #4CAF50;
   opacity: 0;
 }
-.scan-container .scan-line.animate-scan {
+.scan-container .camera-view .scan-line.animate-scan {
   opacity: 1;
   animation: scanAnimation 2s linear infinite;
 }
-.scan-container .scan-tip {
+.scan-container .camera-view .scan-tip {
   position: absolute;
   bottom: 60px;
   left: 0;
@@ -912,7 +743,7 @@
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
 }
-.scan-container .camera-controls {
+.scan-container .camera-view .camera-controls {
   position: absolute;
   bottom: 20px;
   left: 0;
@@ -923,13 +754,13 @@
   gap: 40px;
   padding: 10px 0;
   background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 50px;
+          backdrop-filter: blur(10px);
   width: 90%;
   margin: 0 auto;
+  border-radius: 50px;
 }
-.scan-container .camera-btn {
+.scan-container .camera-view .camera-controls .camera-btn {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -939,17 +770,17 @@
   align-items: center;
   transition: all 0.2s ease;
 }
-.scan-container .camera-btn:active {
+.scan-container .camera-view .camera-controls .camera-btn:active {
   transform: scale(0.9);
   background-color: rgba(255, 255, 255, 0.3);
 }
-.scan-container .camera-btn.capture {
+.scan-container .camera-view .camera-controls .camera-btn.capture {
   width: 60px;
   height: 60px;
   background-color: white;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
-.scan-container .camera-btn.capture:active {
+.scan-container .camera-view .camera-controls .camera-btn.capture:active {
   transform: scale(0.95);
 }
 .scan-container .upload-section {
@@ -979,242 +810,14 @@
   border-color: #4CAF50;
   background-color: rgba(76, 175, 80, 0.05);
 }
-.scan-container .upload-section .upload-text {
+.scan-container .upload-section .upload-area .upload-text {
   font-size: 14px;
   margin-top: 10px;
 }
-.scan-container .upload-section .upload-hint {
+.scan-container .upload-section .upload-area .upload-hint {
   font-size: 12px;
   color: #999;
   margin-top: 5px;
-}
-.scan-container .history-section {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-}
-.scan-container .history-section .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-.scan-container .history-section .section-title {
-  font-size: 16px;
-  font-weight: bold;
-}
-.scan-container .history-section .view-all {
-  font-size: 12px;
-  color: #4CAF50;
-}
-.scan-container .history-section .history-item {
-  display: flex;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-.scan-container .history-section .history-item:last-child {
-  border-bottom: none;
-}
-.scan-container .history-section .history-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  margin-right: 12px;
-}
-.scan-container .history-section .history-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.scan-container .history-section .history-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.scan-container .history-section .history-meta {
-  display: flex;
-  justify-content: space-between;
-}
-.scan-container .history-section .safety-tag {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
-}
-.scan-container .history-section .safety-tag.tag-safe {
-  background-color: #E8F5E9;
-  color: #2E7D32;
-}
-.scan-container .history-section .safety-tag.tag-warning {
-  background-color: #FFF8E1;
-  color: #FF8F00;
-}
-.scan-container .history-section .safety-tag.tag-danger {
-  background-color: #FFEBEE;
-  color: #C62828;
-}
-.scan-container .history-section .history-date {
-  font-size: 12px;
-  color: #999;
-}
-.scan-container .result-view {
-  padding: 15px;
-}
-.scan-container .result-view .result-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.scan-container .result-view .result-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  margin-right: 16px;
-}
-.scan-container .result-view .result-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-.scan-container .result-view .safety-score {
-  display: flex;
-  align-items: center;
-  margin: 8px 0;
-  font-size: 14px;
-}
-.scan-container .result-view .score-bar {
-  height: 8px;
-  flex: 1;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  margin: 0 10px;
-  position: relative;
-  overflow: hidden;
-}
-.scan-container .result-view .score-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #4CAF50;
-  border-radius: 4px;
-}
-.scan-container .result-view .score-value {
-  font-weight: bold;
-}
-.scan-container .result-view .card-title {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 12px;
-  border-radius: 30px;
-}
-.scan-container .result-view .nutrition-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.scan-container .result-view .nutrition-item {
-  background-color: #f5f5f5;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-}
-.scan-container .result-view .nutrition-label {
-  font-size: 12px;
-  color: #666;
-  display: block;
-}
-.scan-container .result-view .nutrition-value {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  margin: 4px 0;
-}
-.scan-container .result-view .nutrition-tip {
-  font-size: 10px;
-  display: block;
-}
-.scan-container .result-view .nutrition-tip.tip-good {
-  color: #4CAF50;
-}
-.scan-container .result-view .nutrition-tip.tip-normal {
-  color: #2196F3;
-}
-.scan-container .result-view .nutrition-tip.tip-warning {
-  color: #FF9800;
-}
-.scan-container .result-view .nutrition-tip.tip-bad {
-  color: #F44336;
-}
-.scan-container .result-view .ingredient-list .ingredient-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-.scan-container .result-view .ingredient-list .ingredient-item:last-child {
-  border-bottom: none;
-}
-.scan-container .result-view .ingredient-list .ingredient-name {
-  display: flex;
-  align-items: center;
-}
-.scan-container .result-view .ingredient-list .safety-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-.scan-container .result-view .ingredient-list .safety-dot.dot-safe {
-  background-color: #4CAF50;
-}
-.scan-container .result-view .ingredient-list .safety-dot.dot-warning {
-  background-color: #FF9800;
-}
-.scan-container .result-view .ingredient-list .safety-dot.dot-danger {
-  background-color: #F44336;
-}
-.scan-container .result-view .ingredient-list .safety-label {
-  font-size: 12px;
-}
-.scan-container .result-view .ingredient-list .safety-label.label-safe {
-  color: #4CAF50;
-}
-.scan-container .result-view .ingredient-list .safety-label.label-warning {
-  color: #FF9800;
-}
-.scan-container .result-view .ingredient-list .safety-label.label-danger {
-  color: #F44336;
-}
-.scan-container .result-view .advice-text {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #666;
-}
-.scan-container .result-view .action-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-}
-.scan-container .result-view .action-buttons uni-button {
-  flex: 1;
-  height: 44px;
-  line-height: 44px;
-  text-align: center;
-  border-radius: 12px;
-  font-size: 16px;
-}
-.scan-container .result-view .action-buttons uni-button:first-child {
-  margin-right: 10px;
-}
-.scan-container .result-view .action-buttons .secondary-btn {
-  background-color: white;
-  border: 1px solid #ddd;
-  color: #333;
-}
-.scan-container .result-view .action-buttons .primary-btn {
-  background-color: #4CAF50;
-  color: white;
 }
 @keyframes scanAnimation {
 0% {

@@ -75,7 +75,8 @@
 			"path" : "pages/camera/camera",
 			"style" : 
 			{
-				"navigationBarTitleText" : "扫码识别"
+				"navigationBarTitleText" : "扫码识别",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -99,6 +100,14 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "食品管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/ResultView/ResultView",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
 				"navigationStyle": "custom"
 			}
 		}
