@@ -98,17 +98,12 @@
         
         <view class="form-group">
           <label class="form-label">用户名</label>
-          <input class="form-input" v-model="editProfileForm.username" type="text">
+          <input class="form-input" v-model="userInfo.username" type="text">
         </view>
         
         <view class="form-group">
           <label class="form-label">手机号</label>
-          <input class="form-input" v-model="editProfileForm.phone" type="tel">
-        </view>
-        
-        <view class="form-group">
-          <label class="form-label">个人简介</label>
-          <textarea class="form-input" v-model="editProfileForm.bio" rows="3"></textarea>
+          <input class="form-input" v-model="userInfo.phone" type="tel">
         </view>
         
         <view class="modal-footer">
@@ -128,12 +123,12 @@
         
         <view class="form-group">
           <label class="form-label">身高 (cm)</label>
-          <input class="form-input" v-model="editHealthDataForm.height" type="number">
+          <input class="form-input" v-model="userInfo.tail" type="number">
         </view>
         
         <view class="form-group">
           <label class="form-label">体重 (kg)</label>
-          <input class="form-input" v-model="editHealthDataForm.weight" type="number">
+          <input class="form-input" v-model="userInfo.weight" type="number">
         </view>
         
         <view class="form-group">
@@ -146,20 +141,20 @@
         
         <view class="form-group">
           <label class="form-label">过敏源</label>
-          <input class="form-input" v-model="editHealthDataForm.allergies" type="text">
+          <input class="form-input" v-model="userInfo.allergy" type="text">
         </view>
         
         <view class="form-group">
           <label class="form-label">慢性病史</label>
           <picker class="form-select" :range="chronicDiseasesOptions" >
-            <view>{{ editHealthDataForm.chronicDiseases || '请选择' }}</view>
+            <view>{{ userInfo.disease || '请选择' }}</view>
           </picker>
         </view>
         
-        <view class="form-group">
+       <view class="form-group">
           <label class="form-label">健康目标</label>
           <picker class="form-select" :range="healthGoalOptions" >
-            <view>{{ editHealthDataForm.healthGoal || '请选择' }}</view>
+            <view>{{ userInfo.target || '请选择' }}</view>
           </picker>
         </view>
         
@@ -223,7 +218,7 @@
 
 <script setup>
 import { ref, reactive,onMounted } from 'vue'
-import { getUserInfoApi, uploadUrl } from '../../API/apis'
+import { EditUserApi, getUserInfoApi, uploadUrl } from '../../API/apis'
 // 用户信息
 const userInfo = reactive({
 			id: 3,
@@ -363,23 +358,25 @@ const closeModal = () => {
 }
 
 // 保存个人资料
-const saveProfile = () => {
-  Object.assign(accountInfo, editProfileForm)
-  userInfo.bio = editProfileForm.bio
-  uni.showToast({ title: '个人资料已更新', icon: 'success' })
+const saveProfile = async() => {
+  Object.assign(userInfo, userInfo)
+  //调用后端接口
+  const result = await EditUserApi(userInfo);
+  if(result.code===200){
+	   uni.showToast({ title: '个人资料已更新', icon: 'success' })
+	   getUserInfo()
+  }
+  // uni.showToast({ title: '个人资料已更新', icon: 'success' })
   closeModal()
 }
 
 // 保存健康数据
-const saveHealthData = () => {
-  healthData.height = editHealthDataForm.height
-  healthData.weight = editHealthDataForm.weight
-  healthData.bloodPressure = `${editHealthDataForm.systolic}/${editHealthDataForm.diastolic}`
-  healthData.allergies = editHealthDataForm.allergies
-  healthData.chronicDiseases = editHealthDataForm.chronicDiseases
-  healthData.healthGoal = editHealthDataForm.healthGoal
-  // 计算BMI
-  healthData.bmi = (editHealthDataForm.weight / ((editHealthDataForm.height / 100) ** 2)).toFixed(1)
+const saveHealthData = async() => {
+	const result = await EditUserApi(userInfo);
+	if(result.code===200){
+		   uni.showToast({ title: '个人资料已更新', icon: 'success' })
+		   getUserInfo()
+	}
   uni.showToast({ title: '健康数据已更新', icon: 'success' })
   closeModal()
 }
@@ -391,14 +388,85 @@ const editAvatar = () => {
     sizeType: ['compressed'],
     sourceType: ['album', 'camera'],
     success: (res) => {
-	  const filePath = res.tempFilePaths[0]; // 获取图片路径
-	  
-      // 这里应该上传图片到服务器，然后更新头像
-	  const result =  uploadUrl(res);
-	  console.log(result)
-      uni.showToast({ title: '头像已更新', icon: 'success' })
+      const filePath = res.tempFilePaths[0]; // 获取图片路径
+      
+      // 显示上传中提示
+      uni.showLoading({
+        title: '上传中...'
+      });
+      
+      // 只保留一个上传请求
+      uni.uploadFile({
+        url: "http://localhost:8081/admin/common/upload",
+        header: {
+          "userToken": uni.getStorageSync("userToken")
+        },
+        method: 'post',
+        filePath: filePath,
+        name: 'file',
+        success: (uploadRes) => {
+          // 隐藏加载提示
+          uni.hideLoading();
+          
+          console.log('上传响应:', uploadRes);
+          
+          // 正确解析返回的数据
+          try {
+            // 服务器返回的数据是字符串，需要解析为JSON
+            const data = JSON.parse(uploadRes.data);
+            console.log('解析后的数据:', data);
+            
+            if (data.code === 200 && data.data) {
+              // 更新用户头像
+              userInfo.avatar = data.data;
+              
+              uni.showToast({
+                title: '头像已更新',
+                icon: 'success',
+                duration: 2000
+              });
+              
+              // 可以在这里调用更新用户信息的API
+              // updateUserInfo({ avatar: data.data });
+            } else {
+              uni.showToast({
+                title: data.msg || '上传失败',
+                icon: 'none',
+                duration: 2000
+              });
+            }
+          } catch (e) {
+            console.error('解析响应数据失败:', e);
+            uni.showToast({
+              title: '上传失败',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        },
+        fail: (err) => {
+          console.error('上传失败:', err);
+          uni.hideLoading();
+          uni.showToast({
+            title: '上传失败',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      });
+      
+      // 删除这行代码，避免重复上传
+      // const result = uploadUrl(res);
+      // console.log(result)
+    },
+    fail: (err) => {
+      console.error('选择图片失败:', err);
+      uni.showToast({
+        title: '选择图片失败',
+        icon: 'none'
+      });
     }
-  })
+  });
 }
 
 // 切换设置

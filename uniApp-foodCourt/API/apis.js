@@ -85,6 +85,17 @@ export function uploadUrl(img){
 	})
 }
 
+//编辑用户信息
+export function EditUserApi(data){
+	return request({
+		url:'/user/user',
+		method:'put',
+		data:data,
+		header:{
+			"userToken":uni.getStorageSync("userToken")
+		}
+	})
+}
 //  export function apiGetBanner(){
 // 	return uni.request({
 // 		url:"xxxx",

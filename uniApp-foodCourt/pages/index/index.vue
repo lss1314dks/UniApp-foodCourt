@@ -191,13 +191,6 @@ const quickActions = ref([
 	
   },
   {
-    icon: 'list',
-    iconColor: '#3B82F6',
-    bgColor: '#DBEAFE',
-    label: '食品管理',
-	
-  },
-  {
     icon: 'paperplane',
     iconColor: '#8B5CF6',
     bgColor: '#EDE9FE',
@@ -283,7 +276,6 @@ const getLocation = () => {
 const handleQuickAction = (index) => {
   const actions = [
     '/pages/camera/camera',
-    '/pages/Food/Food',
     '/pages/playing/playing',
     '/pages/chating/chating'
   ]
@@ -458,7 +450,7 @@ $gray-500: #6b7280;
 // 快捷功能区样式
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
