@@ -20,12 +20,12 @@ export function request(config={}){
 			data,
 			success:res=>{
 				console.log(res);
-				if(res.data.code===200){
+				if(res.data.code===200||res.status==200){
 					resolve(res.data)
-				}else if(res.data.code===400){
+				}else if(res.data.code===400||res.data.status==0){
 					uni.showModal({
 						title:'错误提示',
-						content:res.msg,
+						content:res.data.msg,	
 						showCancel:false
 					})
 					reject(res.data);

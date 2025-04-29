@@ -48,7 +48,7 @@
         </view>
         
         <view class="history-item" v-for="(item, index) in scanHistory" :key="index" @click="showResultDetail(item)">
-          <image :src="item.image" class="history-image" mode="aspectFill"></image>
+          <image :src="item.image_url" class="history-image" mode="aspectFill"></image>
           <view class="history-info">
             <text class="history-title">{{ item.name }}</text>
             <view class="history-meta">
@@ -64,9 +64,9 @@
     <!-- 分析结果视图 -->
     <view class="result-view" v-else>
       <view class="result-header">
-        <image :src="currentResult.image" class="result-image" mode="aspectFill"></image>
+        <image :src="formData.image" class="result-image" mode="aspectFill"></image>
         <view class="result-meta">
-          <text class="result-title">{{ currentResult.name }}</text>
+          <text class="result-title">{{ formData.product_name }}</text>
           <view class="safety-score">
             <text>安全指数</text>
             <view class="score-bar">
@@ -108,12 +108,6 @@
       <uni-card>
         <text class="card-title">健康建议</text>
         <uni-collapse>
-          <uni-collapse-item title="适宜人群">
-            <text class="advice-text">{{ currentResult.advice.suitable }}</text>
-          </uni-collapse-item>
-          <uni-collapse-item title="不适宜人群">
-            <text class="advice-text">{{ currentResult.advice.unsuitable }}</text>
-          </uni-collapse-item>
           <uni-collapse-item title="食用建议">
             <text class="advice-text">{{ currentResult.advice.suggestion }}</text>
           </uni-collapse-item>
@@ -123,7 +117,7 @@
       <!-- 底部按钮 -->
       <view class="action-buttons">
         <button class="secondary-btn" @click="backToScan">返回</button>
-        <button class="primary-btn" @click="saveFood">保存到我的食品</button>
+        <!-- <button class="primary-btn" @click="saveFood">保存到我的食品</button> -->
       </view>
     </view>
   </view>
@@ -158,62 +152,6 @@ const formData = reactive({
     image_url: "https://images.openfoodfacts.org/images/products/073/762/806/4502/front_en.6.400.jpg"
   })
 
-// 扫描历史数据
-const scanHistory = ref([
-  {
-    id: 1,
-    name: '有机酸奶',
-    image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-    safetyLevel: 'safe',
-    safetyLabel: '安全',
-    date: '今天 10:30',
-    score: 85,
-    nutrition: [
-      { label: '蛋白质', value: '5.6g', status: 'good', tip: '高于平均水平' },
-      { label: '脂肪', value: '3.2g', status: 'good', tip: '低于平均水平' },
-      { label: '碳水化合物', value: '12g', status: 'normal', tip: '适中' },
-      { label: '钙', value: '240mg', status: 'good', tip: '高于平均水平' }
-    ],
-    ingredients: [
-      { name: '有机生牛乳', safetyLevel: 'safe', safetyLabel: '安全' },
-      { name: '活性乳酸菌', safetyLevel: 'safe', safetyLabel: '安全' },
-      { name: '白砂糖', safetyLevel: 'warning', safetyLabel: '适量食用' },
-      { name: '明胶', safetyLevel: 'safe', safetyLabel: '安全' }
-    ],
-    advice: {
-      suitable: '适合大多数人群食用，尤其适合需要补充钙质的人群，如青少年、孕妇和老年人。含有丰富的益生菌，对肠道健康有益。',
-      unsuitable: '乳糖不耐受人群应谨慎食用。含有一定量的糖分，糖尿病患者应控制食用量。',
-      suggestion: '建议在早餐或加餐时食用，可搭配水果或坚果增加营养多样性。每日食用量建议不超过200g。'
-    }
-  },
-  {
-    id: 2,
-    name: '巧克力饼干',
-    image: 'https://images.unsplash.com/photo-1534965352460-d38caa0a56f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-    safetyLevel: 'warning',
-    safetyLabel: '注意',
-    date: '昨天 15:45',
-    score: 65,
-    nutrition: [
-      { label: '蛋白质', value: '4.2g', status: 'normal', tip: '适中' },
-      { label: '脂肪', value: '18g', status: 'bad', tip: '偏高' },
-      { label: '碳水化合物', value: '65g', status: 'bad', tip: '偏高' },
-      { label: '钠', value: '320mg', status: 'warning', tip: '偏高' }
-    ],
-    ingredients: [
-      { name: '小麦粉', safetyLevel: 'safe', safetyLabel: '安全' },
-      { name: '白砂糖', safetyLevel: 'warning', safetyLabel: '适量食用' },
-      { name: '植物油', safetyLevel: 'warning', safetyLabel: '适量食用' },
-      { name: '可可粉', safetyLevel: 'safe', safetyLabel: '安全' },
-      { name: '食品添加剂', safetyLevel: 'warning', safetyLabel: '适量食用' }
-    ],
-    advice: {
-      suitable: '适合作为偶尔的零食，不建议作为日常主食。',
-      unsuitable: '肥胖、糖尿病患者应限制食用。',
-      suggestion: '建议每次食用不超过2块，搭配无糖饮品更健康。'
-    }
-  }
-])
 
 // 当前分析结果
 const currentResult = ref({})
@@ -290,17 +228,56 @@ const chooseImage = () => {
       uni.showLoading({
         title: '正在分析...'
       })
-	 // await getScanCodeInfo("0737628064502");
-	   
+	 await getScanCodeInfo("0737628064502");
+	 // showResultDetail(scanHistory.value[0])
       setTimeout(() => {
         uni.hideLoading()
         showResultDetail(scanHistory.value[0])
-      }, 1500)
+      }, 6000)
     }
   })
   // uni.hideLoading();
   // showResultDetail(scanHistory.value[0])
 }
+
+const ingredientsText =formData.ingredients_text
+const [ingredientsStr, suggestion] = ingredientsText.split('\n');
+const ingredientsArray = ingredientsStr.split('，').map(name => ({
+    name,
+    safetyLevel: 'safe',
+    safetyLabel: '安全'
+}));
+
+// 扫描历史数据
+const scanHistory = ref([
+  {
+    id: 1,
+    name: '有机酸奶',
+    image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    safetyLevel: 'safe',
+    safetyLabel: '安全',
+    date: '今天 10:30',
+    score: 85,
+    nutrition: [
+      { label: '蛋白质', value: formData.nutriments.proteins, status: 'good', tip: '放心食用' },
+      { label: '脂肪', value: formData.nutriments.fat, status: 'good', tip: '放心食用' },
+      { label: '碳水化合物', value: formData.nutriments.carbohydrates, status: 'normal', tip: '适中' },
+      { label: '糖', value: formData.nutriments.sugars, status: 'good', tip: '放心食用' }
+    ],
+    ingredients: ingredientsArray,
+    advice: {
+      suitable: '适合大多数人群食用，尤其适合需要补充钙质的人群，如青少年、孕妇和老年人。含有丰富的益生菌，对肠道健康有益。',
+      unsuitable: '乳糖不耐受人群应谨慎食用。含有一定量的糖分，糖尿病患者应控制食用量。',
+      suggestion: '建议在早餐或加餐时食用，可搭配水果或坚果增加营养多样性。每日食用量建议不超过200g。'
+    }
+  }
+])
+
+
+
+
+
+
 
 // 显示结果详情
 const showResultDetail = (item) => {
