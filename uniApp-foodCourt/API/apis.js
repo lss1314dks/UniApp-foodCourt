@@ -71,6 +71,20 @@ export function getScanApi(barcode){
 	})
 }
 
+//用户上传头像
+export function uploadUrl(img){
+	return request({
+		url:'/admin/common/upload',
+		method:'post',
+		Header:{
+			"userToken":uni.getStorageSync("userToken")
+		},
+		data:{
+			"file":img
+		}
+	})
+}
+
 //  export function apiGetBanner(){
 // 	return uni.request({
 // 		url:"xxxx",

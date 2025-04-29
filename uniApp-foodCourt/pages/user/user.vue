@@ -223,7 +223,7 @@
 
 <script setup>
 import { ref, reactive,onMounted } from 'vue'
-import { getUserInfoApi } from '../../API/apis'
+import { getUserInfoApi, uploadUrl } from '../../API/apis'
 // 用户信息
 const userInfo = reactive({
 			id: 3,
@@ -391,7 +391,11 @@ const editAvatar = () => {
     sizeType: ['compressed'],
     sourceType: ['album', 'camera'],
     success: (res) => {
+	  const filePath = res.tempFilePaths[0]; // 获取图片路径
+	  
       // 这里应该上传图片到服务器，然后更新头像
+	  const result =  uploadUrl(res);
+	  console.log(result)
       uni.showToast({ title: '头像已更新', icon: 'success' })
     }
   })
