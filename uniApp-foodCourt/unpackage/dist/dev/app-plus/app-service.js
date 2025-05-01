@@ -5674,7 +5674,7 @@ ${aboutInfo.value.description}
           (vue.openBlock(true), vue.createElementBlock(
             vue.Fragment,
             null,
-            vue.renderList($props.productData.ingredients_text.split("\n")[0].split("，||,"), (index, item) => {
+            vue.renderList($props.productData.ingredients_text.split(";\n")[0].split("，"), (index, item) => {
               return vue.openBlock(), vue.createElementBlock("view", { class: "ingredient-item" }, [
                 vue.createVNode(_component_uni_icons, {
                   type: "circle-filled",

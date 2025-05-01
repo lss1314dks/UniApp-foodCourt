@@ -50,7 +50,7 @@
     <text class="card-title">成分分析</text>
     <view class="ingredient-list">
       <view 
-        v-for="(index,item) in productData.ingredients_text.split('\n')[0].split('，||,')"
+        v-for="(index,item) in productData.ingredients_text.split(';\n')[0].split('，')"
         class="ingredient-item"
       >
         <uni-icons 
