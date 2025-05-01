@@ -36,7 +36,7 @@
         </view>
         <view class="info-item">
           <view class="info-label">性别</view>
-          <view class="info-value">{{ userInfo.sex==0?'男':'女' }}</view>
+          <view class="info-value">{{ userInfo.sex }}</view>
         </view>
         <view class="info-item">
           <view class="info-label">注册时间</view>
@@ -82,7 +82,7 @@
           </view>
           <view class="info-item">
             <view class="info-label">健康目标</view>
-            <view class="info-value">{{ healthData.healthGoal }}</view>
+            <view class="info-value">{{ userInfo.target }}</view>
           </view>
         </view>
       </view>
@@ -105,6 +105,11 @@
           <label class="form-label">手机号</label>
           <input class="form-input" v-model="userInfo.phone" type="tel">
         </view>
+		
+		<view class="form-group">
+		  <label class="form-label">性别</label>
+		  <input class="form-input" v-model="userInfo.sex" type="tel">
+		</view>
         
         <view class="modal-footer">
           <button class="btn-secondary" @click="closeModal">取消</button>
@@ -132,28 +137,20 @@
         </view>
         
         <view class="form-group">
-          <!-- <label class="form-label">血压 (mmHg)</label>
-          <view class="flex gap-2">
-            <input class="form-input" v-model="editHealthDataForm.systolic" placeholder="收缩压" type="number">
-            <input class="form-input" v-model="editHealthDataForm.diastolic" placeholder="舒张压" type="number">
-          </view> -->
-        </view>
-        
-        <view class="form-group">
           <label class="form-label">过敏源</label>
           <input class="form-input" v-model="userInfo.allergy" type="text">
         </view>
         
         <view class="form-group">
           <label class="form-label">慢性病史</label>
-          <picker class="form-select" :range="chronicDiseasesOptions" >
+          <picker class="form-select" :range="chronicDiseasesOptions" @change="(e) => onChronicDiseaseChange(e)">
             <view>{{ userInfo.disease || '请选择' }}</view>
           </picker>
         </view>
         
-       <view class="form-group">
+        <view class="form-group">
           <label class="form-label">健康目标</label>
-          <picker class="form-select" :range="healthGoalOptions" >
+          <picker class="form-select" :range="healthGoalOptions" @change="(e) => onHealthGoalChange(e)">
             <view>{{ userInfo.target || '请选择' }}</view>
           </picker>
         </view>
@@ -324,6 +321,20 @@ const editProfileModal = ref(null)
 const editHealthDataModal = ref(null)
 const settingsModal = ref(null)
 
+// 慢性病史选择变化
+const onChronicDiseaseChange = (e) => {
+  const index = e.detail.value;
+  userInfo.disease = chronicDiseasesOptions.value[index];
+}
+
+// 健康目标选择变化
+const onHealthGoalChange = (e) => {
+  const index = e.detail.value;
+  userInfo.target = healthGoalOptions.value[index];
+}
+
+
+
 // 显示模态框
 const showEditProfileModal = () => {
   editProfileModal.value.open()
@@ -384,7 +395,7 @@ const editAvatar = () => {
       
       // 只保留一个上传请求
       uni.uploadFile({
-        url: "http://localhost:8081/admin/common/upload",
+        url: "http://47.109.139.91:8081/admin/common/upload",
         header: {
           "userToken": uni.getStorageSync("userToken")
         },
@@ -528,20 +539,61 @@ const showPrivacyPolicy = () => {
 }
 
 // 退出登录
+// 退出登录
 const logout = () => {
   uni.showModal({
     title: '提示',
     content: '确定要退出登录吗？',
-    success: (res) => {
+    success: async (res) => {
       if (res.confirm) {
-        // 清除登录状态
-        uni.removeStorageSync('userToken')
-        // 跳转到登录页
-        uni.switchTab({ url: '/pages/Login/Login' })
+        try {
+          // 显示加载中提示
+          uni.showLoading({
+            title: '正在退出...',
+            mask: true
+          });
+          
+          // 这里可以添加调用后端退出接口的代码（如果有的话）
+          // await logoutApi();
+          
+          // 清除本地存储的登录状态和用户数据
+          uni.removeStorageSync('userToken');
+          uni.removeStorageSync('userInfo');
+          
+          // 关闭所有打开的页面（避免用户按返回键回到已登录状态）
+          uni.reLaunch({
+            url: '/pages/Login/Login',
+            success: () => {
+              // 退出成功提示
+              uni.showToast({
+                title: '退出成功',
+                icon: 'success',
+                duration: 1500
+              });
+            },
+            fail: (err) => {
+              console.error('跳转登录页失败:', err);
+              uni.showToast({
+                title: '退出失败，请重试',
+                icon: 'none'
+              });
+            }
+          });
+          
+        } catch (error) {
+          console.error('退出登录出错:', error);
+          uni.showToast({
+            title: '退出失败',
+            icon: 'none'
+          });
+        } finally {
+          // 无论成功失败都隐藏加载状态
+          uni.hideLoading();
+        }
       }
     }
-  })
-}
+  });
+};
 </script>
 
 <style lang="scss">

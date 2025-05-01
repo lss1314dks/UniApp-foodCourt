@@ -87,7 +87,7 @@
                 </view>
                 <view class="meta-item">
                   <uni-icons type="clock-filled" size="14" color="#60A5FA"></uni-icons>
-                  <text class="meta-text">{{ "10分钟" }}</text>
+                  <text class="meta-text">{{ }}</text>
                 </view>
               </view>
             </view>

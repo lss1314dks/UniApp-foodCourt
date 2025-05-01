@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<ChatPage title="ChatFoodCustomer" :selfAvatar= "avater" otherAvatar="/common/images/icon2.jpg"></ChatPage>
+		<ChatPage title="ChatFoodCustomer" :selfAvatar= "avater" otherAvatar="https://food-court.oss-cn-hangzhou.aliyuncs.com/62.png"></ChatPage>
 	</view>
 </template>
 

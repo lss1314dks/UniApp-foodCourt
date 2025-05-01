@@ -29,7 +29,7 @@
       
       <view class="prep-time">
         <uni-icons type="time" size="16" color="#FF9800"></uni-icons>
-        <text>准备时间: 10分钟</text>
+        <!-- <text>准备时间: 10分钟</text> -->
       </view>
       
       <view class="nutrition-info">
@@ -38,11 +38,11 @@
           <text class="nutrition-label">千卡</text>
         </view>
         <view class="nutrition-item">
-          <text class="nutrition-value">{{formData.protein}}g</text>
+          <text class="nutrition-value">{{formData.protein}}</text>
           <text class="nutrition-label">蛋白质</text>
         </view>
         <view class="nutrition-item">
-          <text class="nutrition-value">{{formData.carbohydrate}}g</text>
+          <text class="nutrition-value">{{formData.carbohydrate}}</text>
           <text class="nutrition-label">碳水化合物</text>
         </view>
         <view class="nutrition-item">

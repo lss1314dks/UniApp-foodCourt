@@ -77,7 +77,7 @@ const fetchProductData = async (barcode) => {
     
     // 真实接口调用
     const { data: res } = await uni.request({
-      url: `http://localhost:8081/api/food/${barcode}`,
+      url: `http://47.109.139.91:8081/api/food/${barcode}`,
       method: 'GET',
 	  header:{
 		  "userToken":uni.getStorageSync("userToken")
@@ -130,16 +130,53 @@ const fetchProductData = async (barcode) => {
 const startScan = async () => {
   scanning.value = true;
   try {
-    const res = await uni.scanCode({ onlyFromCamera: true, scanType: ['barCode'] });
-    if(res.result)
-	 uni.showToast({
-	 	title:"扫描成功",
-		icon:"success",
-		duration:1000
-	 })
-	// fetchProductData(res.result);
+    uni.showLoading({
+      title: '正在扫描...',
+      mask: true
+    });
+    
+    const res = await uni.scanCode({
+      onlyFromCamera: true,
+      scanType: ['barCode', 'qrCode'], // 支持条形码和二维码
+      success: (res) => {
+        uni.hideLoading();
+        if(res.result) {
+          uni.showToast({
+            title: "扫描成功",
+            icon: "success",
+            duration: 1000
+          });
+          // 处理扫描结果
+          fetchProductData(res.result);
+        } else {
+          uni.showToast({
+            title: "未识别到有效条码",
+            icon: "none"
+          });
+        }
+      },
+      fail: (err) => {
+        uni.hideLoading();
+        let errMsg = '扫描失败';
+        if(err.errMsg.includes('cancel')) {
+          errMsg = '已取消扫描';
+        } else if(err.errMsg.includes('camera')) {
+          errMsg = '相机权限未授权';
+        }
+        uni.showToast({
+          title: errMsg,
+          icon: 'none'
+        });
+      }
+    });
+    
   } catch (error) {
-    uni.showToast({ title: '扫描失败', icon: 'none' });
+    uni.hideLoading();
+    console.error('扫描异常:', error);
+    uni.showToast({ 
+      title: '扫描异常: ' + (error.errMsg || '未知错误'),
+      icon: 'none' 
+    });
   } finally {
     scanning.value = false;
   }

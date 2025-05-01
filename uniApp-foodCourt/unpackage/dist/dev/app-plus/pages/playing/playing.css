@@ -762,7 +762,7 @@
   border-radius: 20px;
   padding: 10px 16px;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.625rem;
   border: none;
 }
 .tag {

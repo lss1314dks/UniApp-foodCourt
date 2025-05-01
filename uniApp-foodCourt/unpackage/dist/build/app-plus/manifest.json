@@ -5,18 +5,20 @@
     "iPad"
   ],
   "id": "__UNI__B918F3B",
-  "name": "uniApp-foodCourt",
+  "name": "安食阁",
   "version": {
-    "name": "1.0.0",
-    "code": "100"
+    "name": "1.0.2",
+    "code": 102
   },
-  "description": "",
+  "description": "你身边的健康食品助手管家",
   "developer": {
     "name": "",
     "email": "",
     "url": ""
   },
   "permissions": {
+    "Barcode": {},
+    "Camera": {},
     "UniNView": {
       "description": "UniNView原生渲染"
     }
@@ -47,6 +49,41 @@
     "nvueStyleCompiler": "uni-app",
     "compilerVersion": 3,
     "distribute": {
+      "icons": {
+        "android": {
+          "hdpi": "unpackage/res/icons/72x72.png",
+          "xhdpi": "unpackage/res/icons/96x96.png",
+          "xxhdpi": "unpackage/res/icons/144x144.png",
+          "xxxhdpi": "unpackage/res/icons/192x192.png"
+        },
+        "ios": {
+          "appstore": "unpackage/res/icons/1024x1024.png",
+          "ipad": {
+            "app": "unpackage/res/icons/76x76.png",
+            "app@2x": "unpackage/res/icons/152x152.png",
+            "notification": "unpackage/res/icons/20x20.png",
+            "notification@2x": "unpackage/res/icons/40x40.png",
+            "proapp@2x": "unpackage/res/icons/167x167.png",
+            "settings": "unpackage/res/icons/29x29.png",
+            "settings@2x": "unpackage/res/icons/58x58.png",
+            "spotlight": "unpackage/res/icons/40x40.png",
+            "spotlight@2x": "unpackage/res/icons/80x80.png"
+          },
+          "iphone": {
+            "app@2x": "unpackage/res/icons/120x120.png",
+            "app@3x": "unpackage/res/icons/180x180.png",
+            "notification@2x": "unpackage/res/icons/40x40.png",
+            "notification@3x": "unpackage/res/icons/60x60.png",
+            "settings@2x": "unpackage/res/icons/58x58.png",
+            "settings@3x": "unpackage/res/icons/87x87.png",
+            "spotlight@2x": "unpackage/res/icons/80x80.png",
+            "spotlight@3x": "unpackage/res/icons/120x120.png"
+          }
+        }
+      },
+      "splashscreen": {
+        "useOriginalMsgbox": true
+      },
       "google": {
         "permissions": [
           "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
@@ -63,7 +100,10 @@
           "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
           "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
           "<uses-feature android:name=\"android.hardware.camera\"/>",
-          "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+          "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.INTERNET\"/>"
         ]
       },
       "apple": {
@@ -73,6 +113,19 @@
         "dSYMs": false
       },
       "plugins": {
+        "geolocation": {
+          "system": {
+            "__platform__": [
+              "android"
+            ]
+          }
+        },
+        "maps": {
+          "google": {
+            "APIKey_ios": "",
+            "APIKey_android": ""
+          }
+        },
         "audio": {
           "mp3": {
             "description": "Android平台录音支持MP3格式文件"
@@ -145,12 +198,11 @@
           "selectedIconPath": "/static/images/user-h.png"
         }
       ],
+      "style": {
+        "height": "1000px"
+      },
       "selectedIndex": 0,
-      "shown": true,
-      "child": [
-        "lauchwebview"
-      ],
-      "selected": 0
+      "shown": true
     }
   },
   "app-harmony": {
@@ -168,5 +220,6 @@
       }
     }
   },
+  "locale": "zh-Hans",
   "launch_path": "__uniappview.html"
 }

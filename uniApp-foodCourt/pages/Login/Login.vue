@@ -44,10 +44,10 @@ const formData = reactive({
 
 //调用后端接口
 const login = async()=>{
-		// 路径跳转
-		uni.reLaunch({
-		  url: '/pages/index/index'
-		});
+		// // 路径跳转
+		// uni.reLaunch({
+		//   url: '/pages/index/index'
+		// });
 	const result = await LoginApi(formData);
 	// const result = await uni.request({
 	//   url: "http://localhost:8081/user/user/login", // 修改为正确的后端地址

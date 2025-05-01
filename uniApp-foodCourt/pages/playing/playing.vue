@@ -20,10 +20,7 @@
               <cover-view class="text-sm opacity-80">当前位置</cover-view>
               <cover-view class="font-semibold">{{ currentLocation }}</cover-view>
             </cover-view>
-            <cover-view class="btn-primary text-sm py-2 px-4" @click="toggleExercise">
-              <cover-view class="mr-1">
-                <uni-icons :type="isExercising ? 'pause' : 'play'" size="20"></uni-icons>
-              </cover-view>
+            <cover-view style="display: flex; align-items: center; text-align: center; justify-content: center;" class="btn-primary text-sm py-2 px-4" @click="toggleExercise">
               {{ isExercising ? '结束运动' : '开始运动' }}
             </cover-view>
           </cover-view>
@@ -138,7 +135,8 @@ const toggleExercise = () => {
     recordActivity();
     uni.showToast({
       title: '运动已结束',
-      icon: 'success'
+      icon: 'success',
+	  duration:1000
     });
   } else {
     // 开始运动
@@ -153,7 +151,8 @@ const toggleExercise = () => {
     timer.value = setInterval(updateExerciseData, 1000);
     uni.showToast({
       title: '运动已开始',
-      icon: 'success'
+      icon: 'success',
+	  duration:1000
     });
   }
 };
@@ -470,7 +469,7 @@ onMounted(() => {
   border-radius: 20px;
   padding: 10px 16px;
   text-align: center;
-  font-size: 14px;
+  font-size: 20rpx;
   border: none;
 }
 

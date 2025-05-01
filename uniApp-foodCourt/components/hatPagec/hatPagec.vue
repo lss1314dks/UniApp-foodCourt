@@ -38,18 +38,17 @@
       </view>
     </scroll-view>
 
-    <!-- 输入框 -->
-    <view class="input-area" :style="{ bottom: tabbarHeight + safeAreaInsets + 'px' }">
-      <input
-        class="input"
-        v-model="inputMessage"
-        placeholder="请输入消息"
-        @confirm="sendMessage"
-        @focus="onInputFocus"
-        @blur="onInputBlur"
-      />
-      <button class="send-btn" @click="sendMessage">发送</button>
-    </view>
+    <view class="input-area">
+         <input
+           class="input"
+           v-model="inputMessage"
+           placeholder="请输入消息"
+           @confirm="sendMessage"
+           @focus="onInputFocus"
+           @blur="onInputBlur"
+         />
+         <button class="send-btn" @click="sendMessage">发送</button>
+       </view>
   </view>
 </template>
 
@@ -62,7 +61,7 @@ const getMessage = async (prompt) => {
   try {
 	isTyping.value = true;
     const { data } = await uni.request({
-      url: "http://localhost:8081/chat/context", // 修改为正确的后端地址
+      url: "http://47.109.139.91:8081/chat/context", // 修改为正确的后端地址
       method: "POST",
 	  data:{prompt},
 	  header:{
@@ -126,16 +125,22 @@ onMounted(() => {
 
 function initLayout() {
   const systemInfo = uni.getSystemInfoSync();
+  
+  // 计算内容区域高度 = 屏幕高度 - 头部高度 - 输入框高度
+  contentHeight.value = systemInfo.windowHeight - 44 - 60;
+  
+  // 确保安全区域在iOS设备上正确处理
   safeAreaInsets.value = systemInfo.safeAreaInsets?.bottom || 0;
-  contentHeight.value =
-    systemInfo.windowHeight - 44 - 50 - safeAreaInsets.value - tabbarHeight.value;
+  
+  // 初始滚动到底部
   scrollToBottom();
 }
 
+// 调整滚动到底部函数
 function scrollToBottom() {
-  setTimeout(() => {
-    scrollTop.value = Math.random() * 100000;
-  }, 100);
+  nextTick(() => {
+    scrollTop.value = 999999; // 使用足够大的值确保滚动到底部
+  });
 }
 
 function sendMessage() {
@@ -180,6 +185,7 @@ function onInputBlur() {
   setTimeout(() => scrollToBottom(), 300);
 }
 
+
 function goBack() {
   uni.navigateBack();
 }
@@ -187,11 +193,20 @@ function goBack() {
 
 
 <style scoped lang="scss">
+.chat-page {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
 .header {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: 35rpx 20px;
+  padding: 15px 20px;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -204,108 +219,127 @@ function goBack() {
     font-weight: bold;
   }
 }
-	
-	
-.typing-tip {
-	// text-align: left;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 14px;
-	color: #888;
-	// margin-left: 60px;
-	// margin-bottom: 10px;
-	  }
-.chat-page {
-  position: relative;
-  height: 100vh;
-  background-color: #f5f5f5;
-}
-.fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-}
+
 .chat-content {
-  padding-top: 60px;
-  // padding-bottom: 70px;
+  flex: 1;
+  overflow: hidden;
+  padding: 10px 15px;
+  box-sizing: border-box;
 }
+
+.message-list {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 60px; /* 为输入框留出空间 */
+}
+
 .message-item {
   margin-bottom: 15px;
 }
+
 .other-message,
 .self-message {
-  margin-top: 20rpx;
+  margin-top: 10px;
   display: flex;
   align-items: flex-start;
   max-width: 100%;
 }
+
 .other-message {
   justify-content: flex-start;
 }
+
 .self-message {
   justify-content: flex-end;
 }
+
 .avatar-box {
   flex-shrink: 0;
   width: 40px;
   height: 40px;
   margin: 0 10px;
+  
   .avatar {
     width: 100%;
     height: 100%;
-    border-radius: 30px;
+    border-radius: 50%;
   }
 }
+
 .message-content {
   max-width: 70%;
   min-height: 40px;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 18px;
   word-break: break-word;
+  
   &.other {
     background: #fff;
     margin-left: 10px;
+    border-bottom-left-radius: 4px;
   }
+  
   &.self {
     background: #4CAF50;
-	color: #eee;
+    color: #fff;
     margin-right: 10px;
+    border-bottom-right-radius: 4px;
   }
+  
   .message-text {
     font-size: 16px;
     line-height: 1.5;
   }
 }
+
+.typing-tip {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  margin: 10px 0;
+}
+
 .input-area {
   position: fixed;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 60px;
   background: #fff;
   display: flex;
   align-items: center;
-  padding: 0 15px;
+  padding: 10px 15px;
   border-top: 1px solid #eee;
-  box-sizing: content-box;
+  box-sizing: border-box;
+  z-index: 10;
+  
   .input {
     flex: 1;
-    height: 36px;
-    padding: 0 10px;
+    height: 40px;
+    padding: 0 15px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-right: 10px;
+    font-size: 16px;
   }
+  
   .send-btn {
-    width: 70px;
-    height: 36px;
+    width: 80px;
+    height: 40px;
     background: #4CAF50;
     color: #fff;
-    font-size: 14px;
-    border-radius: 5px;
+    font-size: 16px;
+    border-radius: 20px;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    
+    &:active {
+      opacity: 0.8;
+    }
   }
 }
 </style>

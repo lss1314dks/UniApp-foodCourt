@@ -1317,7 +1317,7 @@ if (uni.restoreGlobal) {
     ]);
   }
   const __easycom_2$2 = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n], ["__scopeId", "data-v-9a1e3c32"], ["__file", "D:/git仓库/GitHub/UniApp-foodCourt/uniApp-foodCourt/uni_modules/uni-forms/components/uni-forms/uni-forms.vue"]]);
-  const BASE_URL = "http://localhost:8081";
+  const BASE_URL = "http://47.109.139.91:8081";
   function request(config = {}) {
     let {
       url,
@@ -1436,9 +1436,6 @@ if (uni.restoreGlobal) {
         password: ""
       });
       const login = async () => {
-        uni.reLaunch({
-          url: "/pages/index/index"
-        });
         const result = await LoginApi(formData);
         formatAppLog("log", "at pages/Login/Login.vue:60", "登录响应", result);
         if (result.code === 200) {
@@ -2327,17 +2324,17 @@ if (uni.restoreGlobal) {
       });
       const carouselItems = vue.ref([
         {
-          image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          image: "https://food-court.oss-cn-hangzhou.aliyuncs.com/46.png",
           title: "健康饮食新主张",
           subtitle: "了解如何通过饮食提升免疫力"
         },
         {
-          image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          image: "https://food-court.oss-cn-hangzhou.aliyuncs.com/65.png",
           title: "食品安全指南",
           subtitle: "掌握食品安全基本知识"
         },
         {
-          image: "https://images.unsplash.com/photo-1547592180-85f173990888?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          image: "https://food-court.oss-cn-hangzhou.aliyuncs.com/72.png",
           title: "营养搭配建议",
           subtitle: "均衡饮食的科学方法"
         }
@@ -2396,13 +2393,13 @@ if (uni.restoreGlobal) {
       const healthNews = vue.ref([
         {
           id: 1,
-          image: "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          image: "https://food-court.oss-cn-hangzhou.aliyuncs.com/87.png",
           title: "常见食品添加剂安全指南",
           subtitle: "了解哪些添加剂是安全的"
         },
         {
           id: 2,
-          image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          image: "https://food-court.oss-cn-hangzhou.aliyuncs.com/91.png",
           title: "有机食品真的更健康吗？",
           subtitle: "科学解析有机食品的优势"
         }
@@ -2458,11 +2455,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode("text", { class: "location-text" }, "重庆市")
           ]),
           vue.createCommentVNode(" 搜索栏 "),
-          vue.createElementVNode("view", { class: "search-content" }, [
-            vue.createCommentVNode(" 设置圆角 "),
-            vue.createCommentVNode(' <uni-search-bar class="uni-mt-10" radius="100" placeholder="请输入搜索关键字" clearButton="none" cancelButton="none" @confirm="search" /> '),
-            vue.createCommentVNode(" <text>首页</text> ")
-          ]),
+          vue.createElementVNode("view", { class: "search-content" }),
           vue.createElementVNode("view", { class: "weather-info" }, [
             vue.createVNode(_component_uni_icons, {
               type: "partly-cloudy",
@@ -2470,11 +2463,7 @@ if (uni.restoreGlobal) {
               color: "#4CAF50"
             }),
             vue.createElementVNode("text", { class: "weather-text" }, "28°C 晴")
-          ]),
-          vue.createCommentVNode(` <view class="date-notification">
-          <text class="date-text">{{ currentDate }}</text>
-          <uni-icons type="bell-filled" size="20" color="#4CAF50" @click="navigateTo('/pages/notification/index')"></uni-icons>
-        </view> `)
+          ])
         ])
       ]),
       vue.createElementVNode("view", { class: "content-container" }, [
@@ -2625,7 +2614,13 @@ if (uni.restoreGlobal) {
                           size: "14",
                           color: "#60A5FA"
                         }),
-                        vue.createElementVNode("text", { class: "meta-text" }, vue.toDisplayString("10分钟"))
+                        vue.createElementVNode(
+                          "text",
+                          { class: "meta-text" },
+                          vue.toDisplayString(),
+                          1
+                          /* TEXT */
+                        )
                       ])
                     ])
                   ])
@@ -3519,7 +3514,7 @@ if (uni.restoreGlobal) {
       });
       const getUserInfo = async () => {
         const result = await getUserInfoApi();
-        formatAppLog("log", "at pages/user/user.vue:283", result.data);
+        formatAppLog("log", "at pages/user/user.vue:266", result.data);
         if (result.code === 200) {
           Object.assign(userInfo, result.data);
           if (userInfo.weight && userInfo.tail) {
@@ -3528,7 +3523,7 @@ if (uni.restoreGlobal) {
           } else {
             userInfo.bim = 0;
           }
-          formatAppLog("log", "at pages/user/user.vue:295", "计算后的BMI:", userInfo.bim);
+          formatAppLog("log", "at pages/user/user.vue:278", "计算后的BMI:", userInfo.bim);
         } else {
           uni.showToast({
             title: "请求失败",
@@ -3562,6 +3557,14 @@ if (uni.restoreGlobal) {
       const editProfileModal = vue.ref(null);
       const editHealthDataModal = vue.ref(null);
       const settingsModal = vue.ref(null);
+      const onChronicDiseaseChange = (e) => {
+        const index = e.detail.value;
+        userInfo.disease = chronicDiseasesOptions.value[index];
+      };
+      const onHealthGoalChange = (e) => {
+        const index = e.detail.value;
+        userInfo.target = healthGoalOptions.value[index];
+      };
       const showEditProfileModal = () => {
         editProfileModal.value.open();
       };
@@ -3605,7 +3608,7 @@ if (uni.restoreGlobal) {
               title: "上传中..."
             });
             uni.uploadFile({
-              url: "http://localhost:8081/admin/common/upload",
+              url: "http://47.109.139.91:8081/admin/common/upload",
               header: {
                 "userToken": uni.getStorageSync("userToken")
               },
@@ -3614,10 +3617,10 @@ if (uni.restoreGlobal) {
               name: "file",
               success: (uploadRes) => {
                 uni.hideLoading();
-                formatAppLog("log", "at pages/user/user.vue:411", "上传响应:", uploadRes);
+                formatAppLog("log", "at pages/user/user.vue:409", "上传响应:", uploadRes);
                 try {
                   const data = JSON.parse(uploadRes.data);
-                  formatAppLog("log", "at pages/user/user.vue:417", "解析后的数据:", data);
+                  formatAppLog("log", "at pages/user/user.vue:415", "解析后的数据:", data);
                   if (data.code === 200 && data.data) {
                     userInfo.avatar = data.data;
                     uni.showToast({
@@ -3633,7 +3636,7 @@ if (uni.restoreGlobal) {
                     });
                   }
                 } catch (e) {
-                  formatAppLog("error", "at pages/user/user.vue:439", "解析响应数据失败:", e);
+                  formatAppLog("error", "at pages/user/user.vue:437", "解析响应数据失败:", e);
                   uni.showToast({
                     title: "上传失败",
                     icon: "none",
@@ -3642,7 +3645,7 @@ if (uni.restoreGlobal) {
                 }
               },
               fail: (err) => {
-                formatAppLog("error", "at pages/user/user.vue:448", "上传失败:", err);
+                formatAppLog("error", "at pages/user/user.vue:446", "上传失败:", err);
                 uni.hideLoading();
                 uni.showToast({
                   title: "上传失败",
@@ -3653,7 +3656,7 @@ if (uni.restoreGlobal) {
             });
           },
           fail: (err) => {
-            formatAppLog("error", "at pages/user/user.vue:463", "选择图片失败:", err);
+            formatAppLog("error", "at pages/user/user.vue:461", "选择图片失败:", err);
             uni.showToast({
               title: "选择图片失败",
               icon: "none"
@@ -3663,6 +3666,17 @@ if (uni.restoreGlobal) {
       };
       const toggleNotification = (e) => {
         settings.notification = e.detail.value;
+        if (settings.notification === true)
+          uni.showToast({
+            title: "设置提醒成功",
+            icon: "success"
+          });
+        else {
+          uni.showToast({
+            title: "取消提醒成功",
+            icon: "success"
+          });
+        }
       };
       const toggleDarkMode = (e) => {
         settings.darkMode = e.detail.value;
@@ -3679,28 +3693,80 @@ if (uni.restoreGlobal) {
           }
         });
       };
-      const navigateToAbout = () => {
-        uni.navigateTo({ url: "/pages/about/index" });
+      const aboutInfo = vue.ref({
+        appName: "安食阁",
+        version: "1.0.1",
+        description: "一款专注于食品安全与健康的APP，帮助您了解食品成分，管理健康数据。",
+        contact: "support@healthyfood.com",
+        website: "www.ailissovhy.foodCourt.cn"
+      });
+      const showAboutUs = () => {
+        uni.showModal({
+          title: `关于 ${aboutInfo.value.appName}`,
+          content: `
+版本: ${aboutInfo.value.version}
+    
+${aboutInfo.value.description}
+    
+联系我们: ${aboutInfo.value.contact}
+官网: ${aboutInfo.value.website}
+    `,
+          showCancel: false,
+          confirmText: "我知道了"
+        });
       };
-      const navigateToPrivacy = () => {
-        uni.navigateTo({ url: "/pages/privacy/index" });
-      };
-      const navigateToAgreement = () => {
-        uni.navigateTo({ url: "/pages/agreement/index" });
+      const showPrivacyPolicy = () => {
+        uni.showModal({
+          title: "隐私政策",
+          content: "我们非常重视您的隐私。本应用收集的数据仅用于改善用户体验和提供个性化服务。我们不会将您的数据出售给第三方。",
+          showCancel: false,
+          confirmText: "我明白了"
+        });
       };
       const logout = () => {
         uni.showModal({
           title: "提示",
           content: "确定要退出登录吗？",
-          success: (res) => {
+          success: async (res) => {
             if (res.confirm) {
-              uni.removeStorageSync("userToken");
-              uni.switchTab({ url: "/pages/Login/Login" });
+              try {
+                uni.showLoading({
+                  title: "正在退出...",
+                  mask: true
+                });
+                uni.removeStorageSync("userToken");
+                uni.removeStorageSync("userInfo");
+                uni.reLaunch({
+                  url: "/pages/Login/Login",
+                  success: () => {
+                    uni.showToast({
+                      title: "退出成功",
+                      icon: "success",
+                      duration: 1500
+                    });
+                  },
+                  fail: (err) => {
+                    formatAppLog("error", "at pages/user/user.vue:575", "跳转登录页失败:", err);
+                    uni.showToast({
+                      title: "退出失败，请重试",
+                      icon: "none"
+                    });
+                  }
+                });
+              } catch (error) {
+                formatAppLog("error", "at pages/user/user.vue:584", "退出登录出错:", error);
+                uni.showToast({
+                  title: "退出失败",
+                  icon: "none"
+                });
+              } finally {
+                uni.hideLoading();
+              }
             }
           }
         });
       };
-      const __returned__ = { userInfo, accountInfo, healthData, getUserInfo, editProfileForm, editHealthDataForm, settings, chronicDiseasesOptions, healthGoalOptions, languageOptions, editProfileModal, editHealthDataModal, settingsModal, showEditProfileModal, showEditHealthDataModal, showSettingsModal, closeModal, saveProfile, saveHealthData, editAvatar, toggleNotification, toggleDarkMode, clearCache, navigateToAbout, navigateToPrivacy, navigateToAgreement, logout, ref: vue.ref, reactive: vue.reactive, onMounted: vue.onMounted, get EditUserApi() {
+      const __returned__ = { userInfo, accountInfo, healthData, getUserInfo, editProfileForm, editHealthDataForm, settings, chronicDiseasesOptions, healthGoalOptions, languageOptions, editProfileModal, editHealthDataModal, settingsModal, onChronicDiseaseChange, onHealthGoalChange, showEditProfileModal, showEditHealthDataModal, showSettingsModal, closeModal, saveProfile, saveHealthData, editAvatar, toggleNotification, toggleDarkMode, clearCache, aboutInfo, showAboutUs, showPrivacyPolicy, logout, ref: vue.ref, reactive: vue.reactive, onMounted: vue.onMounted, get EditUserApi() {
         return EditUserApi;
       }, get getUserInfoApi() {
         return getUserInfoApi;
@@ -3791,7 +3857,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode(
               "view",
               { class: "info-value" },
-              vue.toDisplayString($setup.userInfo.sex == 0 ? "男" : "女"),
+              vue.toDisplayString($setup.userInfo.sex),
               1
               /* TEXT */
             )
@@ -3886,7 +3952,7 @@ if (uni.restoreGlobal) {
               vue.createElementVNode(
                 "view",
                 { class: "info-value" },
-                vue.toDisplayString($setup.healthData.healthGoal),
+                vue.toDisplayString($setup.userInfo.target),
                 1
                 /* TEXT */
               )
@@ -3945,6 +4011,22 @@ if (uni.restoreGlobal) {
                   [vue.vModelText, $setup.userInfo.phone]
                 ])
               ]),
+              vue.createElementVNode("view", { class: "form-group" }, [
+                vue.createElementVNode("label", { class: "form-label" }, "性别"),
+                vue.withDirectives(vue.createElementVNode(
+                  "input",
+                  {
+                    class: "form-input",
+                    "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.userInfo.sex = $event),
+                    type: "tel"
+                  },
+                  null,
+                  512
+                  /* NEED_PATCH */
+                ), [
+                  [vue.vModelText, $setup.userInfo.sex]
+                ])
+              ]),
               vue.createElementVNode("view", { class: "modal-footer" }, [
                 vue.createElementVNode("button", {
                   class: "btn-secondary",
@@ -3988,7 +4070,7 @@ if (uni.restoreGlobal) {
                   "input",
                   {
                     class: "form-input",
-                    "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.userInfo.tail = $event),
+                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.userInfo.tail = $event),
                     type: "number"
                   },
                   null,
@@ -4004,7 +4086,7 @@ if (uni.restoreGlobal) {
                   "input",
                   {
                     class: "form-input",
-                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.userInfo.weight = $event),
+                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.userInfo.weight = $event),
                     type: "number"
                   },
                   null,
@@ -4015,15 +4097,12 @@ if (uni.restoreGlobal) {
                 ])
               ]),
               vue.createElementVNode("view", { class: "form-group" }, [
-                vue.createCommentVNode(' <label class="form-label">血压 (mmHg)</label>\n          <view class="flex gap-2">\n            <input class="form-input" v-model="editHealthDataForm.systolic" placeholder="收缩压" type="number">\n            <input class="form-input" v-model="editHealthDataForm.diastolic" placeholder="舒张压" type="number">\n          </view> ')
-              ]),
-              vue.createElementVNode("view", { class: "form-group" }, [
                 vue.createElementVNode("label", { class: "form-label" }, "过敏源"),
                 vue.withDirectives(vue.createElementVNode(
                   "input",
                   {
                     class: "form-input",
-                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.userInfo.allergy = $event),
+                    "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.userInfo.allergy = $event),
                     type: "text"
                   },
                   null,
@@ -4037,7 +4116,8 @@ if (uni.restoreGlobal) {
                 vue.createElementVNode("label", { class: "form-label" }, "慢性病史"),
                 vue.createElementVNode("picker", {
                   class: "form-select",
-                  range: $setup.chronicDiseasesOptions
+                  range: $setup.chronicDiseasesOptions,
+                  onChange: _cache[6] || (_cache[6] = (e) => $setup.onChronicDiseaseChange(e))
                 }, [
                   vue.createElementVNode(
                     "view",
@@ -4046,13 +4126,14 @@ if (uni.restoreGlobal) {
                     1
                     /* TEXT */
                   )
-                ], 8, ["range"])
+                ], 40, ["range"])
               ]),
               vue.createElementVNode("view", { class: "form-group" }, [
                 vue.createElementVNode("label", { class: "form-label" }, "健康目标"),
                 vue.createElementVNode("picker", {
                   class: "form-select",
-                  range: $setup.healthGoalOptions
+                  range: $setup.healthGoalOptions,
+                  onChange: _cache[7] || (_cache[7] = (e) => $setup.onHealthGoalChange(e))
                 }, [
                   vue.createElementVNode(
                     "view",
@@ -4061,7 +4142,7 @@ if (uni.restoreGlobal) {
                     1
                     /* TEXT */
                   )
-                ], 8, ["range"])
+                ], 40, ["range"])
               ]),
               vue.createElementVNode("view", { class: "modal-footer" }, [
                 vue.createElementVNode("button", {
@@ -4107,26 +4188,6 @@ if (uni.restoreGlobal) {
                   color: "#4CAF50"
                 }, null, 40, ["checked"])
               ]),
-              vue.createElementVNode("view", { class: "settings-item" }, [
-                vue.createElementVNode("view", { class: "settings-label" }, "深色模式"),
-                vue.createElementVNode("switch", {
-                  checked: $setup.settings.darkMode,
-                  onChange: $setup.toggleDarkMode,
-                  color: "#4CAF50"
-                }, null, 40, ["checked"])
-              ]),
-              vue.createElementVNode("view", { class: "settings-item" }, [
-                vue.createElementVNode("view", { class: "settings-label" }, "语言"),
-                vue.createElementVNode("picker", { range: $setup.languageOptions }, [
-                  vue.createElementVNode(
-                    "view",
-                    null,
-                    vue.toDisplayString($setup.languageOptions[$setup.settings.language]),
-                    1
-                    /* TEXT */
-                  )
-                ], 8, ["range"])
-              ]),
               vue.createElementVNode("view", {
                 class: "settings-item",
                 onClick: $setup.clearCache
@@ -4140,7 +4201,7 @@ if (uni.restoreGlobal) {
               ]),
               vue.createElementVNode("view", {
                 class: "settings-item",
-                onClick: $setup.navigateToAbout
+                onClick: $setup.showAboutUs
               }, [
                 vue.createElementVNode("view", { class: "settings-label" }, "关于我们"),
                 vue.createVNode(_component_uni_icons, {
@@ -4151,20 +4212,9 @@ if (uni.restoreGlobal) {
               ]),
               vue.createElementVNode("view", {
                 class: "settings-item",
-                onClick: $setup.navigateToPrivacy
+                onClick: $setup.showPrivacyPolicy
               }, [
                 vue.createElementVNode("view", { class: "settings-label" }, "隐私政策"),
-                vue.createVNode(_component_uni_icons, {
-                  type: "forward",
-                  size: "16",
-                  color: "#999"
-                })
-              ]),
-              vue.createElementVNode("view", {
-                class: "settings-item",
-                onClick: $setup.navigateToAgreement
-              }, [
-                vue.createElementVNode("view", { class: "settings-label" }, "用户协议"),
                 vue.createVNode(_component_uni_icons, {
                   type: "forward",
                   size: "16",
@@ -4208,7 +4258,7 @@ if (uni.restoreGlobal) {
         try {
           isTyping.value = true;
           const { data } = await uni.request({
-            url: "http://localhost:8081/chat/context",
+            url: "http://47.109.139.91:8081/chat/context",
             // 修改为正确的后端地址
             method: "POST",
             data: { prompt },
@@ -4221,10 +4271,10 @@ if (uni.restoreGlobal) {
             chatMessages.value.push({ type: "other", content: data.data });
             scrollToBottom();
           } else {
-            formatAppLog("error", "at components/hatPagec/hatPagec.vue:77", "聊天请求失败:", data.message);
+            formatAppLog("error", "at components/hatPagec/hatPagec.vue:76", "聊天请求失败:", data.message);
           }
         } catch (error) {
-          formatAppLog("error", "at components/hatPagec/hatPagec.vue:80", "请求出错:", error);
+          formatAppLog("error", "at components/hatPagec/hatPagec.vue:79", "请求出错:", error);
         }
       };
       const props = __props;
@@ -4243,14 +4293,14 @@ if (uni.restoreGlobal) {
       function initLayout() {
         var _a;
         const systemInfo = uni.getSystemInfoSync();
+        contentHeight.value = systemInfo.windowHeight - 44 - 60;
         safeAreaInsets.value = ((_a = systemInfo.safeAreaInsets) == null ? void 0 : _a.bottom) || 0;
-        contentHeight.value = systemInfo.windowHeight - 44 - 50 - safeAreaInsets.value - tabbarHeight.value;
         scrollToBottom();
       }
       function scrollToBottom() {
-        setTimeout(() => {
-          scrollTop.value = Math.random() * 1e5;
-        }, 100);
+        vue.nextTick(() => {
+          scrollTop.value = 999999;
+        });
       }
       function sendMessage() {
         const msg = inputMessage.value.trim();
@@ -4361,38 +4411,28 @@ if (uni.restoreGlobal) {
           ])) : vue.createCommentVNode("v-if", true)
         ])
       ], 12, ["scroll-top"]),
-      vue.createCommentVNode(" 输入框 "),
-      vue.createElementVNode(
-        "view",
-        {
-          class: "input-area",
-          style: vue.normalizeStyle({ bottom: $setup.tabbarHeight + $setup.safeAreaInsets + "px" })
-        },
-        [
-          vue.withDirectives(vue.createElementVNode(
-            "input",
-            {
-              class: "input",
-              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.inputMessage = $event),
-              placeholder: "请输入消息",
-              onConfirm: $setup.sendMessage,
-              onFocus: $setup.onInputFocus,
-              onBlur: $setup.onInputBlur
-            },
-            null,
-            544
-            /* NEED_HYDRATION, NEED_PATCH */
-          ), [
-            [vue.vModelText, $setup.inputMessage]
-          ]),
-          vue.createElementVNode("button", {
-            class: "send-btn",
-            onClick: $setup.sendMessage
-          }, "发送")
-        ],
-        4
-        /* STYLE */
-      )
+      vue.createElementVNode("view", { class: "input-area" }, [
+        vue.withDirectives(vue.createElementVNode(
+          "input",
+          {
+            class: "input",
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.inputMessage = $event),
+            placeholder: "请输入消息",
+            onConfirm: $setup.sendMessage,
+            onFocus: $setup.onInputFocus,
+            onBlur: $setup.onInputBlur
+          },
+          null,
+          544
+          /* NEED_HYDRATION, NEED_PATCH */
+        ), [
+          [vue.vModelText, $setup.inputMessage]
+        ]),
+        vue.createElementVNode("button", {
+          class: "send-btn",
+          onClick: $setup.sendMessage
+        }, "发送")
+      ])
     ]);
   }
   const ChatPage = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__scopeId", "data-v-0df2f20f"], ["__file", "D:/git仓库/GitHub/UniApp-foodCourt/uniApp-foodCourt/components/hatPagec/hatPagec.vue"]]);
@@ -4400,7 +4440,21 @@ if (uni.restoreGlobal) {
     __name: "chating",
     setup(__props, { expose: __expose }) {
       __expose();
-      const __returned__ = { ChatPage };
+      const avater = vue.ref("");
+      vue.onMounted(async () => {
+        const result = await getUserInfoApi();
+        if (result.code === 200) {
+          avater.value = result.data.avatar;
+        } else {
+          uni.showToast({
+            title: "请求失败",
+            icon: "fail",
+            duration: 1e3
+          });
+          avater.value = "/static/images/avatar.jpg";
+        }
+      });
+      const __returned__ = { avater, ChatPage };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -4409,9 +4463,9 @@ if (uni.restoreGlobal) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "content" }, [
       vue.createVNode($setup["ChatPage"], {
         title: "ChatFoodCustomer",
-        selfAvatar: "/static/images/avatar.jpg",
-        otherAvatar: "/common/images/icon2.jpg"
-      })
+        selfAvatar: $setup.avater,
+        otherAvatar: "https://food-court.oss-cn-hangzhou.aliyuncs.com/62.png"
+      }, null, 8, ["selfAvatar"])
     ]);
   }
   const PagesChatingChating = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__file", "D:/git仓库/GitHub/UniApp-foodCourt/uniApp-foodCourt/pages/chating/chating.vue"]]);
@@ -5369,7 +5423,7 @@ if (uni.restoreGlobal) {
             size: "16",
             color: "#FF9800"
           }),
-          vue.createElementVNode("text", null, "准备时间: 10分钟")
+          vue.createCommentVNode(" <text>准备时间: 10分钟</text> ")
         ]),
         vue.createElementVNode("view", { class: "nutrition-info" }, [
           vue.createElementVNode("view", { class: "nutrition-item" }, [
@@ -5386,7 +5440,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode(
               "text",
               { class: "nutrition-value" },
-              vue.toDisplayString($setup.formData.protein) + "g",
+              vue.toDisplayString($setup.formData.protein),
               1
               /* TEXT */
             ),
@@ -5396,7 +5450,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode(
               "text",
               { class: "nutrition-value" },
-              vue.toDisplayString($setup.formData.carbohydrate) + "g",
+              vue.toDisplayString($setup.formData.carbohydrate),
               1
               /* TEXT */
             ),
@@ -5515,7 +5569,13 @@ if (uni.restoreGlobal) {
     },
     setup(__props, { expose: __expose }) {
       __expose();
-      const __returned__ = {};
+      const suggest = vue.ref("");
+      const ingTest = productData.ingredients_text;
+      suggest.value = ingTest.value.split("\n")[1];
+      formatAppLog("log", "at pages/ResultView/ResultView.vue:101", ingredientsList);
+      const __returned__ = { suggest, ingTest, ref: vue.ref, computed: vue.computed, get onLoad() {
+        return onLoad;
+      } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -5610,11 +5670,40 @@ if (uni.restoreGlobal) {
       vue.createCommentVNode(" 成分分析 "),
       vue.createElementVNode("view", { class: "info-card" }, [
         vue.createElementVNode("text", { class: "card-title" }, "成分分析"),
+        vue.createElementVNode("view", { class: "ingredient-list" }, [
+          (vue.openBlock(true), vue.createElementBlock(
+            vue.Fragment,
+            null,
+            vue.renderList($props.productData.ingredients_text.split("\n")[0].split("，||,"), (index, item) => {
+              return vue.openBlock(), vue.createElementBlock("view", { class: "ingredient-item" }, [
+                vue.createVNode(_component_uni_icons, {
+                  type: "circle-filled",
+                  size: "12",
+                  color: "#4CAF50",
+                  class: "ingredient-icon"
+                }),
+                vue.createElementVNode(
+                  "text",
+                  { class: "ingredient-name" },
+                  vue.toDisplayString(index),
+                  1
+                  /* TEXT */
+                )
+              ]);
+            }),
+            256
+            /* UNKEYED_FRAGMENT */
+          ))
+        ])
+      ]),
+      vue.createCommentVNode(" 成分分析 "),
+      vue.createElementVNode("view", { class: "info-card" }, [
+        vue.createElementVNode("text", { class: "card-title" }, "建议"),
         vue.createElementVNode("view", { class: "ingredient-box" }, [
           vue.createElementVNode(
             "text",
             { class: "ingredient-text" },
-            vue.toDisplayString($props.productData.ingredients_text),
+            vue.toDisplayString($props.productData.ingredients_text.split("\n")[2] || $props.productData.ingredients_text.split("\n")[3]),
             1
             /* TEXT */
           )
@@ -5648,13 +5737,13 @@ if (uni.restoreGlobal) {
       const scanning = vue.ref(false);
       const flashStatus = vue.ref("off");
       const showResult = vue.ref(false);
-      const productData = vue.ref(null);
+      const productData2 = vue.ref(null);
       const fetchProductData = async (barcode) => {
         var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
         try {
           uni.showLoading({ title: "分析中..." });
           const { data: res } = await uni.request({
-            url: `http://localhost:8081/api/food/${barcode}`,
+            url: `http://47.109.139.91:8081/api/food/${barcode}`,
             method: "GET",
             header: {
               "userToken": uni.getStorageSync("userToken")
@@ -5685,10 +5774,10 @@ if (uni.restoreGlobal) {
             },
             image_url: res.product.image_url || "/static/default-food.png"
           };
-          productData.value = formatData;
+          productData2.value = formatData;
           showResult.value = true;
         } catch (error) {
-          formatAppLog("error", "at pages/camera/camera.vue:103", "接口请求失败:", error);
+          formatAppLog("error", "at pages/camera/camera.vue:119", "接口请求失败:", error);
           uni.showToast({
             title: error.errMsg || "请求失败，请检查网络",
             icon: "none"
@@ -5700,25 +5789,74 @@ if (uni.restoreGlobal) {
       const startScan = async () => {
         scanning.value = true;
         try {
-          const res = await uni.scanCode({ onlyFromCamera: true, scanType: ["barCode"] });
-          if (res.result)
-            uni.showToast({
-              title: res.result,
-              icon: "success",
-              duration: 7e3
-            });
+          uni.showLoading({
+            title: "正在扫描...",
+            mask: true
+          });
+          const res = await uni.scanCode({
+            onlyFromCamera: true,
+            scanType: ["barCode", "qrCode"],
+            // 支持条形码和二维码
+            success: (res2) => {
+              uni.hideLoading();
+              if (res2.result) {
+                uni.showToast({
+                  title: "扫描成功",
+                  icon: "success",
+                  duration: 1e3
+                });
+                fetchProductData(res2.result);
+              } else {
+                uni.showToast({
+                  title: "未识别到有效条码",
+                  icon: "none"
+                });
+              }
+            },
+            fail: (err) => {
+              uni.hideLoading();
+              let errMsg = "扫描失败";
+              if (err.errMsg.includes("cancel")) {
+                errMsg = "已取消扫描";
+              } else if (err.errMsg.includes("camera")) {
+                errMsg = "相机权限未授权";
+              }
+              uni.showToast({
+                title: errMsg,
+                icon: "none"
+              });
+            }
+          });
         } catch (error) {
-          uni.showToast({ title: "扫描失败", icon: "none" });
+          uni.hideLoading();
+          formatAppLog("error", "at pages/camera/camera.vue:175", "扫描异常:", error);
+          uni.showToast({
+            title: "扫描异常: " + (error.errMsg || "未知错误"),
+            icon: "none"
+          });
         } finally {
           scanning.value = false;
         }
       };
       const chooseImage = () => {
-        uni.chooseImage({ count: 1 });
+        uni.chooseImage({
+          count: 1,
+          success: (res) => {
+            fetchProductData("3046920029759");
+          },
+          fail: (err) => {
+            formatAppLog("error", "at pages/camera/camera.vue:194", "选择图片失败:", err);
+          }
+        });
       };
       onLoad(() => {
       });
-      const __returned__ = { scanning, flashStatus, showResult, productData, fetchProductData, startScan, chooseImage, ref: vue.ref, ResultView: PagesResultViewResultView, get onLoad() {
+      const handleBack = () => {
+        uni.reLaunch({
+          url: "/pages/index/index"
+        });
+      };
+      const __returned__ = { scanning, flashStatus, showResult, productData: productData2, fetchProductData, startScan, chooseImage, handleBack, ref: vue.ref, ResultView: PagesResultViewResultView, get onLoad() {
         return onLoad;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
@@ -5728,6 +5866,35 @@ if (uni.restoreGlobal) {
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "scan-container" }, [
+      vue.createElementVNode("view", { class: "header" }, [
+        vue.createElementVNode("view", null, [
+          vue.createElementVNode("button", {
+            class: "back-button",
+            onClick: $setup.handleBack
+          }, [
+            vue.createVNode(_component_uni_icons, {
+              type: "left",
+              size: "20",
+              color: "#4CAF50"
+            })
+          ])
+        ]),
+        vue.createElementVNode("view", {
+          class: "item",
+          style: {}
+        }, [
+          vue.createElementVNode("view", {
+            class: "title",
+            style: { "color": "#4CAF50", "font-weight": "600" }
+          }, [
+            vue.createElementVNode("text", null, "扫码识别")
+          ])
+        ]),
+        vue.createElementVNode("view", {
+          class: "right",
+          style: { "width": "50px" }
+        })
+      ]),
       vue.createCommentVNode(" 扫描界面 "),
       !$setup.showResult ? (vue.openBlock(), vue.createElementBlock("view", { key: 0 }, [
         vue.createCommentVNode(" APP端扫描功能 "),
@@ -5791,7 +5958,7 @@ if (uni.restoreGlobal) {
     ]);
   }
   const PagesCameraCamera = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__file", "D:/git仓库/GitHub/UniApp-foodCourt/uniApp-foodCourt/pages/camera/camera.vue"]]);
-  const _imports_0 = "/assets/playings.ab8bc01c.png";
+  const _imports_0 = "/assets/playings.bf96cbfb.png";
   const _sfc_main$4 = {
     __name: "playing",
     setup(__props, { expose: __expose }) {
@@ -5805,7 +5972,7 @@ if (uni.restoreGlobal) {
       const calories = vue.ref(0);
       const stepGoal = vue.ref(1e4);
       const currentLocation = vue.ref("重庆市巴南区");
-      const formattedSteps = vue.computed(() => steps.value.toLocaleString());
+      const formattedSteps = vue.computed(() => Math.floor(steps.value).toLocaleString());
       const formattedTime = vue.computed(() => {
         const minutes = Math.floor(elapsedTime.value / 60);
         const seconds = elapsedTime.value % 60;
@@ -5816,7 +5983,7 @@ if (uni.restoreGlobal) {
       const progress = vue.computed(() => Math.round(completedDays.value / totalDays.value * 100));
       const recentActivities = vue.ref([
         {
-          type: "walking",
+          type: "running",
           name: "快走",
           date: "昨天",
           duration: 30,
@@ -5837,7 +6004,8 @@ if (uni.restoreGlobal) {
           recordActivity();
           uni.showToast({
             title: "运动已结束",
-            icon: "success"
+            icon: "success",
+            duration: 1e3
           });
         } else {
           isExercising.value = true;
@@ -5849,7 +6017,8 @@ if (uni.restoreGlobal) {
           timer.value = setInterval(updateExerciseData, 1e3);
           uni.showToast({
             title: "运动已开始",
-            icon: "success"
+            icon: "success",
+            duration: 1e3
           });
         }
       };
@@ -5857,13 +6026,13 @@ if (uni.restoreGlobal) {
         if (!isExercising.value)
           return;
         elapsedTime.value = Math.floor((/* @__PURE__ */ new Date() - startTime.value) / 1e3);
-        steps.value += 1;
+        steps.value += 1.2;
         distance.value = (steps.value * 762e-6).toFixed(1);
-        calories.value = Math.floor(68 * parseFloat(distance.value) * 1.036);
+        calories.value = Math.floor(70 * parseFloat(distance.value) * 1.036);
       };
       const recordActivity = () => {
         const newActivity = {
-          type: "walking",
+          type: "running",
           icon: "left",
           name: "步行",
           date: "今天",
@@ -5933,22 +6102,17 @@ if (uni.restoreGlobal) {
                   /* TEXT */
                 )
               ]),
-              vue.createElementVNode("cover-view", {
-                class: "btn-primary text-sm py-2 px-4",
-                onClick: $setup.toggleExercise
-              }, [
-                vue.createElementVNode("cover-view", { class: "mr-1" }, [
-                  vue.createVNode(_component_uni_icons, {
-                    type: $setup.isExercising ? "pause" : "play",
-                    size: "20"
-                  }, null, 8, ["type"])
-                ]),
-                vue.createTextVNode(
-                  " " + vue.toDisplayString($setup.isExercising ? "结束运动" : "开始运动"),
-                  1
-                  /* TEXT */
-                )
-              ])
+              vue.createElementVNode(
+                "cover-view",
+                {
+                  style: { "display": "flex", "align-items": "center", "text-align": "center", "justify-content": "center" },
+                  class: "btn-primary text-sm py-2 px-4",
+                  onClick: $setup.toggleExercise
+                },
+                vue.toDisplayString($setup.isExercising ? "结束运动" : "开始运动"),
+                1
+                /* TEXT */
+              )
             ])
           ])
         ]),
